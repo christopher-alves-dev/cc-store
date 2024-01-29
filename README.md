@@ -1,6 +1,6 @@
-![logo](https://github.com/christopher-alves-dev/cc-store/assets/51724197/9efe651c-3c50-4ee9-a38a-bcad5b4b0251)
-
-
+<h1 align="center">
+  ![logo](https://github.com/christopher-alves-dev/cc-store/assets/51724197/9efe651c-3c50-4ee9-a38a-bcad5b4b0251)
+</h1>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
