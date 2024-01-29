@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="CC Store" title="CC Store" src="https://github.com/christopher-alves-dev/cc-store/assets/51724197/9efe651c-3c50-4ee9-a38a-bcad5b4b0251" width="200px" />
+  <img alt="CC Store" title="CC Store" src="public/logo.png" width="100px" />
 </h1>
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
