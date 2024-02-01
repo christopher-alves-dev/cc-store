@@ -28,7 +28,7 @@ export const CategoryItem = ({ category }: Props) => {
       variant="outline"
       className="flex items-center justify-center gap-2 rounded-lg py-3"
     >
-      {categoryIcon[category.slug]}
+      {categoryIcon[category.slug as keyof typeof categoryIcon]}
 
       <span className="text-xs font-bold">{category.name}</span>
     </Badge>
