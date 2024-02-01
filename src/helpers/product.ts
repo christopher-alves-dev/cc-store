@@ -1,6 +1,6 @@
 import { Product } from "@prisma/client"
 
-type ProductWithTotalPrice = Product & {
+export type ProductWithTotalPrice = Product & {
   totalPrice: number
 }
 
