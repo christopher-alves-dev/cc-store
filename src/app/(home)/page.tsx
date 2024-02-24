@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-8">
       <Image
-        src="/banner-home.png"
+        src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/banners%2Fbanner-home.png"
         alt="Até 55% de desconto só esse mês"
         width={0}
         height={0}
@@ -24,7 +24,19 @@ export default async function Home() {
 
       <Categories className="px-5" />
 
-      <ProductList products={deals} />
+      <Image
+        src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/banners%2Fbanner-mouses.png"
+        alt="Até 55% de desconto em mouses"
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="h-auto w-full px-5"
+      />
+
+      <div className="flex flex-col gap-4">
+        <p className="pl-5 font-bold uppercase">Ofertas</p>
+        <ProductList products={deals} />
+      </div>
     </div>
   );
 }
