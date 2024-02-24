@@ -9,7 +9,7 @@ type Props = {
 
 export const CategoryItem = ({ category }: Props) => {
   return (
-    <Link href={`category/${category.slug}`}>
+    <Link href={`/category/${category.slug}`}>
       <div className="flex flex-col overflow-hidden rounded-lg">
         <div className="flex h-[150px] w-full items-center justify-center bg-gradient-to-tr from-[#5033C3] to-[#5033C333]">
           <Image
