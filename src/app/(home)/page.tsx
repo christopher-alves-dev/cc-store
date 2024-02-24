@@ -12,25 +12,19 @@ export default async function Home() {
     },
   });
   return (
-    <div>
-      <div className="p-5 pb-0">
-        <Image
-          src="/banner-home.png"
-          alt="Até 55% de desconto só esse mês"
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="h-auto w-full"
-        />
+    <div className="flex flex-col gap-8">
+      <Image
+        src="/banner-home.png"
+        alt="Até 55% de desconto só esse mês"
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="h-auto w-full px-5"
+      />
 
-        <div className="mt-8">
-          <Categories />
-        </div>
-      </div>
+      <Categories className="px-5" />
 
-      <div className="mt-8">
-        <ProductList products={deals} />
-      </div>
+      <ProductList products={deals} />
     </div>
   );
 }
