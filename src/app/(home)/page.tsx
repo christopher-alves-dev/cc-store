@@ -13,6 +13,14 @@ export default async function Home() {
     },
   });
 
+  const keyboards = await prismaClient.product.findMany({
+    where: {
+      category: {
+        slug: "keyboards",
+      },
+    },
+  });
+
   return (
     <div className="flex flex-col gap-8">
       <PromoBanner
@@ -21,6 +29,11 @@ export default async function Home() {
       />
 
       <Categories className="px-5" />
+
+      <div className="flex flex-col gap-4">
+        <SectionTitle>Teclados</SectionTitle>
+        <ProductList products={keyboards} />
+      </div>
 
       <PromoBanner
         src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/banners%2Fbanner-mouses.png"
