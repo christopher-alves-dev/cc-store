@@ -101,7 +101,7 @@ export const Header = () => {
             </Button>
 
             <SheetClose asChild>
-              <Link href={"/catalog"}>
+              <Link href="/catalog">
                 <Button
                   variant="outline"
                   className="w-full justify-start gap-2"
@@ -115,9 +115,11 @@ export const Header = () => {
         </SheetContent>
       </Sheet>
 
-      <h1 className="text-lg font-semibold">
-        <span className="text-primary">FSW</span> Store
-      </h1>
+      <Link href="/">
+        <h1 className="text-lg font-semibold">
+          <span className="text-primary">FSW</span> Store
+        </h1>
+      </Link>
 
       <Button size="icon" variant="outline">
         <ShoppingCartIcon />
