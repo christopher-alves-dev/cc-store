@@ -40,7 +40,7 @@ export const ProductItem = ({ product }: Props) => {
           {product.discountPercentage > 0 ? (
             <>
               <p className="font-semibold">{totalPrice}</p>
-              <p className="text-[10px] line-through opacity-75">{basePrice}</p>
+              <p className="text-xxs line-through opacity-75">{basePrice}</p>
             </>
           ) : (
             <p className="font-semibold">{totalPrice}</p>
