@@ -8,7 +8,8 @@ async function main() {
       data: {
         name: "Mouses",
         slug: "mouses",
-        imageUrl: "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/mouses/capa-mouse.png",
+        imageUrl:
+          "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/mouses%2Fcapa-mouse.png",
       },
     });
 
@@ -98,7 +99,8 @@ async function main() {
       data: {
         name: "Teclados",
         slug: "keyboards",
-        imageUrl: "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/teclados/capa-teclado.png"
+        imageUrl:
+          "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/teclados%2Fcapa-teclado.png",
       },
     });
 
@@ -203,7 +205,8 @@ async function main() {
       data: {
         name: "Fones",
         slug: "headphones",
-        imageUrl: "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/fones/capa-fones.png"
+        imageUrl:
+          "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/fones%2FFcapa-fone.png",
       },
     });
 
@@ -308,7 +311,8 @@ async function main() {
       data: {
         name: "Mousepads",
         slug: "mousepads",
-        imageUrl: "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/mousepads/capa-mousepad.png"
+        imageUrl:
+          "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/mousepads%2Fcapa-mousepad.png",
       },
     });
 
@@ -413,7 +417,8 @@ async function main() {
       data: {
         name: "Monitores",
         slug: "monitors",
-        imageUrl: "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/monitores/capa-monitor.png"
+        imageUrl:
+          "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/monitores%2Fcapa-monitor.png",
       },
     });
 
@@ -518,7 +523,8 @@ async function main() {
       data: {
         name: "Speakers",
         slug: "speakers",
-        imageUrl: "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/speakers/capa-speaker.png"
+        imageUrl:
+          "https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/speakers%2Fcapa-speakers.png",
       },
     });
 
