@@ -1,8 +1,8 @@
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
+import { ArrowDownIcon } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "./badge";
-import { ArrowDownIcon } from "lucide-react";
-import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 
 type Props = {
   product: ProductWithTotalPrice;
@@ -13,8 +13,8 @@ export const ProductItem = ({ product }: Props) => {
   const basePrice = formatNumberToCurrency(Number(product.basePrice));
 
   return (
-    <div className="flex max-w-[170px] flex-col  gap-4">
-      <div className="relative flex h-[170px] w-[170px] items-center justify-center rounded-lg bg-accent">
+    <div className="flex flex-col gap-4">
+      <div className="relative flex h-[170px] w-full items-center justify-center rounded-lg bg-accent">
         <Image
           src={firstProductImage}
           alt={product.name}
