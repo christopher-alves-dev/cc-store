@@ -2,12 +2,16 @@ import { ProductWithTotalPrice } from "@/helpers/product";
 import Image from "next/image";
 import { Badge } from "./badge";
 import { ArrowDownIcon } from "lucide-react";
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 
 type Props = {
   product: ProductWithTotalPrice;
 };
 export const ProductItem = ({ product }: Props) => {
   const [firstProductImage] = product.imageUrls;
+  const totalPrice = formatNumberToCurrency(product.totalPrice);
+  const basePrice = formatNumberToCurrency(Number(product.basePrice));
+
   return (
     <div className="flex max-w-[156px] flex-col  gap-4">
       <div className="relative flex h-[170px] w-[156px] items-center justify-center rounded-lg bg-accent">
@@ -35,17 +39,11 @@ export const ProductItem = ({ product }: Props) => {
         <div className="flex items-center gap-2">
           {product.discountPercentage > 0 ? (
             <>
-              <p className="font-semibold">
-                R$ {product.totalPrice.toFixed(2)}
-              </p>
-              <p className="text-xs line-through opacity-75">
-                R$ {Number(product.basePrice.toFixed(2))}
-              </p>
+              <p className="font-semibold">{totalPrice}</p>
+              <p className="text-[10px] line-through opacity-75">{basePrice}</p>
             </>
           ) : (
-            <p className="text-xs line-through opacity-75">
-              R$ {Number(product.basePrice.toFixed(2))}
-            </p>
+            <p className="text-[10px] line-through opacity-75">{basePrice}</p>
           )}
         </div>
       </div>
