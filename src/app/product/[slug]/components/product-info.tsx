@@ -1,15 +1,10 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DiscountBadge } from "@/components/ui/discount-badge";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
-import {
-  ArrowDownIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  TruckIcon,
-} from "lucide-react";
-import React, { useState } from "react";
+import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react";
+import { useState } from "react";
 
 type Props = {
   product: Pick<
@@ -39,9 +34,7 @@ export const ProductInfo = ({ product }: Props) => {
       <div className="flex items-center gap-2">
         <h1 className="text-xl font-bold">{totalPrice}</h1>
         {haveDiscount && (
-          <Badge className="px-2 py-0.5">
-            <ArrowDownIcon size={14} /> {product.discountPercentage}%
-          </Badge>
+          <DiscountBadge>{product.discountPercentage}</DiscountBadge>
         )}
       </div>
 

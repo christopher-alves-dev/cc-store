@@ -1,9 +1,8 @@
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
-import { ArrowDownIcon } from "lucide-react";
 import Image from "next/image";
-import { Badge } from "./badge";
 import Link from "next/link";
+import { DiscountBadge } from "./discount-badge";
 
 type Props = {
   product: ProductWithTotalPrice;
@@ -27,9 +26,9 @@ export const ProductItem = ({ product }: Props) => {
           />
 
           {product.discountPercentage > 0 && (
-            <Badge className="absolute left-3 top-3 px-2 py-0.5">
-              <ArrowDownIcon size={14} /> {product.discountPercentage} %
-            </Badge>
+            <DiscountBadge className="absolute left-3 top-3">
+              {product.discountPercentage}
+            </DiscountBadge>
           )}
         </div>
 
