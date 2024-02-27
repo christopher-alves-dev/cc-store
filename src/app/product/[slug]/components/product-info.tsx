@@ -3,17 +3,16 @@ import { Button } from "@/components/ui/button";
 import { DiscountBadge } from "@/components/ui/discount-badge";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
+import { CartContext } from "@/providers/cart";
 import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 type Props = {
-  product: Pick<
-    ProductWithTotalPrice,
-    "basePrice" | "description" | "discountPercentage" | "totalPrice" | "name"
-  >;
+  product: ProductWithTotalPrice;
 };
 
 export const ProductInfo = ({ product }: Props) => {
+  const { addProductToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
   const totalPrice = formatNumberToCurrency(product.totalPrice);
   const basePrice = formatNumberToCurrency(Number(product.basePrice));
@@ -25,6 +24,10 @@ export const ProductInfo = ({ product }: Props) => {
 
   const handleIncreaseQuantity = () => {
     setQuantity((prev) => prev + 1);
+  };
+
+  const handleAddProductToCart = () => {
+    addProductToCart({ ...product, quantity });
   };
 
   return (
@@ -59,7 +62,10 @@ export const ProductInfo = ({ product }: Props) => {
         <p className="text-justify text-sm opacity-60">{product.description}</p>
       </div>
 
-      <Button className="mt-8 font-bold uppercase">
+      <Button
+        className="mt-8 font-bold uppercase"
+        onClick={handleAddProductToCart}
+      >
         Adicionar ao carrinho
       </Button>
 
