@@ -15,16 +15,20 @@ export const Cart = () => {
         variant="outline"
       >
         <ShapesIcon size={16} />
-        Catálogo
+        Carrinho
       </Badge>
 
       <div className="flex flex-col gap-5">
-        {products?.map((product) => (
-          <CartItem
-            key={product.id}
-            product={computeProductTotalPrice(product) as any}
-          />
-        ))}
+        {products.length ? (
+          products?.map((product) => (
+            <CartItem
+              key={product.id}
+              product={computeProductTotalPrice(product) as any}
+            />
+          ))
+        ) : (
+          <p className="text-center font-semibold">Carrinho sem produtos</p>
+        )}
       </div>
     </div>
   );
