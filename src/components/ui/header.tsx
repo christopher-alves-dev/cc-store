@@ -129,7 +129,7 @@ export const Header = () => {
           </Button>
         </SheetTrigger>
 
-        <SheetContent>
+        <SheetContent className="min-w-[370px]">
           <Cart />
         </SheetContent>
       </Sheet>
