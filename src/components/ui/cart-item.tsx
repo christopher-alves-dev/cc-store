@@ -10,8 +10,11 @@ type Props = {
 };
 
 export const CartItem = ({ product }: Props) => {
-  const { decreaseProductQuantity, increaseProductQuantity } =
-    useContext(CartContext);
+  const {
+    decreaseProductQuantity,
+    increaseProductQuantity,
+    removeProductFromCart,
+  } = useContext(CartContext);
   const totalPrice = formatNumberToCurrency(product.totalPrice);
   const basePrice = formatNumberToCurrency(Number(product.basePrice));
   const haveDiscount = product.discountPercentage > 0;
@@ -22,6 +25,10 @@ export const CartItem = ({ product }: Props) => {
 
   const handleIncreaseQuantity = () => {
     increaseProductQuantity(product.id);
+  };
+
+  const handleRemoveProductFromCart = () => {
+    removeProductFromCart(product.id);
   };
 
   return (
@@ -75,7 +82,11 @@ export const CartItem = ({ product }: Props) => {
         </div>
       </div>
 
-      <Button size="icon" variant="outline">
+      <Button
+        size="icon"
+        variant="outline"
+        onClick={handleRemoveProductFromCart}
+      >
         <TrashIcon size={16} />
       </Button>
     </div>
