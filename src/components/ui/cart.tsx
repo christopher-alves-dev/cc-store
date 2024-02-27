@@ -4,9 +4,15 @@ import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
 import { CartItem } from "./cart-item";
 import { computeProductTotalPrice } from "@/helpers/product";
+import { Separator } from "./separator";
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 
 export const Cart = () => {
-  const { products } = useContext(CartContext);
+  const { products, subtotal, total, totalDiscount } = useContext(CartContext);
+  const haveProducts = products.length > 0;
+  const subtotalFormatted = formatNumberToCurrency(subtotal);
+  const totalFormatted = formatNumberToCurrency(total);
+  const totalDiscountFormatted = formatNumberToCurrency(totalDiscount);
 
   return (
     <div className="flex flex-col gap-8">
@@ -19,7 +25,7 @@ export const Cart = () => {
       </Badge>
 
       <div className="flex flex-col gap-5">
-        {products.length ? (
+        {haveProducts ? (
           products?.map((product) => (
             <CartItem
               key={product.id}
@@ -30,6 +36,38 @@ export const Cart = () => {
           <p className="text-center font-semibold">Carrinho sem produtos</p>
         )}
       </div>
+
+      {haveProducts && (
+        <div className="flex flex-col gap-2.5">
+          <Separator />
+
+          <div className="flex items-center justify-between text-xs">
+            <p className="capitalize">subtotal</p>
+            <p>{subtotalFormatted}</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between text-xs">
+            <p className="capitalize">entrega</p>
+            <p className="uppercase">grátis</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between text-xs">
+            <p className="capitalize">descontos</p>
+            <p className="uppercase">- {totalDiscountFormatted}</p>
+          </div>
+
+          <Separator />
+
+          <div className="flex items-center justify-between text-sm font-bold">
+            <p className="capitalize">Total</p>
+            <p className="uppercase">{totalFormatted}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
