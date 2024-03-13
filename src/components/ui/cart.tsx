@@ -6,9 +6,11 @@ import { CartItem } from "./cart-item";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "./separator";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
+import { useCartStore } from "@/stores/cart";
 
 export const Cart = () => {
-  const { products, subtotal, total, totalDiscount } = useContext(CartContext);
+  // const { products, subtotal, total, totalDiscount } = useContext(CartContext);
+  const { products, subtotal, total, totalDiscount } = useCartStore();
   const haveProducts = products.length > 0;
   const subtotalFormatted = formatNumberToCurrency(subtotal);
   const totalFormatted = formatNumberToCurrency(total);
