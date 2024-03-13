@@ -9,17 +9,16 @@ export const addProductToCart = (
     (cartProduct) => cartProduct.id === product.id,
   );
 
-  const cartSummary = updateCartSummary(products, product);
+  const summary = updateCartSummary(products, product);
   if (!productIsAlreadyOnCart) {
     return {
-      ...cartSummary,
+      summary,
       products: [...products, product],
     };
   }
 
   return {
-    ...products,
-    ...cartSummary,
+    summary,
     products: products.map((cartProduct) => {
       if (cartProduct.id === product.id) {
         return {

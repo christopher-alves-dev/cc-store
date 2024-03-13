@@ -10,11 +10,11 @@ import { useCartStore } from "@/stores/cart";
 
 export const Cart = () => {
   // const { products, subtotal, total, totalDiscount } = useContext(CartContext);
-  const { products, subtotal, total, totalDiscount } = useCartStore();
+  const { products, summary } = useCartStore();
   const haveProducts = products.length > 0;
-  const subtotalFormatted = formatNumberToCurrency(subtotal);
-  const totalFormatted = formatNumberToCurrency(total);
-  const totalDiscountFormatted = formatNumberToCurrency(totalDiscount);
+  const subtotalFormatted = formatNumberToCurrency(summary.subtotal);
+  const totalFormatted = formatNumberToCurrency(summary.total);
+  const totalDiscountFormatted = formatNumberToCurrency(summary.totalDiscount);
 
   return (
     <div className="flex flex-col gap-8">
