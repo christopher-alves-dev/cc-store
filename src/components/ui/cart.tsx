@@ -1,18 +1,20 @@
-import { ShapesIcon } from "lucide-react";
-import { Badge } from "./badge";
-import { useContext } from "react";
-import { CartContext } from "@/providers/cart";
-import { CartItem } from "./cart-item";
-import { computeProductTotalPrice } from "@/helpers/product";
-import { Separator } from "./separator";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
+import { computeProductTotalPrice } from "@/helpers/product";
+import { useCartStore } from "@/stores/cart";
+import { ShapesIcon } from "lucide-react";
+import { useShallow } from "zustand/react/shallow";
+import { Badge } from "./badge";
+import { CartItem } from "./cart-item";
+import { Separator } from "./separator";
 
 export const Cart = () => {
-  const { products, subtotal, total, totalDiscount } = useContext(CartContext);
+  const [products, summary] = useCartStore(
+    useShallow((state) => [state.products, state.summary]),
+  );
   const haveProducts = products.length > 0;
-  const subtotalFormatted = formatNumberToCurrency(subtotal);
-  const totalFormatted = formatNumberToCurrency(total);
-  const totalDiscountFormatted = formatNumberToCurrency(totalDiscount);
+  const subtotalFormatted = formatNumberToCurrency(summary.subtotal);
+  const totalFormatted = formatNumberToCurrency(summary.total);
+  const totalDiscountFormatted = formatNumberToCurrency(summary.totalDiscount);
 
   return (
     <div className="flex flex-col gap-8">

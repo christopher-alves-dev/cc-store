@@ -1,9 +1,9 @@
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
-import { CartContext, CartProduct } from "@/providers/cart";
+import { CartProduct } from "@/providers/cart";
+import { useCartStore } from "@/stores/cart";
+import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./button";
-import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react";
-import { useContext } from "react";
 
 type Props = {
   product: CartProduct;
@@ -14,17 +14,18 @@ export const CartItem = ({ product }: Props) => {
     decreaseProductQuantity,
     increaseProductQuantity,
     removeProductFromCart,
-  } = useContext(CartContext);
+  } = useCartStore();
+
   const totalPrice = formatNumberToCurrency(product.totalPrice);
   const basePrice = formatNumberToCurrency(Number(product.basePrice));
   const haveDiscount = product.discountPercentage > 0;
 
   const handleDecreaseQuantity = () => {
-    decreaseProductQuantity(product.id);
+    decreaseProductQuantity(product);
   };
 
   const handleIncreaseQuantity = () => {
-    increaseProductQuantity(product.id);
+    increaseProductQuantity(product);
   };
 
   const handleRemoveProductFromCart = () => {
