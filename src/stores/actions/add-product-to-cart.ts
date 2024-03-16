@@ -9,25 +9,23 @@ export const addProductToCart = (
     (cartProduct) => cartProduct.id === product.id,
   );
 
-  const summary = updateCartSummary(products, product);
-  if (!productIsAlreadyOnCart) {
-    return {
-      summary,
-      products: [...products, product],
-    };
-  }
+  const productsList = productIsAlreadyOnCart
+    ? products.map((cartProduct) => {
+        if (cartProduct.id === product.id) {
+          return {
+            ...cartProduct,
+            quantity: cartProduct.quantity + product.quantity,
+          };
+        }
+
+        return cartProduct;
+      })
+    : [...products, product];
+
+  const summary = updateCartSummary(productsList);
 
   return {
     summary,
-    products: products.map((cartProduct) => {
-      if (cartProduct.id === product.id) {
-        return {
-          ...cartProduct,
-          quantity: cartProduct.quantity + product.quantity,
-        };
-      }
-
-      return cartProduct;
-    }),
+    products: productsList,
   };
 };

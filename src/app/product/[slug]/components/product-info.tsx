@@ -3,17 +3,15 @@ import { Button } from "@/components/ui/button";
 import { DiscountBadge } from "@/components/ui/discount-badge";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
-import { CartContext } from "@/providers/cart";
 import { useCartStore } from "@/stores/cart";
 import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 type Props = {
   product: ProductWithTotalPrice;
 };
 
 export const ProductInfo = ({ product }: Props) => {
-  // const { addProductToCart } = useContext(CartContext);
   const { addProductToCart } = useCartStore();
   const [quantity, setQuantity] = useState(1);
   const totalPrice = formatNumberToCurrency(product.totalPrice);

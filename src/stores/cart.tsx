@@ -1,6 +1,5 @@
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { create } from "zustand";
-import { updateCartSummary } from "./helpers/cart-summary-utils";
 import { cartActions } from "./actions";
 
 export type CartProduct = ProductWithTotalPrice & {
@@ -23,8 +22,8 @@ type CartState = {
 
 type CartActions = {
   addProductToCart: (product: CartProduct) => void;
-  decreaseProductQuantity: (productId: string) => void;
-  increaseProductQuantity: (productId: string) => void;
+  decreaseProductQuantity: (product: CartProduct) => void;
+  increaseProductQuantity: (product: CartProduct) => void;
   removeProductFromCart: (productId: string) => void;
 };
 
@@ -46,43 +45,16 @@ export const useCartStore = create<CartStore>((set) => ({
   ...initialState,
   addProductToCart: (product: CartProduct) =>
     set((state) => cartActions.addProductToCart(state.products, product)),
-  decreaseProductQuantity: (productId: string) =>
-    set((state) => {
-      return {
-        ...state,
-        products: state.products.map((cartProduct) => {
-          if (cartProduct.id === productId) {
-            return {
-              ...cartProduct,
-              quantity: cartProduct.quantity - 1,
-            };
-          }
-
-          return cartProduct;
-        }),
-      };
-    }),
-  increaseProductQuantity: (productId: string) =>
-    set((state) => {
-      return {
-        ...state,
-        products: state.products.map((cartProduct) => {
-          if (cartProduct.id === productId) {
-            return {
-              ...cartProduct,
-              quantity: cartProduct.quantity - 1,
-            };
-          }
-
-          return cartProduct;
-        }),
-      };
-    }),
+  decreaseProductQuantity: (product: CartProduct) =>
+    set((state) =>
+      cartActions.decreaseProductFromCart(state.products, product),
+    ),
+  increaseProductQuantity: (product: CartProduct) =>
+    set((state) =>
+      cartActions.increaseProductFromCart(state.products, product),
+    ),
   removeProductFromCart: (productId: string) =>
-    set((state) => {
-      return {
-        ...state,
-        products: state.products.filter((product) => product.id !== productId),
-      };
-    }),
+    set((state) =>
+      cartActions.removeProductFromCart(state.products, productId),
+    ),
 }));

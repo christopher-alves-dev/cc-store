@@ -1,55 +1,28 @@
 import { CartProduct, CartSummary } from "../cart";
 
-const calculateSubtotal = (
-  products: CartProduct[],
-  productBasePrice: number,
-  quantity: number,
-): number => {
-  const productSubtotal = productBasePrice * quantity;
-
-  if (products.length === 0) {
-    return productSubtotal;
-  }
+const calculateSubtotal = (products: CartProduct[]): number => {
+  if (products.length === 0) return 0;
 
   const cartSubtotal = products.reduce((acc, product) => {
     return acc + Number(product.basePrice) * product.quantity;
   }, 0);
 
-  return cartSubtotal + productSubtotal;
+  return cartSubtotal;
 };
 
-const calculateTotal = (
-  products: CartProduct[],
-  productTotalPrice: number,
-  quantity = 1,
-): number => {
-  const productPrice = productTotalPrice * quantity;
-
-  if (products.length === 0) {
-    return productPrice;
-  }
+const calculateTotal = (products: CartProduct[]): number => {
+  if (products.length === 0) return 0;
 
   const cartSubtotal = products.reduce((acc, product) => {
     return acc + product.totalPrice * product.quantity;
   }, 0);
 
-  return cartSubtotal + productPrice;
+  return cartSubtotal;
 };
 
-export const updateCartSummary = (
-  products: CartProduct[],
-  productAdded: CartProduct,
-): CartSummary => {
-  const subtotal = calculateSubtotal(
-    products,
-    Number(productAdded.basePrice),
-    productAdded.quantity,
-  );
-  const total = calculateTotal(
-    products,
-    productAdded.totalPrice,
-    productAdded.quantity,
-  );
+export const updateCartSummary = (products: CartProduct[]): CartSummary => {
+  const subtotal = calculateSubtotal(products);
+  const total = calculateTotal(products);
   const totalDiscount = subtotal - total;
 
   return {
