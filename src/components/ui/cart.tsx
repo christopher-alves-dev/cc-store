@@ -17,7 +17,7 @@ export const Cart = () => {
   const totalDiscountFormatted = formatNumberToCurrency(summary.totalDiscount);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex h-full flex-col gap-8">
       <Badge
         className="w-fit gap-1 border-2 border-primary px-3 py-1.5 text-base uppercase"
         variant="outline"
@@ -26,7 +26,7 @@ export const Cart = () => {
         Carrinho
       </Badge>
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-grow flex-col gap-5 overflow-y-scroll">
         {haveProducts ? (
           products?.map((product) => (
             <CartItem
