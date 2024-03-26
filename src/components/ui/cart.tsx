@@ -6,6 +6,7 @@ import { useShallow } from "zustand/react/shallow";
 import { Badge } from "./badge";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
+import { Button } from "./button";
 
 export const Cart = () => {
   const [products, summary] = useCartStore(
@@ -68,6 +69,8 @@ export const Cart = () => {
             <p className="capitalize">Total</p>
             <p className="uppercase">{totalFormatted}</p>
           </div>
+
+          <Button className="mt-7">Finalizar compra</Button>
         </div>
       )}
     </div>
