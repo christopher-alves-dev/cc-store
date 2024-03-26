@@ -7,6 +7,8 @@ import { Badge } from "./badge";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
 import { Button } from "./button";
+import { createCheckout } from "@/actions/checkout";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const Cart = () => {
   const [products, summary] = useCartStore(
@@ -16,6 +18,15 @@ export const Cart = () => {
   const subtotalFormatted = formatNumberToCurrency(summary.subtotal);
   const totalFormatted = formatNumberToCurrency(summary.total);
   const totalDiscountFormatted = formatNumberToCurrency(summary.totalDiscount);
+
+  const handleFinishPurchaseClick = async () => {
+    const checkout = await createCheckout(products);
+
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+    stripe?.redirectToCheckout({
+      sessionId: checkout.id,
+    });
+  };
 
   return (
     <div className="flex h-full flex-col gap-8">
@@ -70,7 +81,9 @@ export const Cart = () => {
             <p className="uppercase">{totalFormatted}</p>
           </div>
 
-          <Button className="mt-7">Finalizar compra</Button>
+          <Button className="mt-7" onClick={handleFinishPurchaseClick}>
+            Finalizar compra
+          </Button>
         </div>
       )}
     </div>
