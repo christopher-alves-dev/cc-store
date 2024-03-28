@@ -25,12 +25,17 @@ type CartActions = {
   decreaseProductQuantity: (product: CartProduct) => void;
   increaseProductQuantity: (product: CartProduct) => void;
   removeProductFromCart: (productId: string) => void;
+  updateLocalStorage: (products: CartProduct[]) => void;
 };
 
 export type CartStore = CartState & CartActions;
 
+const productsOnLocalStorage = JSON.parse(
+  localStorage.getItem("@cc-store/cart-products") || "[]",
+);
+
 const initialState: CartState = {
-  products: [],
+  products: productsOnLocalStorage,
   cartTotalPrice: 0,
   cartBasePrice: 0,
   cartTotalDiscount: 0,
@@ -44,17 +49,37 @@ const initialState: CartState = {
 export const useCartStore = create<CartStore>((set) => ({
   ...initialState,
   addProductToCart: (product: CartProduct) =>
-    set((state) => cartActions.addProductToCart(state.products, product)),
+    set((state) => {
+      const data = cartActions.addProductToCart(state.products, product);
+      state.updateLocalStorage(data.products);
+
+      return data;
+    }),
   decreaseProductQuantity: (product: CartProduct) =>
-    set((state) =>
-      cartActions.decreaseProductFromCart(state.products, product),
-    ),
+    set((state) => {
+      const data = cartActions.decreaseProductFromCart(state.products, product);
+
+      state.updateLocalStorage(data.products);
+
+      return data;
+    }),
   increaseProductQuantity: (product: CartProduct) =>
-    set((state) =>
-      cartActions.increaseProductFromCart(state.products, product),
-    ),
+    set((state) => {
+      const data = cartActions.increaseProductFromCart(state.products, product);
+
+      state.updateLocalStorage(data.products);
+
+      return data;
+    }),
   removeProductFromCart: (productId: string) =>
-    set((state) =>
-      cartActions.removeProductFromCart(state.products, productId),
-    ),
+    set((state) => {
+      const data = cartActions.removeProductFromCart(state.products, productId);
+
+      state.updateLocalStorage(data.products);
+
+      return data;
+    }),
+  updateLocalStorage: (products: CartProduct[]) => {
+    localStorage.setItem("@cc-store/cart-products", JSON.stringify(products));
+  },
 }));
