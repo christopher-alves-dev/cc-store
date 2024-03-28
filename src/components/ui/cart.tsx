@@ -1,26 +1,31 @@
+import { createCheckout } from "@/actions/checkout";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { computeProductTotalPrice } from "@/helpers/product";
+import useStore from "@/hooks/use-store";
 import { useCartStore } from "@/stores/cart";
+import { loadStripe } from "@stripe/stripe-js";
 import { ShapesIcon } from "lucide-react";
-import { useShallow } from "zustand/react/shallow";
 import { Badge } from "./badge";
+import { Button } from "./button";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
-import { Button } from "./button";
-import { createCheckout } from "@/actions/checkout";
-import { loadStripe } from "@stripe/stripe-js";
 
 export const Cart = () => {
-  const [products, summary] = useCartStore(
-    useShallow((state) => [state.products, state.summary]),
+  const store = useStore(useCartStore, (state) => ({
+    products: state.products,
+    summary: state.summary,
+  }));
+  const haveProducts = store?.products.length ?? 0 > 0;
+  const subtotalFormatted = formatNumberToCurrency(
+    store?.summary?.subtotal ?? 0,
   );
-  const haveProducts = products.length > 0;
-  const subtotalFormatted = formatNumberToCurrency(summary.subtotal);
-  const totalFormatted = formatNumberToCurrency(summary.total);
-  const totalDiscountFormatted = formatNumberToCurrency(summary.totalDiscount);
+  const totalFormatted = formatNumberToCurrency(store?.summary?.total ?? 0);
+  const totalDiscountFormatted = formatNumberToCurrency(
+    store?.summary?.totalDiscount ?? 0,
+  );
 
   const handleFinishPurchaseClick = async () => {
-    const checkout = await createCheckout(products);
+    const checkout = await createCheckout(store?.products ?? []);
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
     stripe?.redirectToCheckout({
@@ -40,7 +45,7 @@ export const Cart = () => {
 
       <div className="flex flex-grow flex-col gap-5 overflow-y-scroll">
         {haveProducts ? (
-          products?.map((product) => (
+          store?.products?.map((product) => (
             <CartItem
               key={product.id}
               product={computeProductTotalPrice(product) as any}

@@ -1,6 +1,7 @@
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { create } from "zustand";
 import { cartActions } from "./actions";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type CartProduct = ProductWithTotalPrice & {
   quantity: number;
@@ -25,17 +26,12 @@ type CartActions = {
   decreaseProductQuantity: (product: CartProduct) => void;
   increaseProductQuantity: (product: CartProduct) => void;
   removeProductFromCart: (productId: string) => void;
-  updateLocalStorage: (products: CartProduct[]) => void;
 };
 
 export type CartStore = CartState & CartActions;
 
-const productsOnLocalStorage = JSON.parse(
-  localStorage.getItem("@cc-store/cart-products") || "[]",
-);
-
 const initialState: CartState = {
-  products: productsOnLocalStorage,
+  products: [],
   cartTotalPrice: 0,
   cartBasePrice: 0,
   cartTotalDiscount: 0,
@@ -46,40 +42,28 @@ const initialState: CartState = {
   },
 };
 
-export const useCartStore = create<CartStore>((set) => ({
-  ...initialState,
-  addProductToCart: (product: CartProduct) =>
-    set((state) => {
-      const data = cartActions.addProductToCart(state.products, product);
-      state.updateLocalStorage(data.products);
-
-      return data;
+export const useCartStore = create(
+  persist<CartStore>(
+    (set) => ({
+      ...initialState,
+      addProductToCart: (product: CartProduct) =>
+        set((state) => cartActions.addProductToCart(state.products, product)),
+      decreaseProductQuantity: (product: CartProduct) =>
+        set((state) =>
+          cartActions.decreaseProductFromCart(state.products, product),
+        ),
+      increaseProductQuantity: (product: CartProduct) =>
+        set((state) =>
+          cartActions.increaseProductFromCart(state.products, product),
+        ),
+      removeProductFromCart: (productId: string) =>
+        set((state) =>
+          cartActions.removeProductFromCart(state.products, productId),
+        ),
     }),
-  decreaseProductQuantity: (product: CartProduct) =>
-    set((state) => {
-      const data = cartActions.decreaseProductFromCart(state.products, product);
-
-      state.updateLocalStorage(data.products);
-
-      return data;
-    }),
-  increaseProductQuantity: (product: CartProduct) =>
-    set((state) => {
-      const data = cartActions.increaseProductFromCart(state.products, product);
-
-      state.updateLocalStorage(data.products);
-
-      return data;
-    }),
-  removeProductFromCart: (productId: string) =>
-    set((state) => {
-      const data = cartActions.removeProductFromCart(state.products, productId);
-
-      state.updateLocalStorage(data.products);
-
-      return data;
-    }),
-  updateLocalStorage: (products: CartProduct[]) => {
-    localStorage.setItem("@cc-store/cart-products", JSON.stringify(products));
-  },
-}));
+    {
+      name: "@cc-store/cart-products",
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
