@@ -1,6 +1,5 @@
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
-import { CartProduct } from "@/providers/cart";
-import { useCartStore } from "@/stores/cart";
+import { CartProduct, useCartStore } from "@/stores/cart";
 import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./button";
