@@ -3,19 +3,19 @@ import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/prisma";
 import { ShoppingBasket } from "lucide-react";
 import { getServerSession } from "next-auth";
+import { LoginButton } from "./components/login-button";
 import { OrderItem } from "./components/order-item";
 
 export default async function OrderPage() {
-  const user = getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
-  if (!user) {
-    //TODO: redirect to login
-    return <p>Faça login</p>;
+  if (!session?.user) {
+    return <LoginButton />;
   }
 
   const orders = await prismaClient.order.findMany({
     where: {
-      userId: (user as any).id,
+      userId: (session?.user as any).id,
     },
     include: {
       orderProducts: {
@@ -37,9 +37,11 @@ export default async function OrderPage() {
       </Badge>
 
       <div className="flex flex-col gap-5">
-        {orders.map((order) => (
-          <OrderItem key={order.id} order={order} />
-        ))}
+        {orders.length ? (
+          orders.map((order) => <OrderItem key={order.id} order={order} />)
+        ) : (
+          <p className="text-center font-semibold">Sem pedidos realizados</p>
+        )}
       </div>
     </div>
   );

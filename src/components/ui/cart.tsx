@@ -1,16 +1,15 @@
 import { createCheckout } from "@/actions/checkout";
+import { createOrder } from "@/actions/order";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { computeProductTotalPrice } from "@/helpers/product";
-import { CartState, useCartStore } from "@/stores/cart";
+import { useCartStore } from "@/stores/cart";
 import { loadStripe } from "@stripe/stripe-js";
 import { ShapesIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
-import { createOrder } from "@/actions/order";
 
 export const Cart = () => {
   const { data } = useSession();
