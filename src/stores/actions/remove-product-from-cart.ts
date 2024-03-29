@@ -1,5 +1,5 @@
 import { CartProduct } from "../cart";
-import { updateCartSummary } from "../helpers/cart-summary-utils";
+import { updateSummary } from "../helpers/summary-utils";
 
 export const removeProductFromCart = (
   productList: CartProduct[],
@@ -9,7 +9,7 @@ export const removeProductFromCart = (
     (product) => product.id !== productIdToRemove,
   );
 
-  const summary = updateCartSummary(updatedProductList);
+  const summary = updateSummary(updatedProductList);
 
   return {
     summary,

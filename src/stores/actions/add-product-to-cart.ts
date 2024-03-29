@@ -1,5 +1,5 @@
 import { CartProduct } from "../cart";
-import { updateCartSummary } from "../helpers/cart-summary-utils";
+import { updateSummary } from "../helpers/summary-utils";
 
 export const addProductToCart = (
   products: CartProduct[],
@@ -22,7 +22,7 @@ export const addProductToCart = (
       })
     : [...products, product];
 
-  const summary = updateCartSummary(productsList);
+  const summary = updateSummary(productsList);
 
   return {
     summary,

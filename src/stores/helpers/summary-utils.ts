@@ -1,6 +1,13 @@
 import { CartProduct, CartSummary } from "../cart";
 
-const calculateSubtotal = (products: CartProduct[]): number => {
+type CalculateSummaryProps = Pick<
+  CartProduct,
+  "basePrice" | "totalPrice" | "quantity"
+>;
+
+const calculateSubtotal = (
+  products: Array<Omit<CalculateSummaryProps, "totalPrice">>,
+): number => {
   if (products.length === 0) return 0;
 
   const cartSubtotal = products.reduce((acc, product) => {
@@ -10,7 +17,9 @@ const calculateSubtotal = (products: CartProduct[]): number => {
   return cartSubtotal;
 };
 
-const calculateTotal = (products: CartProduct[]): number => {
+const calculateTotal = (
+  products: Array<Omit<CalculateSummaryProps, "basePrice">>,
+): number => {
   if (products.length === 0) return 0;
 
   const cartSubtotal = products.reduce((acc, product) => {
@@ -20,7 +29,9 @@ const calculateTotal = (products: CartProduct[]): number => {
   return cartSubtotal;
 };
 
-export const updateCartSummary = (products: CartProduct[]): CartSummary => {
+export const updateSummary = (
+  products: Array<CalculateSummaryProps>,
+): CartSummary => {
   const subtotal = calculateSubtotal(products);
   const total = calculateTotal(products);
   const totalDiscount = subtotal - total;
