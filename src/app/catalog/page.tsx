@@ -9,10 +9,7 @@ export default async function page() {
 
   return (
     <div className="flex flex-col gap-8 px-5">
-      <Badge
-        className="w-fit gap-1 border-2 border-primary px-3 py-1.5 text-base uppercase"
-        variant="outline"
-      >
+      <Badge variant="heading">
         <ShapesIcon size={16} />
         Catálogo
       </Badge>

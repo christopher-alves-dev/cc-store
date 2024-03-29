@@ -14,10 +14,7 @@ export default async function DealsPage() {
   });
   return (
     <div className="flex flex-col gap-8 p-5">
-      <Badge
-        className="w-fit gap-1 border-2 border-primary px-3 py-1.5 text-base uppercase"
-        variant="outline"
-      >
+      <Badge variant="heading">
         <PercentIcon size={16} />
         Ofertas
       </Badge>

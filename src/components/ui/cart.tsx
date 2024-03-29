@@ -42,10 +42,7 @@ export const Cart = () => {
 
   return (
     <div className="flex h-full flex-col gap-8">
-      <Badge
-        className="w-fit gap-1 border-2 border-primary px-3 py-1.5 text-base uppercase"
-        variant="outline"
-      >
+      <Badge variant="heading">
         <ShapesIcon size={16} />
         Carrinho
       </Badge>
