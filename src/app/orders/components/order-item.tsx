@@ -58,7 +58,7 @@ export const OrderItem = ({ order }: Props) => {
         <AccordionItem value={order.id}>
           <AccordionTrigger>
             <div className="flex flex-col gap-1 text-left">
-              <p className="font-bold uppercase">{productQuantity}</p>
+              <p className="text-sm font-bold uppercase">{productQuantity}</p>
               <span className="text-xs opacity-60">Feito em {orderDate}</span>
             </div>
           </AccordionTrigger>
