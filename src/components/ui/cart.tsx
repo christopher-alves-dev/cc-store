@@ -10,8 +10,10 @@ import { Badge } from "./badge";
 import { Button } from "./button";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
+import { createOrder } from "@/actions/order";
 
 export const Cart = () => {
+  const { data } = useSession();
   const [products, summary] = useCartStore((state) => [
     state.products,
     state.summary,
@@ -24,6 +26,13 @@ export const Cart = () => {
   );
 
   const handleFinishPurchaseClick = async () => {
+    if (!data?.user) {
+      //TODO: redirect to login
+      return;
+    }
+
+    await createOrder(products, (data?.user as any).id);
+
     const checkout = await createCheckout(products);
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
