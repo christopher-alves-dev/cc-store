@@ -1,11 +1,13 @@
 "use client";
 import {
   HomeIcon,
+  ListOrdered,
   ListOrderedIcon,
   LogInIcon,
   LogOutIcon,
   MenuIcon,
   Percent,
+  ShoppingBasket,
   ShoppingCartIcon,
 } from "lucide-react";
 import { Button } from "./button";
@@ -95,6 +97,18 @@ export const Header = () => {
               <HomeIcon size={16} />
               Início
             </Button>
+
+            <SheetClose asChild>
+              <Link href="/orders">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <ShoppingBasket size={16} />
+                  Meus Pedidos
+                </Button>
+              </Link>
+            </SheetClose>
 
             <SheetClose asChild>
               <Link href="/deals">

@@ -1,3 +1,4 @@
+import { prismaClient } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -21,18 +22,16 @@ export const POST = async (request: Request) => {
   );
 
   if (event.type === "checkout.session.completed") {
-    const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-      event.data.object.id,
-      {
-        expand: ["line_items"],
+    const session = event.data.object as any;
+
+    await prismaClient.order.update({
+      where: {
+        id: session.metadata.orderId,
       },
-    );
-
-    const lineItems = sessionWithLineItems.line_items;
-
-    // TODO: Create Order model on schema.prisma and use here to save products to database
-
-    console.log({ lineItems: lineItems?.data });
+      data: {
+        status: "PAYMENT_CONFIRMED",
+      },
+    });
   }
 
   return NextResponse.json({ received: true });
