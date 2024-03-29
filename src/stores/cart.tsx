@@ -13,11 +13,8 @@ export type CartSummary = {
   totalDiscount: number;
 };
 
-type CartState = {
+export type CartState = {
   products: CartProduct[];
-  cartTotalPrice: number;
-  cartBasePrice: number;
-  cartTotalDiscount: number;
   summary: CartSummary;
 };
 
@@ -32,9 +29,6 @@ export type CartStore = CartState & CartActions;
 
 const initialState: CartState = {
   products: [],
-  cartTotalPrice: 0,
-  cartBasePrice: 0,
-  cartTotalDiscount: 0,
   summary: {
     subtotal: 0,
     total: 0,
@@ -42,8 +36,8 @@ const initialState: CartState = {
   },
 };
 
-export const useCartStore = create(
-  persist<CartStore>(
+export const useCartStore = create<CartStore>()(
+  persist(
     (set) => ({
       ...initialState,
       addProductToCart: (product: CartProduct) =>
@@ -63,7 +57,7 @@ export const useCartStore = create(
     }),
     {
       name: "@cc-store/cart-products",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     },
   ),
 );

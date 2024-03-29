@@ -1,31 +1,30 @@
 import { createCheckout } from "@/actions/checkout";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { computeProductTotalPrice } from "@/helpers/product";
-import useStore from "@/hooks/use-store";
-import { useCartStore } from "@/stores/cart";
+import { CartState, useCartStore } from "@/stores/cart";
 import { loadStripe } from "@stripe/stripe-js";
 import { ShapesIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
 
 export const Cart = () => {
-  const store = useStore(useCartStore, (state) => ({
-    products: state.products,
-    summary: state.summary,
-  }));
-  const haveProducts = store?.products.length ?? 0 > 0;
-  const subtotalFormatted = formatNumberToCurrency(
-    store?.summary?.subtotal ?? 0,
-  );
-  const totalFormatted = formatNumberToCurrency(store?.summary?.total ?? 0);
+  const [products, summary] = useCartStore((state) => [
+    state.products,
+    state.summary,
+  ]);
+  const haveProducts = products.length ?? 0 > 0;
+  const subtotalFormatted = formatNumberToCurrency(summary.subtotal ?? 0);
+  const totalFormatted = formatNumberToCurrency(summary?.total ?? 0);
   const totalDiscountFormatted = formatNumberToCurrency(
-    store?.summary?.totalDiscount ?? 0,
+    summary?.totalDiscount ?? 0,
   );
 
   const handleFinishPurchaseClick = async () => {
-    const checkout = await createCheckout(store?.products ?? []);
+    const checkout = await createCheckout(products);
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
     stripe?.redirectToCheckout({
@@ -45,7 +44,7 @@ export const Cart = () => {
 
       <div className="flex flex-grow flex-col gap-5 overflow-y-scroll">
         {haveProducts ? (
-          store?.products?.map((product) => (
+          products.map((product) => (
             <CartItem
               key={product.id}
               product={computeProductTotalPrice(product) as any}
