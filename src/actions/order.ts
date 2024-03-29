@@ -7,7 +7,7 @@ export const createOrder = async (
   cartProducts: CartProduct[],
   userId: string,
 ) => {
-  await prismaClient.order.create({
+  const order = await prismaClient.order.create({
     data: {
       userId,
       status: "WAITING_FOR_PAYMENT",
@@ -23,4 +23,6 @@ export const createOrder = async (
       },
     },
   });
+
+  return order;
 };
