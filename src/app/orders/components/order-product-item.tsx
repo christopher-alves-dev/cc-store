@@ -22,7 +22,7 @@ export const OrderProductItem = ({ orderProduct }: Props) => {
   const productHaveDiscount = productWithTotalPrice.discountPercentage > 0;
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-accent">
+      <div className="flex h-[77px] w-[100px] items-center justify-center rounded-lg bg-accent">
         <Image
           src={orderProduct.product.imageUrls[0]}
           alt={orderProduct.product.name}

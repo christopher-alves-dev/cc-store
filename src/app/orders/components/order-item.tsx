@@ -7,6 +7,11 @@ import {
 import { Card } from "@/components/ui/card";
 import { Prisma } from "@prisma/client";
 import { OrderProductItem } from "./order-product-item";
+import { Separator } from "@/components/ui/separator";
+import { updateSummary } from "@/stores/helpers/summary-utils";
+import { computeProductTotalPrice } from "@/helpers/product";
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
+import { getOrderStatus } from "../helpers/get-order-status";
 
 type Props = {
   order: Prisma.OrderGetPayload<{
@@ -27,6 +32,26 @@ export const OrderItem = ({ order }: Props) => {
     dateStyle: "short",
   }).format(order.createdAt);
 
+  const orderDate = new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(order.createdAt);
+
+  const productValues = order.orderProducts.map((orderProduct) => {
+    const formattedPrice = computeProductTotalPrice(orderProduct.product);
+    return {
+      basePrice: orderProduct.basePrice,
+      quantity: orderProduct.quantity,
+      totalPrice: formattedPrice.totalPrice,
+    };
+  });
+
+  const summary = updateSummary(productValues);
+
+  const subtotal = formatNumberToCurrency(summary.subtotal);
+  const totalDiscount = formatNumberToCurrency(summary.totalDiscount);
+  const totalPrice = formatNumberToCurrency(summary.total);
+
   return (
     <Card className="px-5">
       <Accordion type="single" className="w-full" collapsible>
@@ -34,6 +59,7 @@ export const OrderItem = ({ order }: Props) => {
           <AccordionTrigger>
             <div className="flex flex-col gap-1 text-left">
               {productQuantity}
+              <span className="text-xs opacity-60">Feito em {orderDate}</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
@@ -41,7 +67,9 @@ export const OrderItem = ({ order }: Props) => {
               <div className="flex items-center justify-between">
                 <div className="font-bold">
                   <p>Status</p>
-                  <p className="text-[#8162FF]">{order.status}</p>
+                  <p className="text-[#8162FF]">
+                    {getOrderStatus(order.status)}
+                  </p>
                 </div>
 
                 <div>
@@ -61,6 +89,36 @@ export const OrderItem = ({ order }: Props) => {
                   orderProduct={orderProduct}
                 />
               ))}
+
+              <div className="flex w-full flex-col gap-1 text-xs">
+                <Separator />
+
+                <div className="flex w-full justify-between py-3">
+                  <p>Subtotal</p>
+                  <p>{subtotal}</p>
+                </div>
+
+                <Separator />
+
+                <div className="flex w-full justify-between py-3">
+                  <p>Entrega</p>
+                  <p>Grátis</p>
+                </div>
+
+                <Separator />
+
+                <div className="flex w-full justify-between py-3">
+                  <p>Descontos</p>
+                  <p>{totalDiscount}</p>
+                </div>
+
+                <Separator />
+
+                <div className="flex w-full justify-between py-3 text-sm font-bold">
+                  <p>Total</p>
+                  <p>{totalPrice}</p>
+                </div>
+              </div>
             </div>
           </AccordionContent>
         </AccordionItem>
