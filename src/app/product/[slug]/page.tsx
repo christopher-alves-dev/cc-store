@@ -38,12 +38,16 @@ export default async function ProductPage({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-8 pb-8">
-      <ProductImages imageUrls={product.imageUrls} name={product.name} />
-      <ProductInfo product={computeProductTotalPrice(product)} />
+    <div className="flex flex-col gap-8 pb-8 lg:gap-0 lg:pb-10">
+      <div className="flex flex-col gap-8 lg:flex-row lg:pb-10">
+        <ProductImages imageUrls={product.imageUrls} name={product.name} />
+        <ProductInfo product={computeProductTotalPrice(product)} />
+      </div>
 
-      <div className="flex flex-col gap-5">
-        <SectionTitle>produtos recomendados</SectionTitle>
+      <div className="flex flex-col gap-5 lg:pt-10">
+        <SectionTitle className="lg:text-lg">
+          produtos recomendados
+        </SectionTitle>
         <ProductList products={product.category.products} />
       </div>
     </div>
