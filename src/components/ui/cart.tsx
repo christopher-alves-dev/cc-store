@@ -10,6 +10,7 @@ import { Badge } from "./badge";
 import { Button } from "./button";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
+import { Summary } from "./summary";
 
 export const Cart = () => {
   const { data } = useSession();
@@ -64,31 +65,19 @@ export const Cart = () => {
         <div className="flex flex-col gap-2.5">
           <Separator />
 
-          <div className="flex items-center justify-between text-xs">
-            <p className="capitalize">subtotal</p>
-            <p>{subtotalFormatted}</p>
-          </div>
+          <Summary label="subtotal" value={subtotalFormatted} />
 
           <Separator />
 
-          <div className="flex items-center justify-between text-xs">
-            <p className="capitalize">entrega</p>
-            <p className="uppercase">grátis</p>
-          </div>
+          <Summary label="entrega" value="grátis" />
 
           <Separator />
 
-          <div className="flex items-center justify-between text-xs">
-            <p className="capitalize">descontos</p>
-            <p className="uppercase">- {totalDiscountFormatted}</p>
-          </div>
+          <Summary label="descontos" value={totalDiscountFormatted} />
 
           <Separator />
 
-          <div className="flex items-center justify-between text-sm font-bold">
-            <p className="capitalize">Total</p>
-            <p className="uppercase">{totalFormatted}</p>
-          </div>
+          <Summary label="Total" className="font-bold" value={totalFormatted} />
 
           <Button className="mt-7" onClick={handleFinishPurchaseClick}>
             Finalizar compra

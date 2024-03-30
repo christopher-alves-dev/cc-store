@@ -12,6 +12,7 @@ import { updateSummary } from "@/stores/helpers/summary-utils";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { getOrderStatus } from "../helpers/get-order-status";
+import { Summary } from "@/components/ui/summary";
 
 type Props = {
   order: Prisma.OrderGetPayload<{
@@ -90,34 +91,26 @@ export const OrderItem = ({ order }: Props) => {
                 />
               ))}
 
-              <div className="flex w-full flex-col gap-1 text-xs">
+              <div className="flex w-full flex-col gap-3 text-xs">
                 <Separator />
 
-                <div className="flex w-full justify-between py-3">
-                  <p>Subtotal</p>
-                  <p>{subtotal}</p>
-                </div>
+                <Summary label="subtotal" value={subtotal} />
 
                 <Separator />
 
-                <div className="flex w-full justify-between py-3">
-                  <p>Entrega</p>
-                  <p>Grátis</p>
-                </div>
+                <Summary label="Entrega" value="grátis" />
 
                 <Separator />
 
-                <div className="flex w-full justify-between py-3">
-                  <p>Descontos</p>
-                  <p>{totalDiscount}</p>
-                </div>
+                <Summary label="Descontos" value={totalDiscount} />
 
                 <Separator />
 
-                <div className="flex w-full justify-between py-3 text-sm font-bold">
-                  <p>Total</p>
-                  <p>{totalPrice}</p>
-                </div>
+                <Summary
+                  label="Total"
+                  className="text-sm font-bold lg:text-base"
+                  value={totalPrice}
+                />
               </div>
             </div>
           </AccordionContent>
