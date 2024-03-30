@@ -15,7 +15,7 @@ export const ProductItem = ({ product }: Props) => {
   return (
     <Link href={`/product/${product.slug}`}>
       <div className="flex flex-col gap-4">
-        <div className="relative flex h-[170px] w-full items-center justify-center rounded-lg bg-accent">
+        <div className="relative flex h-[170px] w-[180px] items-center justify-center rounded-lg bg-accent">
           <Image
             src={firstProductImage}
             alt={product.name}
@@ -32,7 +32,7 @@ export const ProductItem = ({ product }: Props) => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 lg:gap-1.5">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm">
             {product.name}
           </p>

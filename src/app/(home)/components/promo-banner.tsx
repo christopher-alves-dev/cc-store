@@ -9,7 +9,7 @@ export const PromoBanner = ({ alt, className, ...rest }: ImageProps) => {
       width={0}
       height={0}
       sizes="100vw"
-      className={twMerge("h-auto w-full px-5", className)}
+      className={twMerge("h-auto w-full", className)}
       {...rest}
     />
   );
