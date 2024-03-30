@@ -48,7 +48,7 @@ export default async function Home() {
         />
       </Link>
 
-      <div className="flex flex-col gap-8 px-5 xl:container">
+      <div className="flex flex-col gap-8 px-5 xl:mx-auto xl:max-w-7xl">
         <Categories />
 
         <div className="flex flex-col gap-4 lg:gap-5">
