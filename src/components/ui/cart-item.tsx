@@ -34,7 +34,7 @@ export const CartItem = ({ product }: Props) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-accent">
+        <div className="flex h-20 w-20 items-center justify-center rounded-lg bg-accent lg:h-24 lg:w-24">
           <Image
             src={product.imageUrls[0]}
             width={0}
@@ -47,36 +47,36 @@ export const CartItem = ({ product }: Props) => {
 
         <div className="flex flex-col gap-1.5">
           <div>
-            <p className="text-xs">{product.name}</p>
+            <p className="text-xs lg:text-sm">{product.name}</p>
 
             <div className="flex items-center gap-2">
-              <p className="text-sm font-bold">{totalPrice}</p>
+              <p className="text-sm font-bold lg:text-base">{totalPrice}</p>
               {haveDiscount && (
                 <p className="text-xs line-through opacity-75">{basePrice}</p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 lg:gap-3">
             <Button
               size="icon"
               variant="outline"
-              className="h-8 w-8"
+              className="h-8 w-8 text-base lg:text-xl"
               disabled={product.quantity === 1}
               onClick={handleDecreaseQuantity}
             >
-              <ArrowLeftIcon size={16} />
+              <ArrowLeftIcon className="h-[1em] w-[1em]" />
             </Button>
 
-            <span className="text-xs">{product.quantity}</span>
+            <span className="text-xs lg:text-base">{product.quantity}</span>
 
             <Button
               size="icon"
               variant="outline"
-              className="h-8 w-8"
+              className="h-8 w-8 text-base lg:text-xl"
               onClick={handleIncreaseQuantity}
             >
-              <ArrowRightIcon size={16} />
+              <ArrowRightIcon className="h-[1em] w-[1em]" />
             </Button>
           </div>
         </div>
@@ -85,9 +85,10 @@ export const CartItem = ({ product }: Props) => {
       <Button
         size="icon"
         variant="outline"
+        className="text-base lg:text-xl"
         onClick={handleRemoveProductFromCart}
       >
-        <TrashIcon size={16} />
+        <TrashIcon className="h-[1em] w-[1em]" />
       </Button>
     </div>
   );

@@ -150,7 +150,7 @@ export const Header = () => {
           </Button>
         </SheetTrigger>
 
-        <SheetContent className="min-w-[370px]">
+        <SheetContent className="min-w-[370px] lg:min-w-[500px]">
           <Cart />
         </SheetContent>
       </Sheet>

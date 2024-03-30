@@ -48,9 +48,17 @@ export const Cart = () => {
         Carrinho
       </Badge>
 
-      <div className="flex flex-grow flex-col gap-5 overflow-y-scroll">
+      <div className="flex flex-grow flex-col gap-5 overflow-y-scroll [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar]:bg-accent">
         {haveProducts ? (
-          products.map((product) => (
+          [
+            ...products,
+            ...products,
+            ...products,
+            ...products,
+            ...products,
+            ...products,
+            ...products,
+          ].map((product) => (
             <CartItem
               key={product.id}
               product={computeProductTotalPrice(product) as any}
