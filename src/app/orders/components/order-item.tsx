@@ -13,6 +13,8 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { getOrderStatus } from "../helpers/get-order-status";
 import { Summary } from "@/components/ui/summary";
+import { OrderAccordionTriggerDefault } from "./order-accordion-trigger-default";
+import { OrderAccordionTriggerDesktop } from "./order-accordion-trigger-desktop";
 
 type Props = {
   order: Prisma.OrderGetPayload<{
@@ -29,13 +31,9 @@ type Props = {
 export const OrderItem = ({ order }: Props) => {
   const productsLength = order.orderProducts.length;
   const productQuantity = `Pedido com ${productsLength > 1 ? `${productsLength} produtos` : `${productsLength} produto`}`;
-  const dateFormatted = new Intl.DateTimeFormat("pt-BR", {
-    dateStyle: "short",
-  }).format(order.createdAt);
 
   const orderDate = new Intl.DateTimeFormat("pt-BR", {
-    dateStyle: "medium",
-    timeStyle: "short",
+    dateStyle: "short",
   }).format(order.createdAt);
 
   const productValues = order.orderProducts.map((orderProduct) => {
@@ -54,35 +52,46 @@ export const OrderItem = ({ order }: Props) => {
   const totalPrice = formatNumberToCurrency(summary.total);
 
   return (
-    <Card className="px-5">
+    <Card className="border-2 px-5">
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order.id}>
           <AccordionTrigger>
-            <div className="flex flex-col gap-1 text-left">
-              <p className="text-sm font-bold uppercase">{productQuantity}</p>
-              <span className="text-xs opacity-60">Feito em {orderDate}</span>
-            </div>
+            <OrderAccordionTriggerDefault
+              label={productQuantity}
+              orderDate={orderDate}
+            />
+
+            <OrderAccordionTriggerDesktop
+              data={{
+                code: order.code,
+                orderDate,
+                paymentType: "Cartão de Crédito",
+                status: getOrderStatus(order.status),
+              }}
+            />
           </AccordionTrigger>
           <AccordionContent>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 lg:gap-8">
+              <div className="flex items-center justify-between lg:hidden">
                 <div className="font-bold">
-                  <p>Status</p>
-                  <p className="text-[#8162FF]">
+                  <p className="text-xs lg:text-sm">Status</p>
+                  <p className="text-xs text-[#8162FF] lg:text-sm">
                     {getOrderStatus(order.status)}
                   </p>
                 </div>
 
                 <div>
-                  <p className="font-bold">Data</p>
-                  <p className="opacity-60">{dateFormatted}</p>
+                  <p className="text-xs font-bold lg:text-sm">Data</p>
+                  <p className="opacity-60">{orderDate}</p>
                 </div>
 
                 <div>
-                  <p className="font-bold">Pagamento</p>
+                  <p className="text-xs font-bold lg:text-sm">Pagamento</p>
                   <p className="opacity-60">Cartão</p>
                 </div>
               </div>
+
+              <Separator className="hidden h-0.5 lg:block" />
 
               {order.orderProducts.map((orderProduct) => (
                 <OrderProductItem
@@ -90,21 +99,20 @@ export const OrderItem = ({ order }: Props) => {
                   orderProduct={orderProduct}
                 />
               ))}
-
               <div className="flex w-full flex-col gap-3 text-xs">
-                <Separator />
+                <Separator className="h-0.5" />
 
                 <Summary label="subtotal" value={subtotal} />
 
-                <Separator />
+                <Separator className="h-0.5" />
 
                 <Summary label="Entrega" value="grátis" />
 
-                <Separator />
+                <Separator className="h-0.5" />
 
                 <Summary label="Descontos" value={totalDiscount} />
 
-                <Separator />
+                <Separator className="h-0.5" />
 
                 <Summary
                   label="Total"

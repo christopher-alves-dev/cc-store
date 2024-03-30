@@ -27,7 +27,7 @@ export default async function OrderPage() {
   });
 
   return (
-    <div className="flex flex-col gap-5 p-5">
+    <div className="flex flex-col gap-5 p-5 xl:container">
       <Badge variant="heading">
         <ShoppingBasket size={16} />
         Meus Pedidos

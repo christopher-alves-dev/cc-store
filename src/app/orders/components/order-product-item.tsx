@@ -22,7 +22,7 @@ export const OrderProductItem = ({ orderProduct }: Props) => {
   const productHaveDiscount = productWithTotalPrice.discountPercentage > 0;
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-[77px] w-[100px] items-center justify-center rounded-lg bg-accent">
+      <div className="flex h-[77px] w-[100px] items-center justify-center rounded-lg bg-accent lg:h-[91px]">
         <Image
           src={orderProduct.product.imageUrls[0]}
           alt={orderProduct.product.name}
@@ -33,18 +33,24 @@ export const OrderProductItem = ({ orderProduct }: Props) => {
         />
       </div>
 
-      <div className="flex w-full flex-col gap-1">
+      <div className="flex w-full flex-col gap-1 lg:gap-4">
         <div className="flex w-fit rounded-md bg-accent px-3 py-1">
-          <p className="text-xxs">
+          <p className="text-xxs lg:text-xs">
             Vendido e entregue por <span className="font-bold">FSW Store</span>{" "}
           </p>
         </div>
 
-        <p className="text-xs">{orderProduct.product.name}</p>
+        <p className="text-xs lg:text-sm">{orderProduct.product.name}</p>
 
-        <div className="flex w-full items-center justify-between gap-1">
+        <p className="hidden text-xs opacity-60 lg:block">
+          Quantidade: {orderProduct.quantity}
+        </p>
+
+        <div className="flex w-full items-center justify-between gap-1 lg:hidden">
           <div className="flex items-center gap-1">
-            <p className="text-sm font-bold">{totalPriceFormatted}</p>
+            <p className="text-sm font-bold lg:text-xl">
+              {totalPriceFormatted}
+            </p>
 
             {productHaveDiscount && (
               <p className="text-xs line-through opacity-60">
@@ -53,8 +59,20 @@ export const OrderProductItem = ({ orderProduct }: Props) => {
             )}
           </div>
 
-          <p className="oapcity-60 text-xs">Qntd: {orderProduct.quantity}</p>
+          <p className="text-xs opacity-60 lg:hidden">
+            Qntd: {orderProduct.quantity}
+          </p>
         </div>
+      </div>
+
+      <div className="flex flex-col items-end gap-1">
+        <p className="text-sm font-bold lg:text-xl">{totalPriceFormatted}</p>
+
+        {productHaveDiscount && (
+          <p className="text-xs line-through opacity-60">
+            {basePriceFormatted}
+          </p>
+        )}
       </div>
     </div>
   );
