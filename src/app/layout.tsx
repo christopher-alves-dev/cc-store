@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/ui/header";
 import { AuthProvider } from "@/providers/auth";
 import { Footer } from "@/components/ui/footer";
+import { twMerge } from "tailwind-merge";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={twMerge(
+          inter.className,
+          "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar]:bg-accent",
+        )}
+      >
         <div className="flex h-full flex-col 2xl:container">
           <AuthProvider>
             <Header />
