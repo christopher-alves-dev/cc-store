@@ -33,7 +33,7 @@ export default function ProductImages({ imageUrls, name }: Props) {
           <button
             key={image}
             className={twJoin(
-              "flex h-[100px] items-center justify-center rounded-lg bg-black lg:h-[77px] lg:w-[77px]",
+              "flex h-[100px] items-center justify-center rounded-lg lg:h-[77px] lg:w-[77px] lg:bg-black",
               image === currentImage && "border-2 border-solid border-primary",
             )}
             onClick={() => handleImageClick(image)}
