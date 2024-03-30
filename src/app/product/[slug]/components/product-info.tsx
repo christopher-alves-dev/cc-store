@@ -32,22 +32,31 @@ export const ProductInfo = ({ product }: Props) => {
   };
 
   return (
-    <div className="flex flex-col px-5">
-      <h2 className="text-lg">{product.name}</h2>
+    <div className="flex flex-col px-5 lg:w-full lg:max-w-[500px] lg:rounded-lg lg:bg-accent lg:p-10">
+      <h2 className="text-lg lg:text-2xl">{product.name}</h2>
 
-      <div className="flex items-center gap-2">
-        <h1 className="text-xl font-bold">{totalPrice}</h1>
+      <div className="flex items-center gap-2 lg:pt-3">
+        <h1 className="text-xl font-bold lg:text-3xl">{totalPrice}</h1>
         {haveDiscount && (
-          <DiscountBadge>{product.discountPercentage}</DiscountBadge>
+          <DiscountBadge className="text-base">
+            {product.discountPercentage}
+          </DiscountBadge>
         )}
       </div>
 
       {haveDiscount && (
-        <p className="text-sm line-through opacity-75">{basePrice}</p>
+        <p className="text-sm line-through opacity-75 lg:text-base">
+          {basePrice}
+        </p>
       )}
 
       <div className="mt-4 flex items-center gap-2">
-        <Button size="icon" variant="outline" onClick={handleDecreaseQuantity}>
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={handleDecreaseQuantity}
+          disabled={quantity === 1}
+        >
           <ArrowLeftIcon size={16} />
         </Button>
 

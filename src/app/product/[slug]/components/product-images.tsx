@@ -16,8 +16,8 @@ export default function ProductImages({ imageUrls, name }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex h-[380px] w-full items-center justify-center bg-accent">
+    <div className="flex flex-col gap-8 lg:relative lg:flex-1">
+      <div className="flex h-[380px] w-full items-center justify-center bg-accent lg:h-full lg:rounded-lg">
         <Image
           src={currentImage}
           alt={name}
@@ -28,12 +28,12 @@ export default function ProductImages({ imageUrls, name }: Props) {
         />
       </div>
 
-      <div className="grid grid-cols-4 gap-4 px-5">
+      <div className="grid grid-cols-4 gap-4 px-5 lg:absolute lg:bottom-0 lg:pb-5 lg:pl-5">
         {imageUrls.map((image) => (
           <button
             key={image}
             className={twJoin(
-              "flex h-[100px] items-center justify-center rounded-lg bg-accent",
+              "flex h-[100px] items-center justify-center rounded-lg bg-black lg:h-[77px] lg:w-[77px]",
               image === currentImage && "border-2 border-solid border-primary",
             )}
             onClick={() => handleImageClick(image)}
