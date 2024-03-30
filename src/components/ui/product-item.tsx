@@ -40,8 +40,10 @@ export const ProductItem = ({ product }: Props) => {
           <div className="flex items-center gap-2">
             {product.discountPercentage > 0 ? (
               <>
-                <p className="font-semibold">{totalPrice}</p>
-                <p className="text-xxs line-through opacity-75">{basePrice}</p>
+                <p className="font-semibold lg:text-lg">{totalPrice}</p>
+                <p className="text-xxs line-through opacity-75 lg:text-sm">
+                  {basePrice}
+                </p>
               </>
             ) : (
               <p className="font-semibold">{totalPrice}</p>
