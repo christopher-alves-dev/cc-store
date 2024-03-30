@@ -37,7 +37,7 @@ export const Header = () => {
     await signOut();
   };
   return (
-    <Card className="mb-8 flex items-center justify-between rounded-tl-none rounded-tr-none border-2 border-gray-800 p-5">
+    <Card className="mb-8 flex items-center justify-between rounded-tl-none rounded-tr-none border-2 border-gray-800 p-5 lg:px-8">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline">
