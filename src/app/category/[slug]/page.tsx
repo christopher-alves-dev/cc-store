@@ -25,7 +25,7 @@ export default async function CategoryProducts({ params }: any) {
         {params.slug}
       </Badge>
 
-      <div className="grid grid-cols-2 gap-8 lg:flex lg:flex-wrap">
+      <div className="flex flex-wrap gap-8">
         {category.products.map((product) => (
           <ProductItem
             key={product.id}

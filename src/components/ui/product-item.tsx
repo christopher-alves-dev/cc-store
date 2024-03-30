@@ -14,7 +14,7 @@ export const ProductItem = ({ product }: Props) => {
 
   return (
     <Link href={`/product/${product.slug}`}>
-      <div className="flex flex-col gap-4">
+      <div className="flex w-[180px] flex-col gap-4">
         <div className="relative flex h-[170px] w-[180px] items-center justify-center rounded-lg bg-accent">
           <Image
             src={firstProductImage}
@@ -33,7 +33,7 @@ export const ProductItem = ({ product }: Props) => {
         </div>
 
         <div className="flex flex-col gap-1 lg:gap-1.5">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm">
+          <p className="overflow-hidden truncate text-ellipsis whitespace-nowrap text-sm">
             {product.name}
           </p>
 
@@ -41,7 +41,7 @@ export const ProductItem = ({ product }: Props) => {
             {product.discountPercentage > 0 ? (
               <>
                 <p className="font-semibold lg:text-lg">{totalPrice}</p>
-                <p className="text-xxs line-through opacity-75 lg:text-sm">
+                <p className="text-xxs line-through opacity-75 lg:text-xs">
                   {basePrice}
                 </p>
               </>

@@ -19,7 +19,7 @@ export default async function DealsPage() {
         Ofertas
       </Badge>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="flex flex-wrap gap-8">
         {deals.map((product) => (
           <ProductItem
             key={product.id}
