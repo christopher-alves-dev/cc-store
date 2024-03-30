@@ -33,6 +33,7 @@ model Product {
 
 model Order {
   id            String         @id @default(uuid())
+  code          Int            @default(autoincrement())
   userId        String
   user          User           @relation(fields: [userId], references: [id])
   orderProducts OrderProduct[]
