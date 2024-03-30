@@ -56,10 +56,7 @@ export const OrderItem = ({ order }: Props) => {
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order.id}>
           <AccordionTrigger>
-            <OrderAccordionTriggerDefault
-              label={productQuantity}
-              orderDate={orderDate}
-            />
+            <OrderAccordionTriggerDefault code={order.code} />
 
             <OrderAccordionTriggerDesktop
               data={{
