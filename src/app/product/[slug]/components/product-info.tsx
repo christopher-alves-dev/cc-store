@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { DiscountBadge } from "@/components/ui/discount-badge";
+import { useToast } from "@/components/ui/use-toast";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { useCartStore } from "@/stores/cart";
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const ProductInfo = ({ product }: Props) => {
+  const { toast } = useToast();
   const { addProductToCart } = useCartStore();
   const [quantity, setQuantity] = useState(1);
   const totalPrice = formatNumberToCurrency(product.totalPrice);
@@ -29,6 +31,12 @@ export const ProductInfo = ({ product }: Props) => {
   const handleAddProductToCart = () => {
     addProductToCart({ ...product, quantity });
     setQuantity(1);
+    toast({
+      title: "Sucesso!",
+      description: "Produto adicionado ao carrinho.",
+      variant: "success",
+      duration: 1500,
+    });
   };
 
   return (

@@ -18,7 +18,7 @@ export const Cart = () => {
     state.products,
     state.summary,
   ]);
-  const haveProducts = products.length ?? 0 > 0;
+  const haveProducts = products.length > 0;
   const subtotalFormatted = formatNumberToCurrency(summary.subtotal ?? 0);
   const totalFormatted = formatNumberToCurrency(summary?.total ?? 0);
   const totalDiscountFormatted = formatNumberToCurrency(
