@@ -2,7 +2,7 @@ type Props = {
   code: number;
 };
 
-export const OrderAccordionTriggerDefault = ({ code }: Props) => {
+export const OrderAccordionTrigger = ({ code }: Props) => {
   return (
     <div className="flex flex-col gap-1 text-left lg:hidden">
       <p className="text-sm font-bold uppercase lg:text-base">

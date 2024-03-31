@@ -13,7 +13,7 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { getOrderStatus } from "../helpers/get-order-status";
 import { Summary } from "@/components/ui/summary";
-import { OrderAccordionTriggerDefault } from "./order-accordion-trigger-default";
+import { OrderAccordionTrigger } from "./order-accordion-trigger";
 import { OrderAccordionTriggerDesktop } from "./order-accordion-trigger-desktop";
 
 type Props = {
@@ -29,8 +29,6 @@ type Props = {
 };
 
 export const OrderItem = ({ order }: Props) => {
-  const productsLength = order?.orderProducts.length;
-
   const orderDate = new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "short",
   }).format(order?.createdAt);
@@ -55,16 +53,16 @@ export const OrderItem = ({ order }: Props) => {
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order?.id}>
           <AccordionTrigger>
-            <OrderAccordionTriggerDefault code={order?.code} />
+            <OrderAccordionTrigger code={order?.code} />
 
-            {/* <OrderAccordionTriggerDesktop
+            <OrderAccordionTriggerDesktop
               data={{
                 code: order?.code,
                 orderDate,
                 paymentType: "Cartão de Crédito",
                 status: getOrderStatus(order?.status),
               }}
-            /> */}
+            />
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4 lg:gap-8">
@@ -76,10 +74,10 @@ export const OrderItem = ({ order }: Props) => {
                   </p>
                 </div>
 
-                {/* <div>
+                <div>
                   <p className="text-xs font-bold lg:text-sm">Data</p>
                   <p className="opacity-60">{orderDate}</p>
-                </div> */}
+                </div>
 
                 <div>
                   <p className="text-xs font-bold lg:text-sm">Pagamento</p>
