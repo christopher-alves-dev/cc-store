@@ -57,14 +57,14 @@ export const OrderItem = ({ order }: Props) => {
           <AccordionTrigger>
             <OrderAccordionTriggerDefault code={order?.code} />
 
-            <OrderAccordionTriggerDesktop
+            {/* <OrderAccordionTriggerDesktop
               data={{
                 code: order?.code,
                 orderDate,
                 paymentType: "Cartão de Crédito",
                 status: getOrderStatus(order?.status),
               }}
-            />
+            /> */}
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4 lg:gap-8">
@@ -76,10 +76,10 @@ export const OrderItem = ({ order }: Props) => {
                   </p>
                 </div>
 
-                <div>
+                {/* <div>
                   <p className="text-xs font-bold lg:text-sm">Data</p>
                   <p className="opacity-60">{orderDate}</p>
-                </div>
+                </div> */}
 
                 <div>
                   <p className="text-xs font-bold lg:text-sm">Pagamento</p>
