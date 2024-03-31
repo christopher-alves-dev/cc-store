@@ -29,14 +29,13 @@ type Props = {
 };
 
 export const OrderItem = ({ order }: Props) => {
-  const productsLength = order.orderProducts.length;
-  const productQuantity = `Pedido com ${productsLength > 1 ? `${productsLength} produtos` : `${productsLength} produto`}`;
+  const productsLength = order?.orderProducts.length;
 
   const orderDate = new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "short",
-  }).format(order.createdAt);
+  }).format(order?.createdAt);
 
-  const productValues = order.orderProducts.map((orderProduct) => {
+  const productValues = order?.orderProducts.map((orderProduct) => {
     const formattedPrice = computeProductTotalPrice(orderProduct.product);
     return {
       basePrice: orderProduct.basePrice,
@@ -54,16 +53,16 @@ export const OrderItem = ({ order }: Props) => {
   return (
     <Card className="border-2 px-5">
       <Accordion type="single" className="w-full" collapsible>
-        <AccordionItem value={order.id}>
+        <AccordionItem value={order?.id}>
           <AccordionTrigger>
-            <OrderAccordionTriggerDefault code={order.code} />
+            <OrderAccordionTriggerDefault code={order?.code} />
 
             <OrderAccordionTriggerDesktop
               data={{
-                code: order.code,
+                code: order?.code,
                 orderDate,
                 paymentType: "Cartão de Crédito",
-                status: getOrderStatus(order.status),
+                status: getOrderStatus(order?.status),
               }}
             />
           </AccordionTrigger>
@@ -73,7 +72,7 @@ export const OrderItem = ({ order }: Props) => {
                 <div className="font-bold">
                   <p className="text-xs lg:text-sm">Status</p>
                   <p className="text-xs text-[#8162FF] lg:text-sm">
-                    {getOrderStatus(order.status)}
+                    {getOrderStatus(order?.status)}
                   </p>
                 </div>
 
@@ -90,7 +89,7 @@ export const OrderItem = ({ order }: Props) => {
 
               <Separator className="hidden h-0.5 lg:block" />
 
-              {order.orderProducts.map((orderProduct) => (
+              {order?.orderProducts.map((orderProduct) => (
                 <OrderProductItem
                   key={orderProduct.id}
                   orderProduct={orderProduct}
