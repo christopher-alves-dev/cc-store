@@ -24,8 +24,11 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "./sheet";
+import { Badge } from "./badge";
+import { useCartStore } from "@/stores/cart";
 
 export const Header = () => {
+  const products = useCartStore((state) => state.products);
   const { status, data } = useSession();
   const isAuthenticated = status === "authenticated";
 
@@ -151,8 +154,13 @@ export const Header = () => {
 
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button size="icon" variant="outline" className="relative">
             <ShoppingCartIcon />
+            {products.length > 0 && (
+              <Badge className="absolute -right-2 -top-1 flex items-center justify-center rounded-full px-1.5 py-1">
+                <span className="leading-none">{products.length}</span>
+              </Badge>
+            )}
           </Button>
         </SheetTrigger>
 
