@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: Props) {
         <ProductInfo product={computeProductTotalPrice(product)} />
       </div>
 
-      <div className="flex flex-col gap-5 lg:pt-10">
+      <div className="flex flex-col gap-5 px-5 lg:pt-10 2xl:px-0">
         <SectionTitle className="lg:text-lg">
           produtos recomendados
         </SectionTitle>
