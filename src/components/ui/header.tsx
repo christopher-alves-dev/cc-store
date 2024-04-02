@@ -28,6 +28,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "./sheet";
+import { UserDropdownMenu } from "./user-dropdown-menu";
 
 export const Header = () => {
   const pathname = usePathname();
@@ -191,7 +192,9 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-8">
-        {!data?.user && (
+        {data?.user ? (
+          <UserDropdownMenu />
+        ) : (
           <Button
             size="icon"
             variant="outline"
