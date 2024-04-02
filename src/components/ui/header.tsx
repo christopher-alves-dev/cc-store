@@ -10,6 +10,7 @@ import {
   Percent,
   ShoppingBasket,
   ShoppingCartIcon,
+  User,
 } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -189,22 +190,35 @@ export const Header = () => {
         </Link>
       </div>
 
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button size="icon" variant="outline" className="relative">
-            <ShoppingCartIcon />
-            {products.length > 0 && (
-              <Badge className="absolute -right-2 -top-1 flex items-center justify-center rounded-full px-1.5 py-1">
-                <span className="leading-none">{products.length}</span>
-              </Badge>
-            )}
+      <div className="flex items-center gap-8">
+        {!data?.user && (
+          <Button
+            size="icon"
+            variant="outline"
+            className="hidden lg:flex"
+            onClick={handleLoginClick}
+          >
+            <User />
           </Button>
-        </SheetTrigger>
+        )}
 
-        <SheetContent className="min-w-[370px] lg:min-w-[500px]">
-          <Cart />
-        </SheetContent>
-      </Sheet>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button size="icon" variant="outline" className="relative">
+              <ShoppingCartIcon />
+              {products.length > 0 && (
+                <Badge className="absolute -right-2 -top-1 flex items-center justify-center rounded-full px-1.5 py-1">
+                  <span className="leading-none">{products.length}</span>
+                </Badge>
+              )}
+            </Button>
+          </SheetTrigger>
+
+          <SheetContent className="min-w-[370px] lg:min-w-[500px]">
+            <Cart />
+          </SheetContent>
+        </Sheet>
+      </div>
     </Card>
   );
 };
