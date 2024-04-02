@@ -5,15 +5,18 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import { useCartStore } from "@/stores/cart";
 import { loadStripe } from "@stripe/stripe-js";
 import { ShapesIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Badge } from "./badge";
 import { Button } from "./button";
 import { CartItem } from "./cart-item";
 import { Separator } from "./separator";
 import { Summary } from "./summary";
+import { useToast } from "./use-toast";
+import { ToastAction } from "./toast";
 
 export const Cart = () => {
   const { data } = useSession();
+  const { toast } = useToast();
   const [products, summary] = useCartStore((state) => [
     state.products,
     state.summary,
@@ -25,9 +28,21 @@ export const Cart = () => {
     summary?.totalDiscount ?? 0,
   );
 
+  const handleLoginClick = async () => {
+    await signIn();
+  };
+
   const handleFinishPurchaseClick = async () => {
     if (!data?.user) {
-      //TODO: redirect to login
+      toast({
+        title: "Ação necessária",
+        description: "Faça login para finalizar sua compra.",
+        action: (
+          <ToastAction altText="Fazer Login" onClick={handleLoginClick}>
+            Fazer Login
+          </ToastAction>
+        ),
+      });
       return;
     }
 
