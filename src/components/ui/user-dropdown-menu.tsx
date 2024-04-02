@@ -34,7 +34,7 @@ export const UserDropdownMenu = () => {
             </Avatar>
 
             <div className="flex flex-col">
-              <p className="font-medium">{data.user.name}</p>
+              <p className="font-medium">Olá, {data.user.name}</p>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="link"
