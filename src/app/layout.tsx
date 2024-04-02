@@ -25,7 +25,7 @@ export default function RootLayout({
       <body
         className={twMerge(
           inter.className,
-          "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar]:bg-accent",
+          "overflow-y-scroll [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar]:bg-accent",
         )}
       >
         <div className="flex h-full flex-col 2xl:container">
