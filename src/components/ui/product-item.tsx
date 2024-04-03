@@ -3,19 +3,22 @@ import { ProductWithTotalPrice } from "@/helpers/product";
 import Image from "next/image";
 import Link from "next/link";
 import { DiscountBadge } from "./discount-badge";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   product: ProductWithTotalPrice;
+  className?: string;
 };
-export const ProductItem = ({ product }: Props) => {
+
+export const ProductItem = ({ product, className }: Props) => {
   const [firstProductImage] = product.imageUrls;
   const totalPrice = formatNumberToCurrency(product.totalPrice);
   const basePrice = formatNumberToCurrency(Number(product.basePrice));
 
   return (
     <Link href={`/product/${product.slug}`}>
-      <div className="flex w-[180px] flex-col gap-4">
-        <div className="relative flex h-[170px] w-[180px] items-center justify-center rounded-lg bg-accent">
+      <div className={twMerge("flex flex-col gap-4", className)}>
+        <div className="relative flex h-[170px] items-center justify-center rounded-lg bg-accent">
           <Image
             src={firstProductImage}
             alt={product.name}
