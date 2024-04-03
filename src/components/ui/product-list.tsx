@@ -12,6 +12,7 @@ export const ProductList = ({ products }: Props) => {
         <ProductItem
           key={product.id}
           product={computeProductTotalPrice(product)}
+          className="w-[180px]"
         />
       ))}
     </div>
