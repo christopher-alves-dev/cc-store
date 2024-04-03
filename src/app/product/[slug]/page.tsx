@@ -5,6 +5,7 @@ import { ProductInfo } from "./components/product-info";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { ProductList } from "@/components/ui/product-list";
 import { SectionTitle } from "@/components/ui/section-title";
+import { ProductsCarousel } from "@/components/ui/products-carousel";
 
 type Props = {
   params: {
@@ -48,7 +49,7 @@ export default async function ProductPage({ params }: Props) {
         <SectionTitle className="lg:text-lg">
           produtos recomendados
         </SectionTitle>
-        <ProductList products={product.category.products} />
+        <ProductsCarousel products={product.category.products} />
       </div>
     </div>
   );
