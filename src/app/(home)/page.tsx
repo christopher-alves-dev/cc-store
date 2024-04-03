@@ -31,7 +31,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col">
       <Link href="/deals" target="_blank">
         <PromoBanner
           src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/banners%2Fbanner-home.png"
@@ -48,7 +48,7 @@ export default async function Home() {
         />
       </Link>
 
-      <div className="flex flex-col gap-8 px-5 xl:mx-auto xl:max-w-7xl">
+      <div className="mt-8 flex flex-col gap-8 px-5 xl:mx-auto xl:max-w-7xl">
         <Categories />
 
         <div className="flex flex-col gap-4 lg:gap-5">

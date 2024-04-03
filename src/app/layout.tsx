@@ -25,10 +25,10 @@ export default function RootLayout({
       <body
         className={twMerge(
           inter.className,
-          "overflow-y-scroll [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar]:bg-accent",
+          "flex justify-center overflow-y-scroll [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar]:bg-accent",
         )}
       >
-        <div className="flex h-full flex-col 2xl:container">
+        <div className="flex h-full w-full max-w-screen-2xl flex-col">
           <AuthProvider>
             <Header />
             <div className="flex-1">{children}</div>

@@ -8,7 +8,7 @@ export default async function page() {
   const categories = await prismaClient.category.findMany();
 
   return (
-    <div className="flex flex-col gap-8 px-5">
+    <div className="mt-10 flex flex-col gap-8 px-5">
       <Badge variant="heading">
         <ShapesIcon size={16} />
         Catálogo

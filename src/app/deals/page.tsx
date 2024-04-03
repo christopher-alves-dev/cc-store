@@ -13,7 +13,7 @@ export default async function DealsPage() {
     },
   });
   return (
-    <div className="flex flex-col gap-8 p-5">
+    <div className="mt-10 flex flex-col gap-8 px-5">
       <Badge variant="heading">
         <PercentIcon size={16} />
         Ofertas
