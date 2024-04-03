@@ -23,7 +23,7 @@ export const UserDropdownMenu = () => {
   return (
     <DropdownMenu>
       {isAuthenticated && data?.user && (
-        <div className="flex flex-col">
+        <div className="hidden lg:flex lg:flex-col">
           <div className="my-4 flex items-center gap-2">
             <Avatar>
               <AvatarFallback>
