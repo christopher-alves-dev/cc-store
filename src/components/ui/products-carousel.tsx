@@ -16,11 +16,13 @@ type Props = {
 export const ProductsCarousel = ({ products }: Props) => {
   return (
     <Carousel
+      data-hide-arrow-md={products.length <= 3}
+      data-hide-arrow-lg={products.length <= 5}
       opts={{
         loop: true,
         align: "start",
       }}
-      className="md:relative md:px-10"
+      className="group md:relative md:px-10"
     >
       <CarouselContent className="lg:-ml-8">
         {products.map((product) => (
@@ -33,15 +35,13 @@ export const ProductsCarousel = ({ products }: Props) => {
         ))}
       </CarouselContent>
       <CarouselPrevious
-        data-hide={products.length === 0}
         className={
-          "hidden bg-primary md:absolute md:-left-2 md:top-1/2 md:flex md:-translate-y-1/2"
+          "hidden bg-primary md:absolute md:-left-2 md:top-1/2 md:flex md:-translate-y-1/2 md:group-data-[hide-arrow-md=true]:hidden lg:group-data-[hide-arrow-lg=true]:hidden"
         }
       />
       <CarouselNext
-        data-hide={products.length === 0}
         className={
-          "hidden bg-primary md:absolute md:-right-2 md:top-1/2 md:flex md:-translate-y-1/2"
+          "hidden bg-primary md:absolute md:-right-2 md:top-1/2 md:flex md:-translate-y-1/2 md:group-data-[hide-arrow-md=true]:hidden lg:group-data-[hide-arrow-lg=true]:hidden"
         }
       />
     </Carousel>
