@@ -7,7 +7,7 @@ export const SectionTitle = ({
   ...rest
 }: ComponentProps<"p">) => {
   return (
-    <p className={twMerge("font-bold uppercase", className)} {...rest}>
+    <p className={twMerge("font-bold uppercase md:pl-10", className)} {...rest}>
       {children}
     </p>
   );

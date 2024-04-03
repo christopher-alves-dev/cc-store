@@ -4,6 +4,7 @@ import { ProductList } from "@/components/ui/product-list";
 import { PromoBanner } from "./components/promo-banner";
 import { SectionTitle } from "@/components/ui/section-title";
 import Link from "next/link";
+import { ProductsCarousel } from "@/components/ui/products-carousel";
 
 export default async function Home() {
   const deals = await prismaClient.product.findMany({
@@ -53,7 +54,7 @@ export default async function Home() {
 
         <div className="flex flex-col gap-4 lg:gap-5">
           <SectionTitle>Ofertas</SectionTitle>
-          <ProductList products={deals} />
+          <ProductsCarousel products={deals} />
         </div>
 
         <div className="flex gap-9">
@@ -75,11 +76,12 @@ export default async function Home() {
           </Link>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <SectionTitle>Teclados</SectionTitle>
-          <ProductList products={keyboards} />
-        </div>
-
+        {keyboards.length > 0 && (
+          <div className="flex flex-col gap-4">
+            <SectionTitle>Teclados</SectionTitle>
+            <ProductsCarousel products={keyboards} />
+          </div>
+        )}
         <PromoBanner
           src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/banners%2Fbanner-fones.png"
           alt="Até 20% de desconto em fones"
@@ -92,10 +94,12 @@ export default async function Home() {
           className="hidden lg:block"
         />
 
-        <div className="flex flex-col gap-4">
-          <SectionTitle>Mouses</SectionTitle>
-          <ProductList products={mouses} />
-        </div>
+        {mouses.length > 0 && (
+          <div className="flex flex-col gap-4">
+            <SectionTitle>Mouses</SectionTitle>
+            <ProductsCarousel products={mouses} />
+          </div>
+        )}
       </div>
     </div>
   );
