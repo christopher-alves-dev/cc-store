@@ -63,11 +63,14 @@ export default async function Home() {
               alt="Até 55% de desconto em mouses"
             />
           </Link>
-          <Link href="/category/headphones" className="w-full" target="_blank">
+          <Link
+            href="/category/headphones"
+            className="hidden w-full lg:block"
+            target="_blank"
+          >
             <PromoBanner
               src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/banners%2Fbanner-fones.png"
               alt="Até 20% de desconto em fones"
-              className="hidden lg:block"
             />
           </Link>
         </div>
