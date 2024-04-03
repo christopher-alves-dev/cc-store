@@ -14,7 +14,7 @@ export default async function page() {
         Catálogo
       </Badge>
 
-      <div className="flex flex-wrap gap-8">
+      <div className="grid grid-cols-2 justify-between gap-8 md:grid-cols-3 lg:gap-10 xl:grid-cols-4">
         {categories.map((category) => (
           <CategoryItem key={category.id} category={category} />
         ))}
