@@ -9,8 +9,14 @@ import {
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { ProductWithTotalPrice } from "@/helpers/product";
 
+export type ProductWithTotalPriceAndCategory = ProductWithTotalPrice & {
+  category: {
+    name: string;
+  };
+};
+
 type Props = {
-  products: ProductWithTotalPrice[];
+  products: ProductWithTotalPriceAndCategory[];
 };
 
 export const ProductsTable = ({ products }: Props) => {
@@ -30,7 +36,7 @@ export const ProductsTable = ({ products }: Props) => {
         {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell>{product.name}</TableCell>
-            <TableCell>Categoria</TableCell>
+            <TableCell>{product.category.name}</TableCell>
             <TableCell>{formatNumberToCurrency(product.totalPrice)}</TableCell>
             <TableCell>
               {formatNumberToCurrency(Number(product.basePrice))}
