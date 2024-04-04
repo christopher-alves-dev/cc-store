@@ -21,8 +21,8 @@ export default async function ProductsDashboardPage() {
 
   const productsWithTotalPrice: ProductWithTotalPriceAndCategory[] =
     products.map((product) => ({
-      ...computeProductTotalPrice(product),
-      category: product.category,
+      ...product,
+      totalPrice: computeProductTotalPrice(product),
     }));
 
   return (

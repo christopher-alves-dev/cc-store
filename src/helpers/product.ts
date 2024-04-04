@@ -5,20 +5,14 @@ export type ProductWithTotalPrice = Product & {
 };
 
 export const computeProductTotalPrice = (
-  product: Product,
-): ProductWithTotalPrice => {
+  product: Pick<Product, "discountPercentage" | "basePrice">,
+): number => {
+  const productBasePrice = Number(product.basePrice);
   if (product.discountPercentage === 0) {
-    return {
-      ...product,
-      totalPrice: Number(product.basePrice),
-    };
+    return productBasePrice;
   }
 
-  const totalDiscount =
-    Number(product.basePrice) * (product.discountPercentage / 100);
+  const totalDiscount = productBasePrice * (product.discountPercentage / 100);
 
-  return {
-    ...product,
-    totalPrice: Number(product.basePrice) - totalDiscount,
-  };
+  return productBasePrice - totalDiscount;
 };

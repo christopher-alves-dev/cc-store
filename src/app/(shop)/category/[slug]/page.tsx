@@ -29,7 +29,10 @@ export default async function CategoryProducts({ params }: any) {
         {category.products.map((product) => (
           <ProductItem
             key={product.id}
-            product={computeProductTotalPrice(product)}
+            product={{
+              ...product,
+              totalPrice: computeProductTotalPrice(product),
+            }}
           />
         ))}
       </div>

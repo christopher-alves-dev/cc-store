@@ -42,7 +42,12 @@ export default async function ProductPage({ params }: Props) {
     <div className="mt-10 flex flex-col gap-8 pb-8 lg:gap-0 lg:pb-10">
       <div className="flex flex-col gap-8 lg:flex-row lg:pb-10">
         <ProductImages imageUrls={product.imageUrls} name={product.name} />
-        <ProductInfo product={computeProductTotalPrice(product)} />
+        <ProductInfo
+          product={{
+            ...product,
+            totalPrice: computeProductTotalPrice(product),
+          }}
+        />
       </div>
 
       <div className="flex flex-col gap-5 px-5 lg:pt-10 2xl:px-0">

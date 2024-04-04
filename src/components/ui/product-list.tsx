@@ -11,7 +11,10 @@ export const ProductList = ({ products }: Props) => {
       {products.map((product) => (
         <ProductItem
           key={product.id}
-          product={computeProductTotalPrice(product)}
+          product={{
+            ...product,
+            totalPrice: computeProductTotalPrice(product),
+          }}
           className="w-[180px]"
         />
       ))}

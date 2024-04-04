@@ -30,7 +30,12 @@ export const ProductsCarousel = ({ products }: Props) => {
             key={product.id}
             className="basis-1/2 md:basis-1/3 lg:basis-1/5 lg:pl-8"
           >
-            <ProductItem product={computeProductTotalPrice(product)} />
+            <ProductItem
+              product={{
+                ...product,
+                totalPrice: computeProductTotalPrice(product),
+              }}
+            />
           </CarouselItem>
         ))}
       </CarouselContent>

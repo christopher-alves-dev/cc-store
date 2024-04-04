@@ -13,13 +13,11 @@ type Props = {
 
 export const OrderProductItem = ({ orderProduct }: Props) => {
   const productWithTotalPrice = computeProductTotalPrice(orderProduct.product);
-  const totalPriceFormatted = formatNumberToCurrency(
-    productWithTotalPrice.totalPrice,
-  );
+  const totalPriceFormatted = formatNumberToCurrency(productWithTotalPrice);
   const basePriceFormatted = formatNumberToCurrency(
-    Number(productWithTotalPrice.basePrice),
+    Number(productWithTotalPrice),
   );
-  const productHaveDiscount = productWithTotalPrice.discountPercentage > 0;
+  const productHaveDiscount = productWithTotalPrice > 0;
   return (
     <div className="flex items-center gap-4">
       <div className="flex h-[77px] w-[100px] items-center justify-center rounded-lg bg-accent lg:h-[91px]">

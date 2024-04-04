@@ -38,7 +38,7 @@ export const OrderItem = ({ order }: Props) => {
     return {
       basePrice: orderProduct.basePrice,
       quantity: orderProduct.quantity,
-      totalPrice: formattedPrice.totalPrice,
+      totalPrice: formattedPrice,
     };
   });
 
