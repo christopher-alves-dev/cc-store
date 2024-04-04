@@ -11,10 +11,10 @@ import { Separator } from "@/components/ui/separator";
 import { updateSummary } from "@/stores/helpers/summary-utils";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
-import { getOrderStatus } from "../helpers/get-order-status";
+import { getOrderStatus } from "@/app/(shop)/orders/helpers/get-order-status";
 import { Summary } from "@/components/ui/summary";
-import { OrderAccordionTrigger } from "./order-accordion-trigger";
-import { OrderAccordionTriggerDesktop } from "./order-accordion-trigger-desktop";
+import { OrderAccordionTrigger } from "@/app/(shop)/orders/components/order-accordion-trigger";
+import { OrderAccordionTriggerDesktop } from "@/app/(shop)/orders/components/order-accordion-trigger-desktop";
 
 type Props = {
   order: Prisma.OrderGetPayload<{

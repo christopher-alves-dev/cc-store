@@ -4,7 +4,7 @@ import { prismaClient } from "@/lib/prisma";
 import { ShoppingBasket } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { LoginButton } from "./components/login-button";
-import { OrderItem } from "./components/order-item";
+import { OrderItem } from "@/components/ui/order-item";
 
 export default async function OrderPage() {
   const session = await getServerSession(authOptions);
