@@ -32,7 +32,7 @@ export const Sidebar = () => {
 
         <Link href="/dashboard/products">
           <Button
-            data-active={pathname.includes("/dashboard/products")}
+            data-active={pathname.includes("/products")}
             variant="outline"
             className="flex w-full justify-start gap-2 text-base"
           >
@@ -43,7 +43,7 @@ export const Sidebar = () => {
 
         <Link href="/dashboard/categories">
           <Button
-            data-active={pathname.includes("/dashboard/categories")}
+            data-active={pathname.includes("/categories")}
             variant="outline"
             className="flex w-full justify-start gap-2 text-base"
           >
