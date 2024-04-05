@@ -1,9 +1,10 @@
 <h1 align="center">
   <img alt="ChrisCode Dev" title="ChrisCode Dev" src="public/logo.png" width="100px" />
-
-  <img alt="CC Store" title="FSW Store" src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/fsw-store-logo.png" width="100px" />
-  
 </h1>
+
+<p align="center">
+  <img alt="CC Store" title="FSW Store" src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/fsw-store-logo.png" width="150px" />
+</p>
 
 # Computer Peripherals E-commerce
 
@@ -17,7 +18,9 @@ This project is an e-commerce platform specializing in selling computer peripher
 
 - **Product Grouping:** Products are categorized and grouped according to their type and category, making it easier for users to navigate and find specific items.
 
-- **Data Management:** We are implementing a comprehensive data management system for the e-commerce, allowing for efficient and intuitive addition, editing, and removal of products.
+- **Integration with payment infrastructure:** Complete simulation of product purchase in e-commerce. 
+
+- **Data Management:** I am implementing a comprehensive data management system for the e-commerce, allowing for efficient and intuitive addition, editing, and removal of products.
 
 ## Technologies Used
 
