@@ -1,40 +1,62 @@
 <h1 align="center">
-  <img alt="CC Store" title="CC Store" src="public/logo.png" width="100px" />
+  <img alt="ChrisCode Dev" title="ChrisCode Dev" src="public/logo.png" width="100px" />
+
+  <img alt="CC Store" title="FSW Store" src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/fsw-store-logo.png" width="100px" />
+  
 </h1>
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Computer Peripherals E-commerce
 
-## Getting Started
+This project is an e-commerce platform specializing in selling computer peripherals. We offer a wide variety of products, from keyboards and mice to monitors and headsets, ensuring that users find everything they need to enhance their computing experience.
 
-First, run the development server:
+## Key Features
+
+- **Customized Login:** Users can easily log in via their google email to access their recent orders and purchase history, providing a personalized experience.
+
+- **Responsiveness:** The layout is adaptable to all devices, ensuring a seamless experience across different screen sizes.
+
+- **Product Grouping:** Products are categorized and grouped according to their type and category, making it easier for users to navigate and find specific items.
+
+- **Data Management:** We are implementing a comprehensive data management system for the e-commerce, allowing for efficient and intuitive addition, editing, and removal of products.
+
+## Technologies Used
+
+- **[Next.js:](https://nextjs.org/)** For optimized performance ensuring a fast and efficient user experience and my familiarity with the technology.
+
+- **[Supabase:](https://supabase.com/)** As a database, due to its real-time capabilities, it allows for updates and data synchronization across multiple devices, ensuring a consistent experience for users.
+
+- **[Prisma ORM:](https://www.prisma.io/)** Because its a efficient query builder, have a GUI for viewing and editing data in the database, and easy-to-use migration system.
+
+- **[Shadcn/ui:](https://ui.shadcn.com/)** For building the user interface i used Shadcn/ui for its ability to create accessible, functional, and fully customizable components, speeding up UI development.
+
+- **[Stripe:](https://stripe.com/br)** As a payment infrastructure, I integrated Stripe because of its excellent integration API, guaranteeing secure and reliable transactions for our customers.
+
+## How To
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+##### Clone this repo #####
+
+# https
+$ git clone https://github.com/christopher-alves-dev/cc-store.git
+
+# ssh
+$ git clone git@github.com:christopher-alves-dev/cc-store.git
+
+##### Access this repo #####
+$ cd cc-store
+
+##### Install dependencies #####
+$ npm install
+
+##### Run the application #####
+$ npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Upcoming features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **[WIP] - Data Management:** We are implementing a comprehensive data management system for the e-commerce, allowing for efficient and intuitive addition, editing, and removal of products.
+- **Customer Reviews and Ratings**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Made with 💙 by Christopher Alves :wave: [Get in touch!](https://www.linkedin.com/in/chrisleoalves/)
