@@ -10,6 +10,16 @@
 
 This project is an e-commerce platform specializing in selling computer peripherals. We offer a wide variety of products, from keyboards and mice to monitors and headsets, ensuring that users find everything they need to enhance their computing experience.
 
+## Demo
+- [FSW Store](https://cc-fsw-store.vercel.app/)
+
+## Screenshot
+<p>
+  <img alt="CC Store" title="FSW Store" src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/screenshot-mobile.png" width="150px" />
+  <img alt="CC Store" title="FSW Store" src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/screenshot-desktop.jpeg" width="150px" />
+</p>
+
+
 ## Key Features
 
 - **Customized Login:** Users can easily log in via their google email to access their recent orders and purchase history, providing a personalized experience.
