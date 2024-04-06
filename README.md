@@ -8,7 +8,7 @@
 
 # Computer Peripherals E-commerce
 
-This project is an e-commerce platform specializing in selling computer peripherals. We offer a wide variety of products, from keyboards and mice to monitors and headsets, ensuring that users find everything they need to enhance their computing experience.
+This project is an e-commerce platform specializing in selling computer peripherals. It was built to study and practice web development with cutting-edge technologies. 
 
 ## Demo
 - [FSW Store](https://cc-fsw-store.vercel.app/)
