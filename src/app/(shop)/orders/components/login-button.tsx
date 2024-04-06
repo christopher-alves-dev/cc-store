@@ -10,7 +10,7 @@ export const LoginButton = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="mt-10 flex flex-col items-center gap-6">
       <p className="text-center font-semibold">
         Faça login para ver seus pedidos
       </p>
