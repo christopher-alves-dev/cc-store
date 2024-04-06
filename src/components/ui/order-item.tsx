@@ -26,9 +26,10 @@ type Props = {
       };
     };
   }>;
+  defaultValue?: string;
 };
 
-export const OrderItem = ({ order }: Props) => {
+export const OrderItem = ({ order, defaultValue }: Props) => {
   const orderDate = new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "short",
   }).format(order?.createdAt);
@@ -50,7 +51,12 @@ export const OrderItem = ({ order }: Props) => {
 
   return (
     <Card className="border-2 px-5">
-      <Accordion type="single" className="w-full" collapsible>
+      <Accordion
+        type="single"
+        className="w-full"
+        collapsible
+        defaultValue={defaultValue}
+      >
         <AccordionItem value={order?.id}>
           <AccordionTrigger>
             <OrderAccordionTrigger code={order?.code} />
