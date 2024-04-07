@@ -14,6 +14,9 @@ export default async function OrderPage() {
   }
 
   const orders = await prismaClient.order.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
     where: {
       userId: session.user.id,
     },
