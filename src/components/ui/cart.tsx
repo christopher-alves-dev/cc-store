@@ -50,7 +50,7 @@ export const Cart = () => {
 
     const checkout = await createCheckout(products, order.id);
 
-    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
     stripe?.redirectToCheckout({
       sessionId: checkout.id,
     });
