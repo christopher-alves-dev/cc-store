@@ -52,7 +52,7 @@ export default async function ProductsDashboardPage() {
             Produtos encontrados: {products.length}
           </p>
 
-          <SheetTrigger>
+          <SheetTrigger asChild>
             <Button className="flex gap-2">
               <PlusIcon size={20} />
               Adicionar produto
