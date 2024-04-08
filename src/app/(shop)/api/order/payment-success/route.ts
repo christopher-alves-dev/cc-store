@@ -2,11 +2,11 @@ import { prismaClient } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2023-10-16",
-});
-
 export const POST = async (request: Request) => {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2023-10-16",
+  });
+
   const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
