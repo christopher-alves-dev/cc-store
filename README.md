@@ -65,6 +65,20 @@ $ npm install
 $ npm run dev
 ```
 
+## Test Account
+
+To see your orders you should be logged in, so you can signIn with Google, Discord, Github or a user tester account that i created.
+
+```bash
+##### User tester account #####
+
+# email
+user@test.com
+
+# password
+test-pass
+```
+
 ## Upcoming features
 
 - **[WIP] - Data Management:** We are implementing a comprehensive data management system for the e-commerce, allowing for efficient and intuitive addition, editing, and removal of products.
