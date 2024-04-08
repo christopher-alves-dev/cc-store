@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
 
-export const PATCH = async (request: Request) => {
+export const POST = async (request: Request) => {
   const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
