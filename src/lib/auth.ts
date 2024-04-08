@@ -40,7 +40,10 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         const user = { id: 1, name: "user@test.com", password: "test-pass" };
 
-        if (credentials?.username === user.name && credentials?.password) {
+        if (
+          credentials?.username === user.name &&
+          credentials?.password === user.password
+        ) {
           const getUserTester = await prismaClient.user.findFirst({
             where: { email: user.name },
           });
