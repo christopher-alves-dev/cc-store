@@ -19,6 +19,7 @@ export const FormInput = <T extends FieldValues>({
   name,
   control,
   label,
+  className,
   ...rest
 }: Props<T>) => {
   return (
@@ -26,7 +27,7 @@ export const FormInput = <T extends FieldValues>({
       control={control}
       name={name}
       render={({ field, fieldState }) => (
-        <FormItem>
+        <FormItem className={className}>
           {label && (
             <FormLabel className="text-base font-bold">{label}</FormLabel>
           )}

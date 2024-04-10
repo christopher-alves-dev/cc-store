@@ -1,20 +1,20 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useProductsForm } from "../hooks/useProductsForm";
-import { ArrowUpFromLineIcon } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Category } from "@prisma/client";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Category } from "@prisma/client";
+import { FormInput } from "../../components/form-input";
+import { useProductsForm } from "../hooks/useProductsForm";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
@@ -34,14 +34,11 @@ export const ProductsForm = ({ categories }: Props) => {
         className="flex flex-col gap-8"
       >
         <div className="flex flex-col gap-3">
-          <Label htmlFor="name" className="text-base font-bold">
-            Nome
-          </Label>
-          <Input
-            id="name"
-            className="border-gray-800"
+          <FormInput
+            name="name"
+            control={formMethods.control}
+            label="Nome"
             placeholder="Nome"
-            {...formMethods.register("name")}
           />
         </div>
 
@@ -87,6 +84,8 @@ export const ProductsForm = ({ categories }: Props) => {
                       </FormLabel>
                     </FormItem>
                   ))}
+
+                  <FormMessage />
                 </RadioGroup>
               </FormControl>
             )}
@@ -94,14 +93,11 @@ export const ProductsForm = ({ categories }: Props) => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <Label htmlFor="price" className="text-base font-bold">
-            Preço
-          </Label>
-          <Input
-            id="price"
-            className="border-gray-800"
+          <FormInput
+            name="price"
+            control={formMethods.control}
+            label="Preço"
             placeholder="R$ 0,00"
-            {...formMethods.register("price")}
           />
         </div>
 
@@ -121,12 +117,12 @@ export const ProductsForm = ({ categories }: Props) => {
           </Label>
 
           <div className="flex items-center gap-2">
-            <Input
-              id="discountPercentage"
-              className="max-w-[100px] border-gray-800"
+            {/* TODO: Create currency input and discount percentage input, both with mask */}
+            <FormInput
+              name="discountPercentage"
+              control={formMethods.control}
               placeholder="0%"
-              type="number"
-              {...formMethods.register("discountPercentage")}
+              className="max-w-[100px]"
             />
             <span>%</span>
           </div>
