@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Category } from "@prisma/client";
 import { FormInput } from "../../components/form-input";
+import { FormInputCurrency } from "../../components/form-input-currency";
 import { useProductsForm } from "../hooks/useProductsForm";
 
 type Props = {
@@ -93,7 +94,7 @@ export const ProductsForm = ({ categories }: Props) => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <FormInput
+          <FormInputCurrency
             name="price"
             control={formMethods.control}
             label="Preço"
