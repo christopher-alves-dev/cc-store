@@ -12,10 +12,13 @@ import {
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
+import { useMemo } from "react";
 import { FormInput } from "../../components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
 import { useProductsForm } from "../hooks/useProductsForm";
+import { calculateTotalPrice } from "../../helpers/calculate-total-price";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
@@ -23,16 +26,24 @@ type Props = {
 
 export const ProductsForm = ({ categories }: Props) => {
   const { formMethods } = useProductsForm();
-  console.log({ erros: formMethods.formState.errors });
   const onSubmit = (e: any, errors: any) => {
     console.log({ e, errors });
   };
+  const [price, discountPercentage] = formMethods.watch([
+    "price",
+    "discountPercentage",
+  ]);
+
+  const totalPrice: number = useMemo(
+    () => calculateTotalPrice(price, discountPercentage),
+    [price, discountPercentage],
+  );
 
   return (
     <Form {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8"
+        className="flex flex-1 flex-col gap-8"
       >
         <div className="flex flex-col gap-3">
           <FormInput
@@ -118,7 +129,6 @@ export const ProductsForm = ({ categories }: Props) => {
           </Label>
 
           <div className="flex items-center gap-2">
-            {/* TODO: Create currency input and discount percentage input, both with mask */}
             <FormInput
               name="discountPercentage"
               control={formMethods.control}
@@ -132,7 +142,7 @@ export const ProductsForm = ({ categories }: Props) => {
         <div className="flex flex-col gap-3">
           <p className="text-base font-bold">Preço com Desconto</p>
           <p className="text-base font-normal">
-            Colocar preço normal menos a porcentagem de desconto
+            {formatNumberToCurrency(totalPrice)}
           </p>
         </div>
 

@@ -7,7 +7,11 @@ export const productsSchema = z.object({
     })
     .min(2, "Nome muito curto")
     .max(255, "Nome muito longo"),
-  price: z.coerce.number().min(0.01, "Preço inválido"),
+  price: z.coerce
+    .string({
+      required_error: "Campo obrigatório",
+    })
+    .min(1, "Campo obrigatório"),
   category: z
     .string({ required_error: "Escolha uma categoria" })
     .min(1, "Categoria inválida"),
