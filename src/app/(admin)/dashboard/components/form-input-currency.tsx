@@ -54,8 +54,6 @@ export const FormInputCurrency = <T extends FieldValues>({
                 )}
                 {...field}
                 onChange={(event) => {
-                  if (!event.target.value) return;
-
                   handleChange(event, field);
                 }}
                 {...rest}
