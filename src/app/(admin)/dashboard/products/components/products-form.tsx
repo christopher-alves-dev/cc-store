@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -10,87 +9,43 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
-import {
-  ChangeEvent,
-  useCallback,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { ArrowUpFromLineIcon } from "lucide-react";
+import { useMemo } from "react";
+import { DeleteButton } from "../../components/delete-button";
 import { FormInput } from "../../components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
-import { useProductsForm } from "../hooks/useProductsForm";
+import { SubmitButton } from "../../components/submit-button";
 import { calculateTotalPrice } from "../../helpers/calculate-total-price";
-import { Input } from "@/components/ui/input";
-import { ArrowUpFromLineIcon } from "lucide-react";
-import { uploadFile } from "@/actions/upload-file";
-import { useForm } from "react-hook-form";
+import { createProduct } from "../actions/create-product";
+import { useProductsForm } from "../hooks/useProductsForm";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
 };
 
 export const ProductsForm = ({ categories }: Props) => {
-  const [isPending, startTransition] = useTransition();
   // const [previewImg, setPreviewImg] = useState<string>();
   const { formMethods } = useProductsForm();
-  // const [price, discountPercentage, productHaveDiscount, images] =
-  //   formMethods.watch([
-  //     "price",
-  //     "discountPercentage",
-  //     "productHaveDiscount",
-  //     "images",
-  //   ]);
+  const [price, discountPercentage, haveDiscount, images] = formMethods.watch([
+    "price",
+    "discountPercentage",
+    "haveDiscount",
+    "images",
+  ]);
 
-  const handleUploadFile = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      reader.result;
-    };
-    reader.readAsDataURL(file);
-
-    console.log("uploading file");
-    console.log({ file });
-  };
-
-  const onSubmit = formMethods.handleSubmit((data) => {
-    const formData = new FormData();
-    console.log({ data: data.images[0] });
-    formData.append("file", data.images[0]);
-
-    startTransition(() => {
-      uploadFile(formData)
-        .then((response) => {
-          const url = response?.url;
-
-          if (!url) return;
-
-          return fetch(url, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "image/png",
-            },
-            body: data.images[0],
-          });
-        })
-        .then((res) => {
-          console.log({ res });
-        });
-    });
-  });
-
-  // const totalPrice: number = useMemo(
-  //   () => calculateTotalPrice(String(price), Number(discountPercentage)),
-  //   [price, discountPercentage],
-  // );
+  const totalPrice: number = useMemo(
+    () => calculateTotalPrice(String(price), Number(discountPercentage)),
+    [price, discountPercentage],
+  );
 
   return (
     <Form {...formMethods}>
-      <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-8 ">
+      <form action={createProduct} className="flex flex-1 flex-col gap-8 ">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-3">
             <FormInput
@@ -108,17 +63,6 @@ export const ProductsForm = ({ categories }: Props) => {
               className="absolute inset-0"
               accept="image/*"
               {...formMethods.register("images")}
-              // onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              //   if (event?.target?.files?.[0]) {
-              //     const file = event.target.files[0];
-              //     formMethods.setValue("images", file);
-              //     const reader = new FileReader();
-              //     // reader.onloadend = () => {
-              //     //   setPreviewImg(reader.result as string);
-              //     // };
-              //     // reader.readAsDataURL(file);
-              //   }
-              // }}
             />
             <Label
               htmlFor="productImages"
@@ -139,7 +83,7 @@ export const ProductsForm = ({ categories }: Props) => {
             </div>
           )} */}
 
-          {/* <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             <Label className="font-bold">Categorias</Label>
 
             <FormField
@@ -147,11 +91,7 @@ export const ProductsForm = ({ categories }: Props) => {
               name="category"
               render={({ field }) => (
                 <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="grid grid-cols-2 space-y-1"
-                  >
+                  <RadioGroup {...field} className="grid grid-cols-2 space-y-1">
                     {categories.map((category) => (
                       <FormItem
                         key={category.id}
@@ -182,48 +122,63 @@ export const ProductsForm = ({ categories }: Props) => {
             />
           </div>
 
-          <div className="items-top flex space-x-3">
-            <Checkbox
-              id="productHaveDiscount"
-              onCheckedChange={(cheked) =>
-                formMethods.setValue("productHaveDiscount", Boolean(cheked))
-              }
-            />
-            <Label htmlFor="productHaveDiscount">Produto com Desconto</Label>
-          </div>
+          <FormField
+            control={formMethods.control}
+            name="haveDiscount"
+            render={({ field }) => (
+              <FormItem className="flex items-center space-x-3 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={(checked) => {
+                      if (!checked) {
+                        formMethods.resetField("discountPercentage");
+                      }
 
-          <div className="flex flex-col gap-3">
-            <Label htmlFor="discountPercentage" className="text-base font-bold">
-              Porcentagem de Desconto
-            </Label>
+                      return field.onChange(checked);
+                    }}
+                  />
+                </FormControl>
 
-            <div className="flex items-center gap-2">
-              <FormInput
-                name="discountPercentage"
-                control={formMethods.control}
-                placeholder="0%"
-                className="max-w-[100px]"
-              />
-              <span>%</span>
-            </div>
-          </div>
+                <FormLabel>O produto possui desconto?</FormLabel>
+              </FormItem>
+            )}
+          />
 
-          {productHaveDiscount && (
-            <div className="flex flex-col gap-3">
-              <p className="text-base font-bold">Preço com Desconto</p>
-              <p className="text-base font-normal">
-                {formatNumberToCurrency(totalPrice)}
-              </p>
-            </div>
-          )}*/}
+          {haveDiscount && (
+            <>
+              <div className="flex flex-col gap-3">
+                <Label
+                  htmlFor="discountPercentage"
+                  className="text-base font-bold"
+                >
+                  Porcentagem de Desconto
+                </Label>
+
+                <div className="flex items-center gap-2">
+                  <FormInput
+                    name="discountPercentage"
+                    control={formMethods.control}
+                    placeholder="0%"
+                    className="max-w-[100px]"
+                  />
+                  <span>%</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <p className="text-base font-bold">Preço com Desconto</p>
+                <p className="text-base font-normal">
+                  {formatNumberToCurrency(totalPrice)}
+                </p>
+              </div>
+            </>
+          )}
         </div>
         <div className="mt-auto flex flex-col gap-5">
-          <Button type="submit" className="w-full">
-            Salvar
-          </Button>
-          <Button className="w-full" variant="secondary">
-            Remover produto
-          </Button>
+          <SubmitButton />
+
+          <DeleteButton>Remover Produto</DeleteButton>
         </div>
       </form>
     </Form>
