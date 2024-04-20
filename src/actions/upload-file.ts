@@ -1,6 +1,6 @@
 "use server";
+
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const s3Client = new S3Client({
   region: "auto",
@@ -11,52 +11,19 @@ const s3Client = new S3Client({
   },
 });
 
-const uploadFileToS3 = async (file, fileName) => {
-  const fileBuffer = file;
+export const uploadFile = async (form: FormData) => {
+  const images = form.get("images") as File;
 
-  const params = {};
-};
+  const buffer = (await images.arrayBuffer()) as Buffer;
 
-export const uploadFile = async (formData: any) => {
-  try {
-    console.log({ formData: formData });
-    const file = formData.get("file");
-    console.log({ file });
+  const key = `uploaded-files/${images.name}`;
 
-    const preSignedUrl = await getSignedUrl(
-      s3Client,
-      new PutObjectCommand({
-        Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME,
-        Key: file.name,
-        ContentType: "image/png",
-        ACL: "public-read",
-      }),
-      {
-        expiresIn: 3600,
-      },
-    );
+  const command = new PutObjectCommand({
+    Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME,
+    ACL: "public-read",
+    Key: key,
+    Body: buffer,
+  });
 
-    console.log({ preSignedUrl });
-
-    return {
-      url: preSignedUrl,
-    };
-    // if (file?.size === 0) {
-    //   return { status: "error", message: "Falha ao fazer upload das imagens" };
-    // }
-
-    // const buffer = Buffer.from(await file.arrayBuffer())
-    // await uploadFileToS3(buffer, file.name);
-  } catch (error) {}
-  // const formData = new FormData();
-  // formData.append("file", file);
-
-  // const response = await fetch("/api/upload-file", {
-  //   method: "POST",
-  //   body: formData,
-  // });
-
-  // const data = await response.json();
-
-  // return data;
+  await s3Client.send(command);
 };
