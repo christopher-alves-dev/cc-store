@@ -16,11 +16,12 @@ export const productsSchema = z.object({
     .string({ required_error: "Escolha uma categoria" })
     .min(1, "Categoria inválida"),
   productHaveDiscount: z.boolean(),
-  discountPercentage: z
+  discountPercentage: z.coerce
     .number()
     .min(0, "Desconto inválido")
     .max(100, "Desconto inválido"),
   // images: z.array(z.string().url()).min(1, "Imagem inválida"),
+  images: z.any().optional(),
 });
 
 export type ProductsSchemaType = z.infer<typeof productsSchema>;
