@@ -15,5 +15,9 @@ declare namespace NodeJS {
     NEXTAUTH_SECRET: string;
     HOST_URL: string;
     HOST_SUCCESS_URL: string;
+    CLOUDFLARE_R2_TOKEN_VALUE: string;
+    CLOUDFLARE_R2_ACCESS_KEY_ID: string;
+    CLOUDFLARE_R2_SECRET_ACCESS_KEY: string;
+    CLOUDFLARE_R2_BUCKET_URL: string;
   }
 }
