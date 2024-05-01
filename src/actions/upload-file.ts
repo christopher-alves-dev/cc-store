@@ -11,12 +11,10 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadFile = async (form: FormData) => {
-  const images = form.get("images") as File;
+export const uploadFile = async (form: File) => {
+  const buffer = (await form.arrayBuffer()) as Buffer;
 
-  const buffer = (await images.arrayBuffer()) as Buffer;
-
-  const key = `uploaded-files/${images.name}`;
+  const key = `uploaded-files/${form.name}`;
 
   const command = new PutObjectCommand({
     Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME,
