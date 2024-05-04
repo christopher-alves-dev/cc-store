@@ -11,10 +11,10 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadFile = async (form: File) => {
-  const buffer = (await form.arrayBuffer()) as Buffer;
+export const uploadFile = async (file: File): Promise<string | undefined> => {
+  const buffer = (await file.arrayBuffer()) as Buffer;
 
-  const key = `uploaded-files/${form.name}`;
+  const key = `uploaded-files/${file.name}`;
 
   const command = new PutObjectCommand({
     Bucket: process.env.CLOUDFLARE_R2_BUCKET_NAME,
@@ -23,5 +23,13 @@ export const uploadFile = async (form: File) => {
     Body: buffer,
   });
 
-  await s3Client.send(command);
+  const { $metadata } = await s3Client.send(command);
+
+  let fileUploadedUrl;
+  if ($metadata.httpStatusCode !== 200) {
+    return fileUploadedUrl;
+  }
+  fileUploadedUrl = `${process.env.CLOUDFLARE_R2_PUB_BUCKET_URL}/${process.env.CLOUDFLARE_R2_FOLDER_NAME}/${file.name}`;
+
+  return fileUploadedUrl;
 };

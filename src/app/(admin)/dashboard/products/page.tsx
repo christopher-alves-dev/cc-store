@@ -62,7 +62,7 @@ export default async function ProductsDashboardPage() {
 
         <SheetContent
           side="right"
-          className="flex min-w-[400px] flex-col gap-8 overflow-y-auto px-8 py-10"
+          className="flex min-w-[400px] flex-col gap-8 overflow-y-auto px-8 py-10 lg:min-w-[450px]"
         >
           <SheetHeader className="text-left text-lg font-semibold">
             <Badge variant="heading">

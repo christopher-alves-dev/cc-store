@@ -19,5 +19,7 @@ declare namespace NodeJS {
     CLOUDFLARE_R2_ACCESS_KEY_ID: string;
     CLOUDFLARE_R2_SECRET_ACCESS_KEY: string;
     CLOUDFLARE_R2_BUCKET_URL: string;
+    CLOUDFLARE_R2_PUB_BUCKET_URL: string;
+    CLOUDFLARE_R2_FOLDER_NAME: string;
   }
 }

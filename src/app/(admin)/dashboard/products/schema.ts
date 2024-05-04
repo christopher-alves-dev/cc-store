@@ -27,9 +27,9 @@ export const productsSchema = z.object({
     .min(0, "Desconto inválido")
     .max(100, "Desconto inválido"),
   imageSelecteds: z
-    .custom<FileList>()
+    .custom<File[]>()
     .refine((files) => {
-      return files.length !== 0;
+      return files?.length !== 0;
     }, "Selecione ao menos uma imagem")
     .refine((files) => {
       return Array.from(files ?? []).every(

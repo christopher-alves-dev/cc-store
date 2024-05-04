@@ -13,6 +13,7 @@ export const useProductsForm = () => {
       discountPercentage: 0,
       price: "",
       haveDiscount: false,
+      imageSelecteds: [],
     },
   });
 
