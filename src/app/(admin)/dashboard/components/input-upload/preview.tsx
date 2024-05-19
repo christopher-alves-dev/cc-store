@@ -34,7 +34,7 @@ const Preview = forwardRef<
         {...rest}
         ref={ref}
         className={twMerge(
-          "group relative aspect-square h-28 cursor-pointer rounded-md border-2 border-gray-800 py-2",
+          "group relative aspect-square h-28 cursor-pointer overflow-hidden rounded-md border-2 border-gray-800 py-2",
           rest.className,
         )}
       >
