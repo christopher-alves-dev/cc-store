@@ -14,6 +14,7 @@ import {
 } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { maskCurrency } from "../helpers/masks";
+import { InputUnit } from "./input-unit";
 
 type Props<T extends FieldValues> = InputHTMLAttributes<HTMLInputElement> &
   UseControllerProps<T> & {
@@ -58,11 +59,7 @@ export const FormInputCurrency = <T extends FieldValues>({
                 }}
                 {...rest}
               />
-              {!!field.value && (
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm">
-                  R$
-                </span>
-              )}
+              {!!field.value && <InputUnit>R$</InputUnit>}
             </div>
           </FormControl>
           <FormMessage />

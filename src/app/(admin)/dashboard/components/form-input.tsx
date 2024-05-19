@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { InputHTMLAttributes } from "react";
 import { FieldValues, UseControllerProps } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+import { InputUnit } from "./input-unit";
 
 type Props<T extends FieldValues> = InputHTMLAttributes<HTMLInputElement> &
   UseControllerProps<T> & {
@@ -32,14 +33,18 @@ export const FormInput = <T extends FieldValues>({
             <FormLabel className="text-base font-bold">{label}</FormLabel>
           )}
           <FormControl>
-            <Input
-              className={twMerge(
-                "border-gray-800",
-                fieldState.error && "border-red-600",
-              )}
-              {...field}
-              {...rest}
-            />
+            <div className="relative">
+              <Input
+                className={twMerge(
+                  "border-gray-800",
+                  fieldState.error && "border-red-600",
+                )}
+                {...field}
+                {...rest}
+              />
+
+              {!!field.value && <InputUnit direction="right">%</InputUnit>}
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>
