@@ -25,7 +25,10 @@ import { useProductsForm } from "../hooks/useProductsForm";
 import { ProductsSchemaType } from "../schema";
 
 import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
-import { normalizeFileName } from "@/helpers/normalize-file-name";
+import { normalizeFileName } from "@/helpers/normalize";
+import { FormTextArea } from "../../components/form-text-area";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 type ImagePreviewState = {
   url: string;
@@ -45,7 +48,6 @@ export const ProductsForm = ({ categories }: Props) => {
     "discountPercentage",
     "haveDiscount",
   ]);
-  const inputRef = formMethods.register("imageSelecteds");
 
   const handleDeleteImage = (imageToRemove: File) => {
     const filteredImages = imagesPreview.filter(
@@ -74,10 +76,11 @@ export const ProductsForm = ({ categories }: Props) => {
       const mergeImages = [...prevState, ...imagesWithUrl];
       formMethods.setValue(
         "imageSelecteds",
-        mergeImages.map((image) => image.file) as any,
+        mergeImages.map((image) => image.file),
       );
       return mergeImages;
     });
+    formMethods.trigger("imageSelecteds");
   };
 
   const totalPrice: number = useMemo(
@@ -85,7 +88,7 @@ export const ProductsForm = ({ categories }: Props) => {
     [price, discountPercentage],
   );
 
-  const onSubmit = (data: ProductsSchemaType) => {
+  const onSubmit = async (data: ProductsSchemaType) => {
     const { imageSelecteds, ...restData } = data;
     const dataArrayWithoutImages = [];
 
@@ -95,14 +98,29 @@ export const ProductsForm = ({ categories }: Props) => {
 
     const formData = new FormData();
     dataArrayWithoutImages.forEach((field) => {
-      formData.append(field.key, field.value);
+      formData.append(field.key, field.value as any);
     });
 
     imagesPreview.forEach((image) => {
       formData.append("imageSelecteds", image.file);
     });
 
-    createProduct(formData);
+    const result = await createProduct(formData);
+
+    if (result?.error) {
+      return toast({
+        title: "Erro!",
+        variant: "destructive",
+        description:
+          "Ops, houve um erro ao criar o produto. Tente novamente mais tarde.",
+      });
+    }
+
+    toast({
+      title: "Sucesso!",
+      variant: "success",
+      description: "Produto criado com sucesso!",
+    });
   };
 
   return (
@@ -149,7 +167,6 @@ export const ProductsForm = ({ categories }: Props) => {
                 {imagesPreview.length < 4 && (
                   <InputUpload.TriggerWrapper>
                     <InputUpload.Trigger
-                      {...inputRef}
                       multiple
                       id="productImages"
                       accept=".png, .jpg, .jpeg"
@@ -165,11 +182,12 @@ export const ProductsForm = ({ categories }: Props) => {
                   </InputUpload.TriggerWrapper>
                 )}
               </InputUpload.Content>
-
-              {formMethods.formState.errors.imageSelecteds && (
-                <InputUpload.ErrorMessage>testeeee</InputUpload.ErrorMessage>
-              )}
             </InputUpload.Root>
+            {formMethods.formState.errors.imageSelecteds && (
+              <InputUpload.ErrorMessage>
+                {formMethods.formState.errors.imageSelecteds.message}
+              </InputUpload.ErrorMessage>
+            )}
           </div>
 
           <div className="flex flex-col gap-3">
@@ -191,7 +209,7 @@ export const ProductsForm = ({ categories }: Props) => {
                         className="flex items-center space-x-3 space-y-0"
                       >
                         <FormControl>
-                          <RadioGroupItem value={category.name} />
+                          <RadioGroupItem value={category.id} />
                         </FormControl>
                         <FormLabel className="mt-0 font-normal">
                           {category.name}
@@ -239,7 +257,7 @@ export const ProductsForm = ({ categories }: Props) => {
           />
 
           {haveDiscount && (
-            <>
+            <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-3">
                 <Label
                   htmlFor="discountPercentage"
@@ -248,15 +266,11 @@ export const ProductsForm = ({ categories }: Props) => {
                   Porcentagem de Desconto
                 </Label>
 
-                <div className="flex items-center gap-2">
-                  <FormInput
-                    name="discountPercentage"
-                    control={formMethods.control}
-                    placeholder="0%"
-                    className="max-w-[100px]"
-                  />
-                  <span>%</span>
-                </div>
+                <FormInput
+                  name="discountPercentage"
+                  control={formMethods.control}
+                  placeholder="0%"
+                />
               </div>
 
               <div className="flex flex-col gap-3">
@@ -265,7 +279,7 @@ export const ProductsForm = ({ categories }: Props) => {
                   {formatNumberToCurrency(totalPrice)}
                 </p>
               </div>
-            </>
+            </div>
           )}
         </div>
         <div className="mt-auto flex flex-col gap-5">
