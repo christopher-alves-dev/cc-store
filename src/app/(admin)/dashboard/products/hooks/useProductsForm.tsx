@@ -9,8 +9,9 @@ export const useProductsForm = () => {
     resolver: zodResolver(productsSchema),
     defaultValues: {
       name: "",
+      description: "",
       category: "",
-      discountPercentage: 0,
+      discountPercentage: "",
       price: "",
       haveDiscount: false,
       imageSelecteds: [],

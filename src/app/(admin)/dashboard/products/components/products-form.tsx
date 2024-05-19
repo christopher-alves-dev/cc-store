@@ -122,6 +122,15 @@ export const ProductsForm = ({ categories }: Props) => {
           </div>
 
           <div className="flex flex-col gap-3">
+            <FormTextArea
+              name="description"
+              control={formMethods.control}
+              label="Descrição"
+              placeholder="Descrição do produto"
+            />
+          </div>
+
+          <div className="flex flex-col gap-3">
             <div>
               <InputUpload.Label htmlFor="productImages">
                 Imagens do produto (máximo 4)
