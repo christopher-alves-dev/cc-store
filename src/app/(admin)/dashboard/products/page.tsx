@@ -1,15 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { prismaClient } from "@/lib/prisma";
 import { PackageIcon, PlusIcon } from "lucide-react";
-import { ProductsForm } from "./components/products-form";
+import { ProductSheet } from "./components/product-sheet";
 import {
   ProductWithTotalPriceAndCategory,
   ProductsTable,
@@ -31,6 +25,9 @@ export default async function ProductsDashboardPage() {
         },
       },
     },
+    orderBy: {
+      name: "desc",
+    },
   });
 
   const productsWithTotalPrice: ProductWithTotalPriceAndCategory[] =
@@ -46,34 +43,21 @@ export default async function ProductsDashboardPage() {
         Produtos
       </Badge>
 
-      <Sheet>
-        <div className="flex w-full items-center justify-between">
-          <p className="text-lg font-bold">
-            Produtos encontrados: {products.length}
-          </p>
+      <div className="flex w-full items-center justify-between">
+        <p className="text-lg font-bold">
+          Produtos encontrados: {products.length}
+        </p>
 
-          <SheetTrigger asChild>
+        <ProductSheet
+          categories={categories}
+          triggerElement={
             <Button className="flex gap-2">
               <PlusIcon size={20} />
               Adicionar produto
             </Button>
-          </SheetTrigger>
-        </div>
-
-        <SheetContent
-          side="right"
-          className="flex min-w-[400px] flex-col gap-8 overflow-y-auto px-8 py-10 lg:min-w-[450px]"
-        >
-          <SheetHeader className="text-left text-lg font-semibold">
-            <Badge variant="heading">
-              <PackageIcon size={18} />
-              Adicionar produto
-            </Badge>
-          </SheetHeader>
-
-          <ProductsForm categories={categories} />
-        </SheetContent>
-      </Sheet>
+          }
+        />
+      </div>
 
       <ProductsTable products={productsWithTotalPrice} />
     </div>

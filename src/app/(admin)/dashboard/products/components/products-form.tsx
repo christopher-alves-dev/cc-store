@@ -37,9 +37,13 @@ type ImagePreviewState = {
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
+  onCreateProduct?: (isOpen: boolean) => void;
 };
 
-export const ProductsForm = ({ categories }: Props) => {
+// FALTA
+// ADICIONAR EDIÇÃO E REMOÇÃO DE PRODUTOS NA TABELA.
+
+export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
   const [imagesPreview, setImagesPreview] = useState<ImagePreviewState[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { formMethods } = useProductsForm();
@@ -90,6 +94,7 @@ export const ProductsForm = ({ categories }: Props) => {
   );
 
   const onSubmit = async (data: ProductsSchemaType) => {
+    setIsSubmitting(true);
     const { imageSelecteds, ...restData } = data;
     const dataArrayWithoutImages = [];
 
@@ -109,6 +114,7 @@ export const ProductsForm = ({ categories }: Props) => {
     const result = await createProduct(formData);
 
     if (result?.error) {
+      setIsSubmitting(false);
       return toast({
         title: "Erro!",
         variant: "destructive",
@@ -117,11 +123,13 @@ export const ProductsForm = ({ categories }: Props) => {
       });
     }
 
+    setIsSubmitting(false);
     toast({
       title: "Sucesso!",
       variant: "success",
       description: "Produto criado com sucesso!",
     });
+    onCreateProduct && onCreateProduct(false);
   };
 
   return (

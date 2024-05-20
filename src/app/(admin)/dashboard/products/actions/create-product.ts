@@ -8,14 +8,12 @@ import { revalidatePath } from "next/cache";
 export const createProduct = async (form: FormData) => {
   try {
     const images = form.getAll("imageSelecteds") as File[];
-
     const rawFormData = Object.fromEntries(form.entries());
     const uploadUrlsArray: string[] = [];
-
     const productSlug = normalize(rawFormData.name as string);
+
     for (const image of images) {
       const result = await uploadFile(image);
-
       if (result) {
         uploadUrlsArray.push(result);
       }
@@ -53,6 +51,5 @@ export const createProduct = async (form: FormData) => {
       },
     };
   }
-
   revalidatePath("dashboard/products");
 };
