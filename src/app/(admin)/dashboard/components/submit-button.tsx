@@ -1,14 +1,14 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { useFormStatus } from "react-dom";
+import { ButtonHTMLAttributes } from "react";
 
-export const SubmitButton = () => {
-  const { pending } = useFormStatus();
+type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
+  pending?: boolean;
+};
 
+export const SubmitButton = ({ pending = false, ...rest }: Props) => {
   return (
-    <Button type="submit" className="w-full gap-2" disabled={pending}>
+    <Button className="w-full gap-2" disabled={pending} {...rest}>
       {pending ? (
         <>
           <Loader2 className="h-[1em] w-[1em] animate-spin" />
