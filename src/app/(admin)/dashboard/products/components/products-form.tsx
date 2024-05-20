@@ -41,6 +41,7 @@ type Props = {
 
 export const ProductsForm = ({ categories }: Props) => {
   const [imagesPreview, setImagesPreview] = useState<ImagePreviewState[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { formMethods } = useProductsForm();
 
   const [price, discountPercentage, haveDiscount] = formMethods.watch([
@@ -283,9 +284,7 @@ export const ProductsForm = ({ categories }: Props) => {
           )}
         </div>
         <div className="mt-auto flex flex-col gap-5">
-          <SubmitButton />
-
-          <DeleteButton>Remover Produto</DeleteButton>
+          <SubmitButton pending={isSubmitting} />
         </div>
       </form>
     </Form>
