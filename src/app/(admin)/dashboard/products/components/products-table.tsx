@@ -26,40 +26,36 @@ import {
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/use-toast";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
-import { ProductWithTotalPrice } from "@/helpers/product";
+import { useProductManager } from "@/stores/product-manager";
+import { useProductSheet } from "@/stores/product-sheet";
+import { ProductWithTotalPriceAndCategory } from "@/types/product";
 import { CircleEllipsis } from "lucide-react";
 import { useState } from "react";
 import { deleteProduct } from "../actions/delete-product";
-
-export type ProductWithTotalPriceAndCategory = ProductWithTotalPrice & {
-  category: {
-    name: string;
-  };
-};
 
 type Props = {
   products: ProductWithTotalPriceAndCategory[];
 };
 
 export const ProductsTable = ({ products }: Props) => {
+  const { product, updateProduct, resetProduct } = useProductManager();
+  const { toggle } = useProductSheet();
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
-  const [productToDelete, setProductToDelete] =
-    useState<ProductWithTotalPriceAndCategory>(
-      {} as ProductWithTotalPriceAndCategory,
-    );
+
+  const handleEditProduct = (product: ProductWithTotalPriceAndCategory) => {
+    updateProduct(product);
+    toggle(true);
+  };
 
   const handleConfirmDeleteProduct = (
     product: ProductWithTotalPriceAndCategory,
   ) => {
-    setProductToDelete(product);
+    updateProduct(product);
     setOpenConfirmDelete((prevState) => !prevState);
   };
 
-  const handleDeleteProduct = async (
-    product: ProductWithTotalPriceAndCategory,
-  ) => {
-    const formData = new FormData();
-    formData.append("id", product.id);
+  const handleDeleteProduct = async () => {
+    if (!product?.id) return;
 
     const result = await deleteProduct(product.id);
 
@@ -77,6 +73,7 @@ export const ProductsTable = ({ products }: Props) => {
       variant: "success",
       description: "Produto deletado com sucesso!",
     });
+    resetProduct();
   };
 
   return (
@@ -111,7 +108,10 @@ export const ProductsTable = ({ products }: Props) => {
                     <CircleEllipsis />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={() => handleEditProduct(product)}
+                    >
                       Editar
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -134,18 +134,14 @@ export const ProductsTable = ({ products }: Props) => {
             <AlertDialogTitle>Excluir produto</AlertDialogTitle>
             <AlertDialogDescription>
               Você tem certeza que deseja excluir o produto{" "}
-              <span className="font-bold text-primary">
-                {productToDelete.name}?
-              </span>{" "}
+              <span className="font-bold text-primary">{product?.name}?</span>{" "}
               Esta ação não poderá ser desfeita e o produto será permanentemente
               removido.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => handleDeleteProduct(productToDelete)}
-            >
+            <AlertDialogAction onClick={handleDeleteProduct}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -4,10 +4,8 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import { prismaClient } from "@/lib/prisma";
 import { PackageIcon, PlusIcon } from "lucide-react";
 import { ProductSheet } from "./components/product-sheet";
-import {
-  ProductWithTotalPriceAndCategory,
-  ProductsTable,
-} from "./components/products-table";
+import { ProductsTable } from "./components/products-table";
+import { ProductWithTotalPriceAndCategory } from "@/types/product";
 
 export default async function ProductsDashboardPage() {
   const categories = await prismaClient.category.findMany({
@@ -19,11 +17,7 @@ export default async function ProductsDashboardPage() {
 
   const products = await prismaClient.product.findMany({
     include: {
-      category: {
-        select: {
-          name: true,
-        },
-      },
+      category: true,
     },
     orderBy: {
       name: "desc",
@@ -48,15 +42,7 @@ export default async function ProductsDashboardPage() {
           Produtos encontrados: {products.length}
         </p>
 
-        <ProductSheet
-          categories={categories}
-          triggerElement={
-            <Button className="flex gap-2">
-              <PlusIcon size={20} />
-              Adicionar produto
-            </Button>
-          }
-        />
+        <ProductSheet categories={categories} />
       </div>
 
       <ProductsTable products={productsWithTotalPrice} />
