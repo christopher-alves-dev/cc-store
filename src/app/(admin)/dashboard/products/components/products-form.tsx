@@ -15,7 +15,6 @@ import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
 import { Plus } from "lucide-react";
 import { ChangeEvent, useMemo, useState } from "react";
-import { DeleteButton } from "../../components/delete-button";
 import { FormInput } from "../../components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
 import { SubmitButton } from "../../components/submit-button";
@@ -25,10 +24,9 @@ import { useProductsForm } from "../hooks/useProductsForm";
 import { ProductsSchemaType } from "../schema";
 
 import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
+import { toast } from "@/components/ui/use-toast";
 import { normalizeFileName } from "@/helpers/normalize";
 import { FormTextArea } from "../../components/form-text-area";
-import { toast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 
 type ImagePreviewState = {
   url: string;
@@ -41,7 +39,7 @@ type Props = {
 };
 
 // FALTA
-// ADICIONAR EDIÇÃO E REMOÇÃO DE PRODUTOS NA TABELA.
+// ADICIONAR EDIÇÃO PRODUTOS NA TABELA. CRIAR FORM DE EDIÇÃO OU USAR MESMO DE CRIAÇÃO?
 
 export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
   const [imagesPreview, setImagesPreview] = useState<ImagePreviewState[]>([]);

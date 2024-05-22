@@ -5,12 +5,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { TextareaHTMLAttributes } from "react";
 import { FieldValues, UseControllerProps } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
-import { InputUnit } from "./input-unit";
-import { Textarea } from "@/components/ui/textarea";
 
 type Props<T extends FieldValues> =
   TextareaHTMLAttributes<HTMLTextAreaElement> &
@@ -41,8 +39,6 @@ export const FormTextArea = <T extends FieldValues>({
                 {...field}
                 {...rest}
               />
-
-              {!!field.value && <InputUnit direction="right">%</InputUnit>}
             </div>
           </FormControl>
           <FormMessage />
