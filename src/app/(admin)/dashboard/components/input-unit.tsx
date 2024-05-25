@@ -21,7 +21,7 @@ const InputUnit = forwardRef<
       {...rest}
       ref={ref}
       className={twMerge(
-        "absolute right-3 top-1/2 -translate-y-1/2 text-sm",
+        "absolute right-3 top-1/2 w-fit -translate-y-1/2 text-sm",
         direction === "left" ? "left-3" : "right-3",
         rest.className,
       )}
