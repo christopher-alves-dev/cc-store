@@ -4,9 +4,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProductsSchemaType, productsSchema } from "../schema";
 import { useProductManager } from "@/stores/product-manager";
+import { maskCurrency } from "../../helpers/masks";
 
 export const useProductsForm = () => {
   const { product } = useProductManager();
+
+  let productBasePrice;
+
+  if (product?.basePrice) {
+    const productPriceHaveCents = Number(product.basePrice) % 1 !== 0;
+
+    productBasePrice = product.basePrice;
+
+    if (!productPriceHaveCents) {
+      productBasePrice = `${product.basePrice}.00`;
+    }
+  }
 
   const formMethods = useForm<ProductsSchemaType>({
     resolver: zodResolver(productsSchema),
@@ -17,7 +30,7 @@ export const useProductsForm = () => {
       discountPercentage: !!product?.discountPercentage
         ? String(product.discountPercentage)
         : "",
-      price: !!product?.basePrice ? String(product?.basePrice) : "",
+      price: !!productBasePrice ? maskCurrency(String(productBasePrice)) : "",
       haveDiscount:
         (!!product?.discountPercentage && product.discountPercentage > 0) ??
         false,
