@@ -20,7 +20,7 @@ export const updateProduct = async (form: UpdateProductParams) => {
     if (!category) {
       return {
         error: {
-          message: "Category not found",
+          message: "Categoria não encontrada",
         },
       };
     }
@@ -46,13 +46,13 @@ export const updateProduct = async (form: UpdateProductParams) => {
 
     return {
       success: {
-        message: "Update with success",
+        message: "Produto atualizado com sucesso",
       },
     };
   } catch (error) {
     return {
       error: {
-        message: "Error updating product",
+        message: "Erro ao atualizar produto",
       },
     };
   }

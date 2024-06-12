@@ -16,7 +16,7 @@ export const createProduct = async (form: ProductsSchemaType) => {
     if (!category) {
       return {
         error: {
-          message: "Category not found",
+          message: "Categoria não encontrada",
         },
       };
     }
@@ -39,13 +39,13 @@ export const createProduct = async (form: ProductsSchemaType) => {
 
     return {
       success: {
-        message: "Product created with success",
+        message: "Produto criado com sucesso",
       },
     };
   } catch (error) {
     return {
       error: {
-        message: "Error creating product",
+        message: "Erro ao criar produto",
       },
     };
   }

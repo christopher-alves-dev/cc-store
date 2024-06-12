@@ -13,7 +13,7 @@ export const deleteProduct = async (productId: string) => {
   } catch (error) {
     return {
       error: {
-        message: "Error deleting product",
+        message: "Erro ao deletar o produto",
       },
     };
   }
