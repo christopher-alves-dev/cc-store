@@ -1,11 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { prismaClient } from "@/lib/prisma";
-import { PackageIcon, PlusIcon } from "lucide-react";
+import { ProductWithTotalPriceAndCategory } from "@/types/product";
+import { PackageIcon } from "lucide-react";
 import { ProductSheet } from "./components/product-sheet";
 import { ProductsTable } from "./components/products-table";
-import { ProductWithTotalPriceAndCategory } from "@/types/product";
 
 export default async function ProductsDashboardPage() {
   const categories = await prismaClient.category.findMany({

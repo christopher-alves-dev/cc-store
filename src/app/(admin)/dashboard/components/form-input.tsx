@@ -14,6 +14,7 @@ import { InputUnit } from "./input-unit";
 type Props<T extends FieldValues> = InputHTMLAttributes<HTMLInputElement> &
   UseControllerProps<T> & {
     label?: string;
+    unit?: string;
   };
 
 export const FormInput = <T extends FieldValues>({
@@ -21,6 +22,7 @@ export const FormInput = <T extends FieldValues>({
   control,
   label,
   className,
+  unit,
   ...rest
 }: Props<T>) => {
   return (
@@ -43,7 +45,9 @@ export const FormInput = <T extends FieldValues>({
                 {...rest}
               />
 
-              {!!field.value && <InputUnit direction="right">%</InputUnit>}
+              {!!field.value && !!unit && (
+                <InputUnit direction="right">{unit}</InputUnit>
+              )}
             </div>
           </FormControl>
           <FormMessage />

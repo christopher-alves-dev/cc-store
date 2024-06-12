@@ -11,9 +11,21 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadFile = async (file: File): Promise<string | undefined> => {
-  const buffer = (await file.arrayBuffer()) as Buffer;
+type UploadFileResponse = {
+  success?: {
+    message: string;
+    url: string;
+  };
+  error?: {
+    message: string;
+  };
+};
 
+export const uploadFile = async (
+  image: FormData,
+): Promise<UploadFileResponse> => {
+  const file = image.get("file") as File;
+  const buffer = (await file.arrayBuffer()) as Buffer;
   const key = `uploaded-files/${file.name}`;
 
   const command = new PutObjectCommand({
@@ -27,9 +39,19 @@ export const uploadFile = async (file: File): Promise<string | undefined> => {
 
   let fileUploadedUrl;
   if ($metadata.httpStatusCode !== 200) {
-    return fileUploadedUrl;
+    return {
+      error: {
+        message: "Erro ao fazer upload da imagem",
+      },
+    };
   }
+
   fileUploadedUrl = `${process.env.CLOUDFLARE_R2_PUB_BUCKET_URL}/${process.env.CLOUDFLARE_R2_FOLDER_NAME}/${file.name}`;
 
-  return fileUploadedUrl;
+  return {
+    success: {
+      message: "Upload realizado com sucesso",
+      url: fileUploadedUrl,
+    },
+  };
 };

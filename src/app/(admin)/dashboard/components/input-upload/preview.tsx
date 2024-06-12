@@ -12,10 +12,7 @@ import { ComponentPropsWithoutRef, HTMLAttributes, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 type PreviewData = {
-  data: {
-    url: string;
-    alt?: string;
-  };
+  data: string;
 };
 
 type ActionsProps = {
@@ -39,8 +36,9 @@ const Preview = forwardRef<
         )}
       >
         <Image
-          src={data.url}
-          alt={data.alt ?? ""}
+          src={data}
+          alt={data}
+          quality={100}
           fill
           className="object-cover"
         />
@@ -61,16 +59,15 @@ const Preview = forwardRef<
         </Button>
 
         <DialogContent>
-          <DialogHeader>
-            <DialogDescription>
-              <Image
-                src={data.url}
-                alt={data.alt ?? ""}
-                width={0}
-                height={0}
-                className="h-full w-full object-cover"
-              />
-            </DialogDescription>
+          <DialogHeader className="relative flex h-[400px] items-center justify-center">
+            <Image
+              src={data}
+              alt={data}
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-auto max-h-[90%] w-full"
+            />
           </DialogHeader>
         </DialogContent>
       </div>

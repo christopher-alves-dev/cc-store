@@ -7,7 +7,7 @@ import { useProductManager } from "@/stores/product-manager";
 import { maskCurrency } from "../../helpers/masks";
 
 export const useProductsForm = () => {
-  const { product } = useProductManager();
+  const product = useProductManager((state) => state.product);
 
   let productBasePrice;
 
@@ -34,11 +34,12 @@ export const useProductsForm = () => {
       haveDiscount:
         (!!product?.discountPercentage && product.discountPercentage > 0) ??
         false,
-      imageSelecteds: [],
+      imageSelecteds: product?.imageUrls ?? [],
     },
   });
 
   return {
     formMethods,
+    productId: product?.id,
   };
 };

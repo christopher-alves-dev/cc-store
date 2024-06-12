@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
 import { Plus } from "lucide-react";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState, useTransition } from "react";
 import { FormInput } from "../../components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
 import { SubmitButton } from "../../components/submit-button";
@@ -23,28 +23,24 @@ import { createProduct } from "../actions/create-product";
 import { useProductsForm } from "../hooks/useProductsForm";
 import { ProductsSchemaType } from "../schema";
 
+import { uploadFile } from "@/actions/upload-file";
 import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
 import { toast } from "@/components/ui/use-toast";
 import { normalizeFileName } from "@/helpers/normalize";
 import { FormTextArea } from "../../components/form-text-area";
-
-type ImagePreviewState = {
-  url: string;
-  file: File;
-};
+import { updateProduct } from "../actions/update-product";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
   onCreateProduct?: (isOpen: boolean) => void;
 };
 
-// FALTA
-// ADICIONAR EDIÇÃO PRODUTOS NA TABELA. CRIAR FORM DE EDIÇÃO OU USAR MESMO DE CRIAÇÃO?
-
 export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
-  const [imagesPreview, setImagesPreview] = useState<ImagePreviewState[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { formMethods } = useProductsForm();
+  const [pending, startTransition] = useTransition();
+  const { formMethods, productId } = useProductsForm();
+  const [imagesPreview, setImagesPreview] = useState<string[]>(
+    formMethods.getValues("imageSelecteds"),
+  );
 
   const [price, discountPercentage, haveDiscount] = formMethods.watch([
     "price",
@@ -52,37 +48,71 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
     "haveDiscount",
   ]);
 
-  const handleDeleteImage = (imageToRemove: File) => {
+  const handleDeleteImage = (imageToRemove: string) => {
     const filteredImages = imagesPreview.filter(
-      (image) => image.file.name !== imageToRemove.name,
+      (image) => image !== imageToRemove,
     );
 
     formMethods.setValue(
       "imageSelecteds",
-      filteredImages.map((image) => image.file) as any,
+      filteredImages.map((image) => image),
     );
     setImagesPreview(filteredImages);
   };
 
-  const handlePreviewImg = (event: ChangeEvent<HTMLInputElement>) => {
+  const handlePreviewImg = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
-    const images = Array.from(event.target.files!);
-    const imagesWithUrl = images.map((file) => {
-      const renamedFile = normalizeFileName(file);
-      return {
-        url: URL.createObjectURL(file),
-        file: renamedFile,
-      };
-    });
+    if (event.target.files.length > 4) {
+      return toast({
+        variant: "destructive",
+        description:
+          "Número máximo de imagens excedido. Selecione no máximo 4 imagens.",
+      });
+    }
+
+    const selectedImages = Array.from(event.target.files);
+
+    const uploadedImages: string[] = [];
+
+    for (const [index, image] of selectedImages.entries()) {
+      const formData = new FormData();
+      formData.append("file", normalizeFileName(image));
+
+      toast({
+        title: "Upload",
+        description: `Realizando upload ${index + 1} de ${selectedImages.length}`,
+      });
+      const response = await uploadFile(formData);
+
+      if (response.error?.message) {
+        toast({
+          title: "Erro",
+          variant: "destructive",
+          description: `${response.error.message} ${index + 1}`,
+        });
+      } else {
+        uploadedImages.push(response.success!.url);
+      }
+    }
+
+    if (!uploadedImages.length) return;
+
     setImagesPreview((prevState) => {
-      const mergeImages = [...prevState, ...imagesWithUrl];
+      const mergeImages = [...prevState, ...uploadedImages];
       formMethods.setValue(
         "imageSelecteds",
-        mergeImages.map((image) => image.file),
+        mergeImages.map((image) => image),
       );
       return mergeImages;
     });
+
+    toast({
+      title: "Sucesso",
+      variant: "success",
+      description: `Upload${selectedImages.length > 1 ? "s realizados com sucesso" : " realizado com sucesso"}`,
+    });
+
     formMethods.trigger("imageSelecteds");
   };
 
@@ -92,42 +122,26 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
   );
 
   const onSubmit = async (data: ProductsSchemaType) => {
-    setIsSubmitting(true);
-    const { imageSelecteds, ...restData } = data;
-    const dataArrayWithoutImages = [];
+    startTransition(async () => {
+      const result = productId
+        ? await updateProduct({ ...data, id: productId })
+        : await createProduct(data);
 
-    for (const [key, value] of Object.entries(restData)) {
-      dataArrayWithoutImages.push({ key, value });
-    }
-
-    const formData = new FormData();
-    dataArrayWithoutImages.forEach((field) => {
-      formData.append(field.key, field.value as any);
+      if (result?.error) {
+        toast({
+          title: "Erro!",
+          variant: "destructive",
+          description: result.error.message,
+        });
+      } else {
+        toast({
+          title: "Sucesso!",
+          variant: "success",
+          description: result?.success.message,
+        });
+        onCreateProduct && onCreateProduct(false);
+      }
     });
-
-    imagesPreview.forEach((image) => {
-      formData.append("imageSelecteds", image.file);
-    });
-
-    const result = await createProduct(formData);
-
-    if (result?.error) {
-      setIsSubmitting(false);
-      return toast({
-        title: "Erro!",
-        variant: "destructive",
-        description:
-          "Ops, houve um erro ao criar o produto. Tente novamente mais tarde.",
-      });
-    }
-
-    setIsSubmitting(false);
-    toast({
-      title: "Sucesso!",
-      variant: "success",
-      description: "Produto criado com sucesso!",
-    });
-    onCreateProduct && onCreateProduct(false);
   };
 
   return (
@@ -165,9 +179,9 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
               <InputUpload.Content className="flex flex-wrap gap-4">
                 {imagesPreview.map((image) => (
                   <InputUpload.Preview
-                    key={image.file.name}
+                    key={image}
                     data={image}
-                    onRemove={() => handleDeleteImage(image.file)}
+                    onRemove={() => handleDeleteImage(image)}
                   />
                 ))}
 
@@ -277,6 +291,7 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
                   name="discountPercentage"
                   control={formMethods.control}
                   placeholder="0%"
+                  unit="%"
                 />
               </div>
 
@@ -290,7 +305,7 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
           )}
         </div>
         <div className="mt-auto flex flex-col gap-5">
-          <SubmitButton pending={isSubmitting} />
+          <SubmitButton pending={pending} />
         </div>
       </form>
     </Form>

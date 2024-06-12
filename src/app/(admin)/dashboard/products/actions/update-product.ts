@@ -5,7 +5,11 @@ import { prismaClient } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { ProductsSchemaType } from "../schema";
 
-export const createProduct = async (form: ProductsSchemaType) => {
+type UpdateProductParams = ProductsSchemaType & {
+  id: string;
+};
+
+export const updateProduct = async (form: UpdateProductParams) => {
   try {
     const productSlug = normalize(form.name as string);
 
@@ -21,7 +25,10 @@ export const createProduct = async (form: ProductsSchemaType) => {
       };
     }
 
-    await prismaClient.product.create({
+    await prismaClient.product.update({
+      where: {
+        id: form.id,
+      },
       data: {
         categoryId: category.id,
         name: form.name,
@@ -39,13 +46,13 @@ export const createProduct = async (form: ProductsSchemaType) => {
 
     return {
       success: {
-        message: "Product created with success",
+        message: "Update with success",
       },
     };
   } catch (error) {
     return {
       error: {
-        message: "Error creating product",
+        message: "Error updating product",
       },
     };
   }
