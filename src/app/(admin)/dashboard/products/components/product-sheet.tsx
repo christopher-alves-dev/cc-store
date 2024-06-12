@@ -19,8 +19,14 @@ type Props = {
 };
 
 export const ProductSheet = ({ categories }: Props) => {
-  const { isOpen, toggle } = useProductSheet();
-  const { resetProduct } = useProductManager();
+  const { isOpen, toggle } = useProductSheet((state) => ({
+    isOpen: state.isOpen,
+    toggle: state.toggle,
+  }));
+  const { resetProduct, productId } = useProductManager((state) => ({
+    resetProduct: state.resetProduct,
+    productId: state.product?.id,
+  }));
 
   const handleOpenSheetWithoutData = () => {
     resetProduct();
@@ -42,7 +48,7 @@ export const ProductSheet = ({ categories }: Props) => {
         <SheetHeader className="text-left text-lg font-semibold">
           <Badge variant="heading">
             <PackageIcon size={18} />
-            Adicionar produto
+            {productId ? "Atualizar" : "Adicionar"} produto
           </Badge>
         </SheetHeader>
 

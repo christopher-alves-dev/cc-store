@@ -38,8 +38,14 @@ type Props = {
 };
 
 export const ProductsTable = ({ products }: Props) => {
-  const { product, updateProduct, resetProduct } = useProductManager();
-  const { toggle } = useProductSheet();
+  const { product, updateProduct, resetProduct } = useProductManager(
+    (state) => ({
+      product: state.product,
+      updateProduct: state.updateProduct,
+      resetProduct: state.resetProduct,
+    }),
+  );
+  const toggle = useProductSheet((state) => state.toggle);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
 
   const handleEditProduct = (product: ProductWithTotalPriceAndCategory) => {
