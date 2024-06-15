@@ -1,7 +1,7 @@
 import { ProductWithTotalPrice } from "@/helpers/product";
 import { create } from "zustand";
-import { cartActions } from "./actions";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { cartActions } from "./actions";
 
 export type CartProduct = ProductWithTotalPrice & {
   quantity: number;

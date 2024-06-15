@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { prismaClient } from "@/lib/prisma";
-import { ListOrderedIcon, PlusIcon } from "lucide-react";
+import { ListOrderedIcon } from "lucide-react";
 import { CategoriesTable } from "./components/categories-table";
+import { CategorySheet } from "./components/category-sheet";
 
 export default async function DashboardCategoriesPage() {
   const categories = await prismaClient.category.findMany({
@@ -27,10 +27,7 @@ export default async function DashboardCategoriesPage() {
           Categorias encontrados: {categories.length}
         </p>
 
-        <Button className="flex gap-2">
-          <PlusIcon size={16} />
-          Adicionar categoria
-        </Button>
+        <CategorySheet />
       </div>
 
       <CategoriesTable categories={categories} />

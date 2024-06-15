@@ -1,10 +1,10 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ProductsSchemaType, productsSchema } from "../schema";
 import { useProductManager } from "@/stores/product-manager";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { maskCurrency } from "../../helpers/masks";
+import { ProductsSchemaType, productsSchema } from "../schema";
 
 export const useProductsForm = () => {
   const product = useProductManager((state) => state.product);

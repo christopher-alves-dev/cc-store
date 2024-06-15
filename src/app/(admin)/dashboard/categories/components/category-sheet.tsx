@@ -8,28 +8,25 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useProductManager } from "@/stores/product-manager";
-import { useProductSheet } from "@/stores/product-sheet";
-import { Category } from "@prisma/client";
-import { PackageIcon, PlusIcon } from "lucide-react";
-import { ProductsForm } from "./products-form";
+import { useCategoryManager } from "@/stores/category-manager";
+import { useSheetControl } from "@/stores/sheet-control";
+import { LayoutList, PlusIcon } from "lucide-react";
+import { CategoryForm } from "./category-form";
 
-type Props = {
-  categories: Pick<Category, "id" | "name">[];
-};
-
-export const ProductSheet = ({ categories }: Props) => {
-  const { isOpen, toggle } = useProductSheet((state) => ({
+export const CategorySheet = () => {
+  const { isOpen, toggle } = useSheetControl((state) => ({
     isOpen: state.isOpen,
     toggle: state.toggle,
   }));
-  const { resetProduct, productId } = useProductManager((state) => ({
-    resetProduct: state.resetProduct,
-    productId: state.product?.id,
+
+  const { categoryId, resetCategory } = useCategoryManager((state) => ({
+    resetCategory: state.resetCategory,
+    categoryId: state.category?.id,
   }));
 
   const handleOpenSheetWithoutData = () => {
-    resetProduct();
+    resetCategory();
+    console.log("aquiii");
     toggle(true);
   };
 
@@ -38,7 +35,7 @@ export const ProductSheet = ({ categories }: Props) => {
       <SheetTrigger asChild>
         <Button className="flex gap-2" onClick={handleOpenSheetWithoutData}>
           <PlusIcon size={20} />
-          Adicionar produto
+          Adicionar Categoria
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -47,12 +44,12 @@ export const ProductSheet = ({ categories }: Props) => {
       >
         <SheetHeader className="text-left text-lg font-semibold">
           <Badge variant="heading">
-            <PackageIcon size={18} />
-            {productId ? "Atualizar" : "Adicionar"} produto
+            <LayoutList size={18} />
+            {categoryId ? "Atualizar" : "Adicionar"} categoria
           </Badge>
         </SheetHeader>
 
-        <ProductsForm categories={categories} onCreateProduct={toggle} />
+        <CategoryForm onCreateCategory={toggle} />
       </SheetContent>
     </Sheet>
   );
