@@ -1,7 +1,3 @@
-<h1 align="center">
-  <img alt="ChrisCode Dev" title="ChrisCode Dev" src="public/logo.png" width="100px" />
-</h1>
-
 <p align="center">
   <img alt="CC Store" title="FSW Store" src="https://pub-11426a046d4e420fb71ed0b7100145b5.r2.dev/fsw-store-logo.png" width="150px" />
 </p>
