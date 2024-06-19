@@ -1,16 +1,11 @@
 import { uploadFile } from "@/actions/upload-file";
 import { FormInput } from "@/app/(admin)/dashboard/components/form-input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
+import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
+import { Form, FormLabel } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { ArrowUpFromLine } from "lucide-react";
-import Image from "next/image";
 import { ChangeEvent, useState, useTransition } from "react";
+import { ImagePreview } from "../../components/image-preview";
 import { SubmitButton } from "../../components/submit-button";
 import { createCategory } from "../actions/create-category";
 import { updateCategory } from "../actions/update-category";
@@ -28,12 +23,18 @@ export const CategoryForm = ({ onCreateCategory }: Props) => {
     formMethods.getValues("image"),
   );
 
+  console.log({ errors: formMethods.formState.errors });
+
   const handleSelectImage = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
     const formData = new FormData();
     formData.append("file", event.target.files[0]);
-    setImagePreview(URL.createObjectURL(event.target.files[0]));
+    const imageObjectUrl = URL.createObjectURL(event.target.files[0]);
+
+    setImagePreview(imageObjectUrl);
+    formMethods.setValue("image", imageObjectUrl);
+    formMethods.trigger("image");
 
     toast({
       title: "Upload",
@@ -49,6 +50,7 @@ export const CategoryForm = ({ onCreateCategory }: Props) => {
         description: response.error.message,
       });
       setImagePreview("");
+      formMethods.setValue("image", "");
     } else {
       setImagePreview(response.success!.url);
 
@@ -61,6 +63,11 @@ export const CategoryForm = ({ onCreateCategory }: Props) => {
       formMethods.setValue("image", response.success!.url);
       formMethods.trigger("image");
     }
+  };
+
+  const handleRemoveImage = () => {
+    setImagePreview("");
+    formMethods.setValue("image", "");
   };
 
   const onSubmit = (data: CategorySchemaType) => {
@@ -100,53 +107,32 @@ export const CategoryForm = ({ onCreateCategory }: Props) => {
         />
 
         <div className="flex flex-col gap-3">
+          <FormLabel className="text-base font-bold" htmlFor="image">
+            Imagem da categoria
+          </FormLabel>
           {!imagePreview && (
-            <div className="relative h-10 w-full overflow-hidden rounded-[0.625rem] border-2 border-gray-800 bg-background">
-              <input
-                type="file"
-                className="invisible"
-                id="image"
-                onChange={handleSelectImage}
-              />
+            <InputUpload.Root
+              data-error={!!formMethods.formState.errors.image?.message}
+            >
+              <InputUpload.Element id="image" onChange={handleSelectImage} />
 
-              <label
-                className="absolute inset-0 flex cursor-pointer items-center justify-center gap-2.5 text-base font-bold"
-                htmlFor="image"
-              >
+              <InputUpload.Label htmlFor="image">
                 <ArrowUpFromLine size={20} />
                 Adicionar imagem
-              </label>
-            </div>
+              </InputUpload.Label>
+            </InputUpload.Root>
+          )}
+          {formMethods.formState.errors.image && (
+            <InputUpload.ErrorMessage>
+              {formMethods.formState.errors.image.message}
+            </InputUpload.ErrorMessage>
           )}
 
           {!!imagePreview && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="flex h-[100px] cursor-pointer items-center justify-center rounded-lg lg:h-[77px] lg:w-[77px] lg:bg-black">
-                  <Image
-                    src={imagePreview}
-                    alt={""}
-                    height={0}
-                    width={0}
-                    sizes="100vw"
-                    className="h-auto max-h-[70%] w-auto max-w-[80%]"
-                  />
-                </div>
-              </DialogTrigger>
-
-              <DialogContent>
-                <DialogHeader className="relative flex h-[400px] items-center justify-center">
-                  <Image
-                    src={imagePreview}
-                    alt={""}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="h-auto max-h-[90%] w-full"
-                  />
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            <ImagePreview
+              data={{ src: imagePreview }}
+              onRemoveImage={handleRemoveImage}
+            />
           )}
         </div>
 

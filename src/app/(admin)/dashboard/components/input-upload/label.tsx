@@ -14,7 +14,10 @@ const Label = forwardRef<HTMLLabelElement, ComponentPropsWithoutRef<"label">>(
       <LabelDefault
         {...rest}
         ref={ref}
-        className={twMerge("text-base font-bold", rest.className)}
+        className={twMerge(
+          "absolute inset-0 flex cursor-pointer items-center justify-center gap-2.5 text-base font-bold",
+          rest.className,
+        )}
       />
     );
   },

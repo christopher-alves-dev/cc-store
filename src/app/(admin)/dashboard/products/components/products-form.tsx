@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
-import { Plus } from "lucide-react";
+import { ArrowUpFromLine } from "lucide-react";
 import { ChangeEvent, useMemo, useState, useTransition } from "react";
 import { FormInput } from "../../components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
@@ -28,6 +28,7 @@ import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
 import { toast } from "@/components/ui/use-toast";
 import { normalizeFileName } from "@/helpers/normalize";
 import { FormTextArea } from "../../components/form-text-area";
+import { ImagePreview } from "../../components/image-preview";
 import { updateProduct } from "../actions/update-product";
 
 type Props = {
@@ -60,7 +61,7 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
     setImagesPreview(filteredImages);
   };
 
-  const handlePreviewImg = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSelectImages = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
     if (event.target.files.length > 4) {
@@ -73,11 +74,20 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
 
     const selectedImages = Array.from(event.target.files);
 
-    const uploadedImages: string[] = [];
-
     for (const [index, image] of selectedImages.entries()) {
       const formData = new FormData();
       formData.append("file", normalizeFileName(image));
+
+      const imageObjectUrl = URL.createObjectURL(image);
+
+      setImagesPreview((prevState) => {
+        const mergeImages = [...prevState, imageObjectUrl];
+        formMethods.setValue(
+          "imageSelecteds",
+          mergeImages.map((image) => image),
+        );
+        return mergeImages;
+      });
 
       toast({
         title: "Upload",
@@ -91,21 +101,30 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
           variant: "destructive",
           description: `${response.error.message} ${index + 1}`,
         });
+
+        setImagesPreview((prevState) => {
+          const filteredImages = prevState.filter(
+            (image) => image !== imageObjectUrl,
+          );
+          formMethods.setValue(
+            "imageSelecteds",
+            filteredImages.map((image) => image),
+          );
+          return filteredImages;
+        });
       } else {
-        uploadedImages.push(response.success!.url);
+        setImagesPreview((prevState) => {
+          const imageObjectUrlIndex = prevState.indexOf(imageObjectUrl);
+          prevState[imageObjectUrlIndex] = response.success!.url;
+
+          formMethods.setValue(
+            "imageSelecteds",
+            prevState.map((image) => image),
+          );
+          return prevState;
+        });
       }
     }
-
-    if (!uploadedImages.length) return;
-
-    setImagesPreview((prevState) => {
-      const mergeImages = [...prevState, ...uploadedImages];
-      formMethods.setValue(
-        "imageSelecteds",
-        mergeImages.map((image) => image),
-      );
-      return mergeImages;
-    });
 
     toast({
       title: "Sucesso",
@@ -170,40 +189,41 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
           </div>
 
           <div className="flex flex-col gap-3">
-            <div>
-              <InputUpload.Label htmlFor="productImages">
-                Imagens do produto (máximo 4)
-              </InputUpload.Label>
-            </div>
-            <InputUpload.Root className="flex flex-wrap gap-4">
-              <InputUpload.Content className="flex flex-wrap gap-4">
+            <FormLabel className="text-base font-bold" htmlFor="productImages">
+              Imagens do produto (máximo 4)
+            </FormLabel>
+
+            {imagesPreview.length < 4 && (
+              <InputUpload.Root
+                data-error={
+                  !!formMethods.formState.errors.imageSelecteds?.message
+                }
+              >
+                <InputUpload.Element
+                  multiple
+                  id="productImages"
+                  onChange={handleSelectImages}
+                />
+
+                <InputUpload.Label htmlFor="productImages">
+                  <ArrowUpFromLine size={20} />
+                  Adicionar imagens
+                </InputUpload.Label>
+              </InputUpload.Root>
+            )}
+
+            {!!imagesPreview.length && (
+              <div className="flex items-center gap-3">
                 {imagesPreview.map((image) => (
-                  <InputUpload.Preview
+                  <ImagePreview
                     key={image}
-                    data={image}
-                    onRemove={() => handleDeleteImage(image)}
+                    data={{ src: image }}
+                    onRemoveImage={() => handleDeleteImage(image)}
                   />
                 ))}
+              </div>
+            )}
 
-                {imagesPreview.length < 4 && (
-                  <InputUpload.TriggerWrapper>
-                    <InputUpload.Trigger
-                      multiple
-                      id="productImages"
-                      accept=".png, .jpg, .jpeg"
-                      onChange={handlePreviewImg}
-                      disabled={imagesPreview?.length >= 4}
-                    />
-                    <InputUpload.Label
-                      htmlFor="productImages"
-                      className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center gap-2 rounded-md bg-background"
-                    >
-                      <Plus size={24} />
-                    </InputUpload.Label>
-                  </InputUpload.TriggerWrapper>
-                )}
-              </InputUpload.Content>
-            </InputUpload.Root>
             {formMethods.formState.errors.imageSelecteds && (
               <InputUpload.ErrorMessage>
                 {formMethods.formState.errors.imageSelecteds.message}

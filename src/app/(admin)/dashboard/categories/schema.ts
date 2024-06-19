@@ -7,9 +7,11 @@ export const categorySchema = z.object({
     })
     .min(2, "Nome muito curto")
     .max(255, "Nome muito longo"),
-  image: z.string({
-    required_error: "Imagem obrigatória",
-  }),
+  image: z
+    .string({
+      required_error: "Imagem obrigatória",
+    })
+    .min(1, "Imagem obrigatória"),
 });
 
 export type CategorySchemaType = z.infer<typeof categorySchema>;
