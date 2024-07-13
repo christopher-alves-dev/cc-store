@@ -1,12 +1,9 @@
+import "@/app/globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../globals.css";
-import { Header } from "@/components/ui/header";
-import { AuthProvider } from "@/providers/auth";
-import { Footer } from "@/components/ui/footer";
 import { twMerge } from "tailwind-merge";
-import { Sidebar } from "./dashboard/components/sidebar";
+import { Sidebar } from "./components/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,14 +26,12 @@ export default function RootLayout({
           "flex justify-center overflow-y-scroll",
         )}
       >
-        <div className="flex h-full w-full max-w-screen-2xl flex-col">
-          <AuthProvider>
-            <div className="flex overflow-hidden">
-              <Sidebar />
-              {children}
-            </div>
-            <Toaster />
-          </AuthProvider>
+        <div className="flex w-full max-w-screen-2xl flex-1 flex-col">
+          <div className="flex min-h-screen overflow-hidden">
+            <Sidebar />
+            {children}
+          </div>
+          <Toaster />
         </div>
       </body>
     </html>
