@@ -13,3 +13,15 @@ export async function login(form: LoginSchemaType) {
   return { error };
 }
 
+export async function logout() {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    redirect("/error");
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/login");
+}
