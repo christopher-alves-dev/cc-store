@@ -137,7 +137,7 @@ export const CategoryForm = ({ onCreateCategory }: Props) => {
         </div>
 
         <div className="mt-auto">
-          <SubmitButton pending={pending} />
+          <SubmitButton pending={pending} label="Salvar" />
         </div>
       </form>
     </Form>
