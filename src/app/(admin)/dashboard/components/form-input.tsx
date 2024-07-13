@@ -32,7 +32,9 @@ export const FormInput = <T extends FieldValues>({
       render={({ field, fieldState }) => (
         <FormItem className={className}>
           {label && (
-            <FormLabel className="text-base font-bold">{label}</FormLabel>
+            <FormLabel htmlFor={name} className="text-base font-bold">
+              {label}
+            </FormLabel>
           )}
           <FormControl>
             <div className="relative">
