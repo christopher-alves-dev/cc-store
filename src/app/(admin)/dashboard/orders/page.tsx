@@ -2,8 +2,11 @@ import { Badge } from "@/components/ui/badge";
 import { OrderItem } from "@/components/ui/order-item";
 import { prismaClient } from "@/lib/prisma";
 import { PackageSearchIcon } from "lucide-react";
+import { useAuthUser } from "../hooks/useAuthUser";
 
 export default async function DashboardOrdersPage() {
+  await useAuthUser();
+
   const orders = await prismaClient.order.findMany({
     include: {
       orderProducts: {

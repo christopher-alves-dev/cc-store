@@ -1,15 +1,12 @@
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
+import { useAuthUser } from "./hooks/useAuthUser";
 
 export default async function DashboardPage() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error || !data?.user) {
-    redirect("/login");
-  }
+  await useAuthUser();
 
   return (
     <div className="mt-10 flex flex-col gap-8 px-5">
