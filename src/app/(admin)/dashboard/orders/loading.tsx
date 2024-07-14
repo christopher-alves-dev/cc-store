@@ -1,5 +1,5 @@
 import { Loader } from "@/components/ui/loading";
 
 export default function Loading() {
-  return <Loader text="Carregando informações..." />;
+  return <Loader text="Carregando pedidos..." />;
 }

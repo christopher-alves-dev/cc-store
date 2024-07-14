@@ -1,8 +1,11 @@
 "use client";
+
+import { logout } from "@/app/(admin)/login/actions";
 import { Button } from "@/components/ui/button";
 import {
   LayoutDashboardIcon,
   ListOrderedIcon,
+  LogOut,
   PackageIcon,
   PackageSearchIcon,
 } from "lucide-react";
@@ -63,6 +66,17 @@ export const Sidebar = () => {
           </Button>
         </Link>
       </div>
+
+      <form className="w-full">
+        <Button
+          formAction={logout}
+          variant="outline"
+          className="flex w-full justify-start gap-2 text-base"
+        >
+          <LogOut className="h-[1em] w-[1em]" />
+          Sair
+        </Button>
+      </form>
     </div>
   );
 };

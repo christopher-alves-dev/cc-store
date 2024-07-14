@@ -5,8 +5,11 @@ import { ProductWithTotalPriceAndCategory } from "@/types/product";
 import { PackageIcon } from "lucide-react";
 import { ProductSheet } from "./components/product-sheet";
 import { ProductsTable } from "./components/products-table";
+import { useAuthUser } from "../hooks/useAuthUser";
 
 export default async function ProductsDashboardPage() {
+  await useAuthUser();
+
   const categories = await prismaClient.category.findMany({
     select: {
       name: true,

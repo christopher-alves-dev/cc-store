@@ -325,7 +325,7 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
           )}
         </div>
         <div className="mt-auto flex flex-col gap-5">
-          <SubmitButton pending={pending} />
+          <SubmitButton pending={pending} label="Salvar" />
         </div>
       </form>
     </Form>

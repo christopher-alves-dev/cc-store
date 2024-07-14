@@ -3,8 +3,11 @@ import { prismaClient } from "@/lib/prisma";
 import { ListOrderedIcon } from "lucide-react";
 import { CategoriesTable } from "./components/categories-table";
 import { CategorySheet } from "./components/category-sheet";
+import { useAuthUser } from "../hooks/useAuthUser";
 
 export default async function DashboardCategoriesPage() {
+  await useAuthUser();
+
   const categories = await prismaClient.category.findMany({
     include: {
       products: {
