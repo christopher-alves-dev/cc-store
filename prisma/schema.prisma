@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Category {
-  id       String    @id @default(uuid())
-  name     String
-  slug     String
-  imageUrl String
-  products Product[]
+  id        String    @id @default(uuid())
+  name      String
+  slug      String
+  imageUrl  String
+  products  Product[]
+  deletedAt DateTime?
 }
 
 model Product {
@@ -29,6 +30,7 @@ model Product {
   category           Category       @relation(fields: [categoryId], references: [id])
   discountPercentage Int            @default(0)
   OrderProduct       OrderProduct[]
+  deletedAt          DateTime?
 }
 
 model Order {
