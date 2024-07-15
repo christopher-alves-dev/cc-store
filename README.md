@@ -68,7 +68,9 @@ $ npm install
 $ npm run dev
 ```
 
-## Test Account
+## Tests
+
+#### Shop
 
 To see your orders you should be logged in, so you can signIn with Google, Discord, Github or a user tester account that i created.
 
@@ -82,9 +84,26 @@ user@test.com
 test-pass
 ```
 
+#### Admin
+
+Go to `"/login"` in your browser's address bar to enter the e-commerce dashboard.
+In this area you can manage your e-commerce products, categories and orders.
+
+PS: The main dashboard page and responsiveness are under development.
+
+```bash
+##### User tester account #####
+
+# email
+user@test.com
+
+# password
+test-pass
+```
+
 ## Upcoming features
 
-- **[WIP] - Data Management Responsiveness:**
+- **[WIP] - Data Management Responsiveness and main page**
 - **Customer Reviews and Ratings**
 
 ---
