@@ -1,5 +1,5 @@
 import { uploadFile } from "@/actions/upload-file";
-import { FormInput } from "@/app/(admin)/dashboard/components/form-input";
+import { FormInput } from "@/app/(admin)/components/form-input";
 import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
 import { Form, FormLabel } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";

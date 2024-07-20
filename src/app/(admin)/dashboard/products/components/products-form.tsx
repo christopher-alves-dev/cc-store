@@ -15,7 +15,7 @@ import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
 import { ArrowUpFromLine } from "lucide-react";
 import { ChangeEvent, useMemo, useState, useTransition } from "react";
-import { FormInput } from "../../components/form-input";
+import { FormInput } from "@/app/(admin)/components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
 import { SubmitButton } from "../../components/submit-button";
 import { calculateTotalPrice } from "../../helpers/calculate-total-price";

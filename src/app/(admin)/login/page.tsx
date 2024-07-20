@@ -1,5 +1,7 @@
 "use client";
 
+import { FormInput } from "@/app/(admin)/components/form-input";
+import { FormInputPassword } from "@/app/(admin)/components/form-input-password";
 import {
   Card,
   CardContent,
@@ -12,7 +14,6 @@ import { Form } from "@/components/ui/form";
 import { redirect } from "next/navigation";
 import { useTransition } from "react";
 import { SubmitHandler } from "react-hook-form";
-import { FormInput } from "../dashboard/components/form-input";
 import { SubmitButton } from "../dashboard/components/submit-button";
 import { login } from "./actions";
 import { useLoginForm } from "./hooks/useLoginForm";
@@ -45,7 +46,6 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-6">
-            {/* <label htmlFor="email">Email:</label> */}
             <FormInput
               id="email"
               name="email"
@@ -54,13 +54,12 @@ export default function LoginPage() {
               placeholder="Email"
             />
 
-            <FormInput
+            <FormInputPassword
               id="password"
               name="password"
               control={formMethods.control}
               label="Password"
               placeholder="Password"
-              type="password"
             />
           </CardContent>
           <CardFooter>

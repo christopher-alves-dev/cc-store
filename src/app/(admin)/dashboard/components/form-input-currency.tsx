@@ -14,7 +14,7 @@ import {
 } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { maskCurrency } from "../helpers/masks";
-import { InputUnit } from "./input-unit";
+import { InputUnit } from "../../components/input-unit";
 
 type Props<T extends FieldValues> = InputHTMLAttributes<HTMLInputElement> &
   UseControllerProps<T> & {
