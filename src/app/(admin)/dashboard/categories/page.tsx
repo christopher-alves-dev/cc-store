@@ -1,9 +1,7 @@
-import { Badge } from "@/components/ui/badge";
 import { prismaClient } from "@/lib/prisma";
-import { ListOrderedIcon } from "lucide-react";
+import { useAuthUser } from "../hooks/useAuthUser";
 import { CategoriesTable } from "./components/categories-table";
 import { CategorySheet } from "./components/category-sheet";
-import { useAuthUser } from "../hooks/useAuthUser";
 
 export default async function DashboardCategoriesPage() {
   await useAuthUser();
@@ -20,11 +18,6 @@ export default async function DashboardCategoriesPage() {
 
   return (
     <div className="flex w-full flex-col gap-10 p-10">
-      <Badge variant="heading">
-        <ListOrderedIcon size={18} />
-        Categorias
-      </Badge>
-
       <div className="flex w-full items-center justify-between">
         <p className="text-lg font-bold">
           Categorias encontrados: {categories.length}

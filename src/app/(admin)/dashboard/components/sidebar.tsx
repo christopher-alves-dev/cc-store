@@ -16,7 +16,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex min-w-[300px] flex-col items-center gap-8 border-r border-solid border-accent bg-background p-8">
+    <div className="flex w-full flex-col items-center gap-8 border-r border-solid border-accent bg-background p-8 lg:w-fit lg:min-w-[300px]">
       <h1 className="text-lg font-semibold">
         <span className="text-primary">FSW</span> Store
       </h1>

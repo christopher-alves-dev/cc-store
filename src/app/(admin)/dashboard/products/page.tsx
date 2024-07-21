@@ -1,11 +1,9 @@
-import { Badge } from "@/components/ui/badge";
 import { computeProductTotalPrice } from "@/helpers/product";
 import { prismaClient } from "@/lib/prisma";
 import { ProductWithTotalPriceAndCategory } from "@/types/product";
-import { PackageIcon } from "lucide-react";
+import { useAuthUser } from "../hooks/useAuthUser";
 import { ProductSheet } from "./components/product-sheet";
 import { ProductsTable } from "./components/products-table";
-import { useAuthUser } from "../hooks/useAuthUser";
 
 export default async function ProductsDashboardPage() {
   await useAuthUser();
@@ -34,11 +32,6 @@ export default async function ProductsDashboardPage() {
 
   return (
     <div className="flex w-full flex-col gap-10 p-10">
-      <Badge variant="heading">
-        <PackageIcon size={18} />
-        Produtos
-      </Badge>
-
       <div className="flex w-full items-center justify-between">
         <p className="text-lg font-bold">
           Produtos encontrados: {products.length}
