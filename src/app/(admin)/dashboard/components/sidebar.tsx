@@ -11,12 +11,22 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
-export const Sidebar = () => {
+type Props = {
+  className?: string;
+};
+
+export const Sidebar = ({ className }: Props) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex w-full flex-col items-center gap-8 border-r border-solid border-accent bg-background p-8 lg:w-fit lg:min-w-[300px]">
+    <div
+      className={twMerge(
+        "flex-col items-center gap-8 border-r border-solid border-accent bg-background p-8",
+        className,
+      )}
+    >
       <h1 className="text-lg font-semibold">
         <span className="text-primary">FSW</span> Store
       </h1>
