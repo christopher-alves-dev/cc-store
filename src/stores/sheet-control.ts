@@ -1,20 +1,26 @@
 import { create } from "zustand";
 
-export type SheetControlState = {
-  isOpen: boolean;
-};
+export type SheetControlTypes = "menu" | "products" | "categories";
+
+export type SheetControlState = Record<SheetControlTypes, boolean>;
 
 type SheetControlActions = {
-  toggle: (condition: boolean) => void;
+  toggle: (type: SheetControlTypes) => void;
 };
 
 export type SheetControlStore = SheetControlState & SheetControlActions;
 
 const initialState: SheetControlState = {
-  isOpen: false,
+  menu: false,
+  products: false,
+  categories: false,
 };
 
 export const useSheetControl = create<SheetControlStore>()((set) => ({
   ...initialState,
-  toggle: (condition) => set({ isOpen: condition }),
+  toggle: (type) =>
+    set((state) => ({
+      ...state,
+      [type]: !state[type],
+    })),
 }));

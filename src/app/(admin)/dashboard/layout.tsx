@@ -1,15 +1,15 @@
 "use client";
 import "@/app/globals.css";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Toaster } from "@/components/ui/toaster";
 import { useSheetControl } from "@/stores/sheet-control";
+import { Menu } from "lucide-react";
 import { Inter } from "next/font/google";
 import { twMerge } from "tailwind-merge";
 import { PageTitle } from "../components/page-title";
 import { Sidebar } from "./components/sidebar";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +18,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isOpen, toggle } = useSheetControl((state) => ({
-    isOpen: state.isOpen,
+  const { menu, toggle } = useSheetControl((state) => ({
+    menu: state.menu,
     toggle: state.toggle,
   }));
 
@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <div className="flex w-full max-w-screen-2xl flex-1 flex-col">
           <div className="flex min-h-screen overflow-hidden">
-            <Sheet open={isOpen} onOpenChange={toggle}>
+            <Sheet open={menu}>
               <Sidebar className="hidden w-full lg:flex lg:w-fit lg:min-w-[300px]" />
               <div className="w-full">
                 <div className="flex w-full items-center gap-10 px-10 py-4">
@@ -43,7 +43,7 @@ export default function RootLayout({
                       size="icon"
                       className="lg:hidden"
                       onClick={() => {
-                        toggle(true);
+                        toggle("menu");
                       }}
                     >
                       <Menu size={20} />

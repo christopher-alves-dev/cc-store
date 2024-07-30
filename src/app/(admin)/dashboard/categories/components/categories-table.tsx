@@ -65,7 +65,7 @@ export const CategoriesTable = ({ categories }: Props) => {
 
   const handleEditCategory = (category: Category) => {
     updateCategory(category);
-    toggle(true);
+    toggle("categories");
   };
 
   const handleConfirmDeleteCategory = (category: Category) => {

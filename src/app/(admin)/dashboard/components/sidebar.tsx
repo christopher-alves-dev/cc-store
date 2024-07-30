@@ -2,12 +2,15 @@
 
 import { logout } from "@/app/(admin)/login/actions";
 import { Button } from "@/components/ui/button";
+import { SheetClose } from "@/components/ui/sheet";
+import { useSheetControl } from "@/stores/sheet-control";
 import {
   LayoutDashboardIcon,
   ListOrderedIcon,
   LogOut,
   PackageIcon,
   PackageSearchIcon,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,6 +22,7 @@ type Props = {
 
 export const Sidebar = ({ className }: Props) => {
   const pathname = usePathname();
+  const toggle = useSheetControl((state) => state.toggle);
 
   return (
     <div
@@ -87,6 +91,14 @@ export const Sidebar = ({ className }: Props) => {
           Sair
         </Button>
       </form>
+
+      <SheetClose
+        className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary lg:hidden"
+        onClick={() => toggle("menu")}
+      >
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </SheetClose>
     </div>
   );
 };

@@ -13,7 +13,7 @@ import { useCategoryForm } from "../hooks/use-category-form";
 import { CategorySchemaType } from "../schema";
 
 type Props = {
-  onCreateCategory?: (isOpen: boolean) => void;
+  onCreateCategory?: () => void;
 };
 
 export const CategoryForm = ({ onCreateCategory }: Props) => {
@@ -89,7 +89,7 @@ export const CategoryForm = ({ onCreateCategory }: Props) => {
           description: result?.success.message,
         });
       }
-      onCreateCategory && onCreateCategory(false);
+      onCreateCategory && onCreateCategory();
     });
   };
 

@@ -33,7 +33,7 @@ import { updateProduct } from "../actions/update-product";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
-  onCreateProduct?: (isOpen: boolean) => void;
+  onCreateProduct?: () => void;
 };
 
 export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
@@ -158,7 +158,7 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
           variant: "success",
           description: result?.success.message,
         });
-        onCreateProduct && onCreateProduct(false);
+        onCreateProduct && onCreateProduct();
       }
     });
   };

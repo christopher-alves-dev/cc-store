@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTrigger,
@@ -12,7 +13,7 @@ import { useProductManager } from "@/stores/product-manager";
 
 import { useSheetControl } from "@/stores/sheet-control";
 import { Category } from "@prisma/client";
-import { PackageIcon, PlusIcon } from "lucide-react";
+import { PackageIcon, PlusIcon, X } from "lucide-react";
 import { ProductsForm } from "./products-form";
 
 type Props = {
@@ -21,7 +22,7 @@ type Props = {
 
 export const ProductSheet = ({ categories }: Props) => {
   const { isOpen, toggle } = useSheetControl((state) => ({
-    isOpen: state.isOpen,
+    isOpen: state.products,
     toggle: state.toggle,
   }));
   const { resetProduct, productId } = useProductManager((state) => ({
@@ -32,11 +33,11 @@ export const ProductSheet = ({ categories }: Props) => {
   const handleOpenSheetWithoutData = () => {
     resetProduct();
 
-    toggle(true);
+    toggle("products");
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={toggle}>
+    <Sheet open={isOpen}>
       <SheetTrigger asChild>
         <Button className="flex gap-2" onClick={handleOpenSheetWithoutData}>
           <PlusIcon size={20} />
@@ -54,7 +55,18 @@ export const ProductSheet = ({ categories }: Props) => {
           </Badge>
         </SheetHeader>
 
-        <ProductsForm categories={categories} onCreateProduct={toggle} />
+        <ProductsForm
+          categories={categories}
+          onCreateProduct={() => toggle("products")}
+        />
+
+        <SheetClose
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+          onClick={() => toggle("products")}
+        >
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </SheetClose>
       </SheetContent>
     </Sheet>
   );

@@ -4,18 +4,19 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useCategoryManager } from "@/stores/category-manager";
 import { useSheetControl } from "@/stores/sheet-control";
-import { LayoutList, PlusIcon } from "lucide-react";
+import { LayoutList, PlusIcon, X } from "lucide-react";
 import { CategoryForm } from "./category-form";
 
 export const CategorySheet = () => {
   const { isOpen, toggle } = useSheetControl((state) => ({
-    isOpen: state.isOpen,
+    isOpen: state.categories,
     toggle: state.toggle,
   }));
 
@@ -26,12 +27,11 @@ export const CategorySheet = () => {
 
   const handleOpenSheetWithoutData = () => {
     resetCategory();
-    console.log("aquiii");
-    toggle(true);
+    toggle("categories");
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={toggle}>
+    <Sheet open={isOpen}>
       <SheetTrigger asChild>
         <Button className="flex gap-2" onClick={handleOpenSheetWithoutData}>
           <PlusIcon size={20} />
@@ -49,7 +49,15 @@ export const CategorySheet = () => {
           </Badge>
         </SheetHeader>
 
-        <CategoryForm onCreateCategory={toggle} />
+        <CategoryForm onCreateCategory={() => toggle("categories")} />
+
+        <SheetClose
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary"
+          onClick={() => toggle("categories")}
+        >
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </SheetClose>
       </SheetContent>
     </Sheet>
   );

@@ -50,7 +50,7 @@ export const ProductsTable = ({ products }: Props) => {
 
   const handleEditProduct = (product: ProductWithTotalPriceAndCategory) => {
     updateProduct(product);
-    toggle(true);
+    toggle("products");
   };
 
   const handleConfirmDeleteProduct = (
