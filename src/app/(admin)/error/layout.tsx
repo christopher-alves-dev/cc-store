@@ -1,8 +1,12 @@
 import "@/app/globals.css";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { twMerge } from "tailwind-merge";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -12,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          inter.className,
+          poppins.className,
           "flex items-center justify-center overflow-y-scroll bg-accent",
         )}
       >

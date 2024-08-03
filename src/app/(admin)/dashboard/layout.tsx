@@ -6,12 +6,15 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Toaster } from "@/components/ui/toaster";
 import { useSheetControl } from "@/stores/sheet-control";
 import { Menu } from "lucide-react";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { twMerge } from "tailwind-merge";
 import { PageTitle } from "../components/page-title";
 import { Sidebar } from "./components/sidebar";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
 export default function RootLayout({
   children,
@@ -27,7 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          inter.className,
+          poppins.className,
           "flex justify-center overflow-y-scroll",
         )}
       >

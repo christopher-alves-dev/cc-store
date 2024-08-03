@@ -1,13 +1,16 @@
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "../globals.css";
 import { Header } from "@/components/ui/header";
 import { AuthProvider } from "@/providers/auth";
 import { Footer } from "@/components/ui/footer";
 import { twMerge } from "tailwind-merge";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Os Melhores Eletrônicos e Periféricos em Promoção | Entrega Rápida",
@@ -24,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={twMerge(
-          inter.className,
+          poppins.className,
           "flex justify-center overflow-y-scroll",
         )}
       >
