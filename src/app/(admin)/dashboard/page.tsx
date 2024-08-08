@@ -17,6 +17,10 @@ import { FinancialCard } from "../components/financial-card";
 import { MetricCard } from "./components/metric-card";
 import { useAuthUser } from "./hooks/useAuthUser";
 import { prismaClient } from "@/lib/prisma";
+import { computeProductTotalPrice } from "@/helpers/product";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 
 const MockFinancial = [
   {
@@ -33,6 +37,17 @@ const MockFinancial = [
   },
 ];
 
+type MostProductsSold = {
+  id: string;
+  imageUrl: string;
+  name: string;
+  categoryName: string;
+  basePrice: string | number;
+  priceWithDiscount: string | number;
+  quantity: number;
+  discountPercentage: number;
+};
+
 export default async function DashboardPage() {
   await useAuthUser();
 
@@ -40,6 +55,7 @@ export default async function DashboardPage() {
     prismaClient.category.findMany({
       select: {
         id: true,
+        name: true,
       },
     }),
     prismaClient.product.findMany({
@@ -59,12 +75,44 @@ export default async function DashboardPage() {
   ]);
 
   let totalProductsSold = 0;
-  orders.forEach(
-    (order) =>
-      (totalProductsSold +=
-        order.status === "PAYMENT_CONFIRMED" ? order.orderProducts.length : 0),
-    0,
-  );
+  const mostProductsSold: MostProductsSold[] = [];
+
+  orders.forEach((order) => {
+    if (order.status === "PAYMENT_CONFIRMED") {
+      order.orderProducts.forEach((orderProduct) => {
+        const product = mostProductsSold.find(
+          (product) => product.id === orderProduct.product.id,
+        );
+
+        if (product) {
+          product.quantity += orderProduct.quantity;
+        } else {
+          mostProductsSold.push({
+            id: orderProduct.product.id,
+            quantity: orderProduct.quantity,
+            basePrice: formatNumberToCurrency(
+              Number(orderProduct.product.basePrice),
+            ),
+            categoryName: categories.find(
+              (category) => category.id === orderProduct.product.categoryId,
+            )?.name!,
+            imageUrl: orderProduct.product.imageUrls[0],
+            name: orderProduct.product.name,
+            priceWithDiscount: formatNumberToCurrency(
+              computeProductTotalPrice(orderProduct.product),
+            ),
+            discountPercentage: orderProduct.product.discountPercentage,
+          });
+        }
+      });
+
+      totalProductsSold += order.orderProducts.length;
+    } else {
+      totalProductsSold += 0;
+    }
+  });
+
+  mostProductsSold.sort((a, b) => b.quantity - a.quantity);
 
   return (
     <div className="mt-4 flex flex-col gap-6 lg:mt-10 lg:gap-10">
@@ -118,6 +166,60 @@ export default async function DashboardPage() {
             label="Categorias"
             value={categories.length}
           />
+        </div>
+      </div>
+
+      <div className="mx-4 flex flex-col gap-7 rounded-lg border border-solid border-border p-7 lg:mx-10">
+        <h4>Produtos Mais Vendidos</h4>
+
+        <div className="flex flex-col gap-7">
+          {mostProductsSold.map((product) => {
+            const productHaveDiscount = product.discountPercentage > 0;
+            return (
+              <div
+                key={product.id}
+                className="flex items-center justify-between"
+              >
+                <div className="flex gap-5">
+                  <div
+                    className={
+                      "flex h-[100px] items-center justify-center rounded-lg bg-border lg:h-[85px] lg:w-[85px]"
+                    }
+                  >
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.name}
+                      height={0}
+                      width={0}
+                      sizes="100vw"
+                      className="h-auto max-h-[70%] w-auto max-w-[80%]"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <Badge variant="outlineSecondary" className="w-fit">
+                      {product.categoryName}
+                    </Badge>
+                    <p className="text-base">{product.name}</p>
+
+                    <div className="flex items-center gap-1">
+                      <p className="font-semibold lg:text-lg">
+                        {product.priceWithDiscount}
+                      </p>
+
+                      {productHaveDiscount && (
+                        <p className="text-xxs line-through opacity-75 lg:text-xs">
+                          {product.basePrice}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-lg font-bold">{product.quantity} vendidos</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
