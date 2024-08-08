@@ -35,7 +35,7 @@ export default function RootLayout({
         )}
       >
         <div className="flex w-full max-w-screen-2xl flex-1 flex-col">
-          <div className="flex min-h-screen overflow-hidden">
+          <div className="flex min-h-screen">
             <Sheet open={menu}>
               <Sidebar className="hidden w-full lg:flex lg:w-fit lg:min-w-[300px]" />
               <div className="w-full">
