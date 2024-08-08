@@ -31,7 +31,7 @@ export const Sidebar = ({ className }: Props) => {
         className,
       )}
     >
-      <h1 className="text-lg font-semibold">
+      <h1 className="text-xl font-semibold">
         <span className="text-primary">FSW</span> Store
       </h1>
 
