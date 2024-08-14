@@ -76,13 +76,35 @@ export default async function DashboardPage() {
 
   let totalProductsSold = 0;
   const mostProductsSold: MostProductsSold[] = [];
+  const mostCategoriesSold: {
+    id: string;
+    name: string;
+    quantity: number;
+  }[] = [];
 
   orders.forEach((order) => {
     if (order.status === "PAYMENT_CONFIRMED") {
       order.orderProducts.forEach((orderProduct) => {
+        totalProductsSold += orderProduct.quantity;
+
         const product = mostProductsSold.find(
           (product) => product.id === orderProduct.product.id,
         );
+        const category = mostCategoriesSold.find(
+          (category) => category.id === orderProduct.product.categoryId,
+        );
+
+        if (category) {
+          category.quantity += orderProduct.quantity;
+        } else {
+          mostCategoriesSold.push({
+            id: orderProduct.product.categoryId,
+            name: categories.find(
+              (category) => category.id === orderProduct.product.categoryId,
+            )?.name!,
+            quantity: orderProduct.quantity,
+          });
+        }
 
         if (product) {
           product.quantity += orderProduct.quantity;
@@ -105,14 +127,15 @@ export default async function DashboardPage() {
           });
         }
       });
-
-      totalProductsSold += order.orderProducts.length;
     } else {
       totalProductsSold += 0;
     }
   });
 
+  console.log({ mostCategoriesSold });
+
   mostProductsSold.sort((a, b) => b.quantity - a.quantity);
+  mostCategoriesSold.sort((a, b) => b.quantity - a.quantity);
 
   return (
     <div className="mt-4 flex flex-col gap-6 lg:mt-10 lg:gap-10">
@@ -178,24 +201,23 @@ export default async function DashboardPage() {
             return (
               <div
                 key={product.id}
-                className="flex items-center justify-between"
+                className="flex flex-col gap-5 sm:flex-row sm:items-center"
               >
-                <div className="flex gap-5">
-                  <div
-                    className={
-                      "flex h-[100px] items-center justify-center rounded-lg bg-border lg:h-[85px] lg:w-[85px]"
-                    }
-                  >
-                    <Image
-                      src={product.imageUrl}
-                      alt={product.name}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="h-auto max-h-[70%] w-auto max-w-[80%]"
-                    />
-                  </div>
-
+                <div
+                  className={
+                    "flex h-[100px] items-center justify-center rounded-lg bg-border sm:w-[85px] lg:h-[85px]"
+                  }
+                >
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.name}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="h-auto max-h-[75%] w-auto max-w-[80%]"
+                  />
+                </div>
+                <div className="flex flex-col gap-5 sm:w-full sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex flex-col gap-1.5">
                     <Badge variant="outlineSecondary" className="w-fit">
                       {product.categoryName}
@@ -214,9 +236,35 @@ export default async function DashboardPage() {
                       )}
                     </div>
                   </div>
-                </div>
 
-                <p className="text-lg font-bold">{product.quantity} vendidos</p>
+                  <p className="text-lg font-bold">
+                    {product.quantity} vendidos
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="mx-4 flex flex-col gap-7 rounded-lg border border-solid border-border p-7 lg:mx-10">
+        <h4>Categorias Mais Vendidas</h4>
+
+        <div className="flex flex-col gap-7">
+          {mostCategoriesSold.map((category) => {
+            const calculateCategoryPercentage = (
+              (category.quantity / totalProductsSold) *
+              100
+            ).toFixed(2);
+            return (
+              <div
+                key={category.id}
+                className="flex items-center justify-between"
+              >
+                <p className="text-base">{category.name}</p>
+                <p className="text-lg font-bold">
+                  {calculateCategoryPercentage} %
+                </p>
               </div>
             );
           })}
