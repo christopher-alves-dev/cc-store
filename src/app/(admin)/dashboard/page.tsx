@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Carousel,
   CarouselContent,
@@ -5,6 +6,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Progress } from "@/components/ui/progress";
+import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
+import { computeProductTotalPrice } from "@/helpers/product";
+import { prismaClient } from "@/lib/prisma";
 import {
   CircleDollarSign,
   DollarSign,
@@ -13,16 +18,10 @@ import {
   Package,
   ShoppingBasket,
 } from "lucide-react";
+import Image from "next/image";
 import { FinancialCard } from "../components/financial-card";
 import { MetricCard } from "./components/metric-card";
 import { useAuthUser } from "./hooks/useAuthUser";
-import { prismaClient } from "@/lib/prisma";
-import { computeProductTotalPrice } from "@/helpers/product";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
-import { twJoin } from "tailwind-merge";
-import { Progress } from "@/components/ui/progress";
 
 const MockFinancial = [
   {
@@ -171,7 +170,7 @@ export default async function DashboardPage() {
         />
       </Carousel>
 
-      <div className="flex flex-col gap-6 px-4 lg:gap-10 lg:px-10">
+      <section className="flex flex-col gap-6 px-4 lg:gap-10 lg:px-10">
         <div className="flex flex-wrap gap-6">
           <MetricCard
             icon={CircleDollarSign}
@@ -190,10 +189,10 @@ export default async function DashboardPage() {
             value={categories.length}
           />
         </div>
-      </div>
+      </section>
 
       <div className="flex flex-col gap-6 px-4 md:flex-row lg:gap-10 lg:px-10">
-        <div className="flex flex-col gap-7 rounded-lg border border-solid border-border p-7 md:flex-1">
+        <section className="flex flex-col gap-7 rounded-lg border border-solid border-border p-7 md:flex-1">
           <h4 className="text-lg font-bold">Produtos Mais Vendidos</h4>
 
           <div className="flex flex-col gap-7">
@@ -246,9 +245,9 @@ export default async function DashboardPage() {
               );
             })}
           </div>
-        </div>
+        </section>
 
-        <div className="flex w-full flex-col gap-7 rounded-lg border border-solid border-border p-7 md:max-w-[394px]">
+        <section className="flex w-full flex-col gap-7 rounded-lg border border-solid border-border p-7 md:max-w-[394px]">
           <h4 className="text-lg font-bold">Categorias Mais Vendidas</h4>
 
           <div className="flex flex-col gap-7">
@@ -272,7 +271,7 @@ export default async function DashboardPage() {
               );
             })}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
