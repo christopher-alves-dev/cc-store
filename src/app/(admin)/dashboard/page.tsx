@@ -21,6 +21,8 @@ import { computeProductTotalPrice } from "@/helpers/product";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
+import { twJoin } from "tailwind-merge";
+import { Progress } from "@/components/ui/progress";
 
 const MockFinancial = [
   {
@@ -132,8 +134,6 @@ export default async function DashboardPage() {
     }
   });
 
-  console.log({ mostCategoriesSold });
-
   mostProductsSold.sort((a, b) => b.quantity - a.quantity);
   mostCategoriesSold.sort((a, b) => b.quantity - a.quantity);
 
@@ -172,7 +172,7 @@ export default async function DashboardPage() {
       </Carousel>
 
       <div className="flex flex-col gap-6 px-4 lg:gap-10 lg:px-10">
-        <div className="flex flex-wrap gap-6 lg:h-40">
+        <div className="flex flex-wrap gap-6">
           <MetricCard
             icon={CircleDollarSign}
             label="Total de Produtos Vendidos"
@@ -192,82 +192,86 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="mx-4 flex flex-col gap-7 rounded-lg border border-solid border-border p-7 lg:mx-10">
-        <h4>Produtos Mais Vendidos</h4>
+      <div className="flex flex-col gap-6 px-4 md:flex-row lg:gap-10 lg:px-10">
+        <div className="flex flex-col gap-7 rounded-lg border border-solid border-border p-7 md:flex-1">
+          <h4 className="text-lg font-bold">Produtos Mais Vendidos</h4>
 
-        <div className="flex flex-col gap-7">
-          {mostProductsSold.map((product) => {
-            const productHaveDiscount = product.discountPercentage > 0;
-            return (
-              <div
-                key={product.id}
-                className="flex flex-col gap-5 sm:flex-row sm:items-center"
-              >
+          <div className="flex flex-col gap-7">
+            {mostProductsSold.slice(0, 4).map((product) => {
+              const productHaveDiscount = product.discountPercentage > 0;
+              return (
                 <div
-                  className={
-                    "flex h-[100px] items-center justify-center rounded-lg bg-border sm:w-[85px] lg:h-[85px]"
-                  }
+                  key={product.id}
+                  className="flex flex-col gap-5 sm:flex-row sm:items-center"
                 >
-                  <Image
-                    src={product.imageUrl}
-                    alt={product.name}
-                    height={0}
-                    width={0}
-                    sizes="100vw"
-                    className="h-auto max-h-[75%] w-auto max-w-[80%]"
-                  />
-                </div>
-                <div className="flex flex-col gap-5 sm:w-full sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex flex-col gap-1.5">
-                    <Badge variant="outlineSecondary" className="w-fit">
-                      {product.categoryName}
-                    </Badge>
-                    <p className="text-base">{product.name}</p>
+                  <div
+                    className={
+                      "flex h-[100px] min-w-[85px] items-center justify-center rounded-lg bg-border sm:w-[85px] lg:h-[85px]"
+                    }
+                  >
+                    <Image
+                      src={product.imageUrl}
+                      alt={product.name}
+                      height={0}
+                      width={0}
+                      sizes="100vw"
+                      className="h-auto max-h-[75%] w-auto max-w-[80%]"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-5 sm:w-full sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-col gap-1.5">
+                      <Badge variant="outlineSecondary" className="w-fit">
+                        {product.categoryName}
+                      </Badge>
+                      <p className="text-base">{product.name}</p>
 
-                    <div className="flex items-center gap-1">
-                      <p className="font-semibold lg:text-lg">
-                        {product.priceWithDiscount}
-                      </p>
-
-                      {productHaveDiscount && (
-                        <p className="text-xxs line-through opacity-75 lg:text-xs">
-                          {product.basePrice}
+                      <div className="flex items-center gap-1">
+                        <p className="font-semibold lg:text-lg">
+                          {product.priceWithDiscount}
                         </p>
-                      )}
+
+                        {productHaveDiscount && (
+                          <p className="text-xxs line-through opacity-75 lg:text-xs">
+                            {product.basePrice}
+                          </p>
+                        )}
+                      </div>
                     </div>
+
+                    <p className="text-lg font-bold">
+                      {product.quantity} vendidos
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex w-full flex-col gap-7 rounded-lg border border-solid border-border p-7 md:max-w-[394px]">
+          <h4 className="text-lg font-bold">Categorias Mais Vendidas</h4>
+
+          <div className="flex flex-col gap-7">
+            {mostCategoriesSold.map((category) => {
+              const calculateCategoryPercentage = (
+                (category.quantity / totalProductsSold) *
+                100
+              ).toFixed(0);
+              const progressWidth = Number(calculateCategoryPercentage);
+              return (
+                <div key={category.id} className="flex flex-col gap-2.5">
+                  <div className="flex w-full items-center justify-between">
+                    <p className="text-base">{category.name}</p>
+                    <p className="text-lg font-bold">
+                      {calculateCategoryPercentage} %
+                    </p>
                   </div>
 
-                  <p className="text-lg font-bold">
-                    {product.quantity} vendidos
-                  </p>
+                  <Progress value={progressWidth} />
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="mx-4 flex flex-col gap-7 rounded-lg border border-solid border-border p-7 lg:mx-10">
-        <h4>Categorias Mais Vendidas</h4>
-
-        <div className="flex flex-col gap-7">
-          {mostCategoriesSold.map((category) => {
-            const calculateCategoryPercentage = (
-              (category.quantity / totalProductsSold) *
-              100
-            ).toFixed(2);
-            return (
-              <div
-                key={category.id}
-                className="flex items-center justify-between"
-              >
-                <p className="text-base">{category.name}</p>
-                <p className="text-lg font-bold">
-                  {calculateCategoryPercentage} %
-                </p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

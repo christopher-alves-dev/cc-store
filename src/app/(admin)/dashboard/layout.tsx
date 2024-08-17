@@ -38,7 +38,7 @@ export default function RootLayout({
           <div className="flex min-h-screen">
             <Sheet open={menu}>
               <Sidebar className="hidden w-full lg:flex lg:w-fit lg:min-w-[300px]" />
-              <div className="w-full">
+              <div className="h-full w-full">
                 <div className="flex w-full items-center gap-4 p-4 lg:gap-10 lg:px-10">
                   <SheetTrigger asChild>
                     <Button
