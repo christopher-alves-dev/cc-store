@@ -27,7 +27,7 @@ export const Sidebar = ({ className }: Props) => {
   return (
     <div
       className={twMerge(
-        "flex-col items-center gap-8 border-r border-solid border-accent bg-background p-8",
+        "flex flex-col items-center gap-8 bg-background p-8 lg:border-r lg:border-solid lg:border-accent",
         className,
       )}
     >
@@ -35,8 +35,8 @@ export const Sidebar = ({ className }: Props) => {
         <span className="text-primary">FSW</span> Store
       </h1>
 
-      <div className="flex w-full flex-col gap-3">
-        <Link href="/dashboard">
+      <nav className="flex w-full flex-col gap-3">
+        <Link href="/dashboard" onClick={() => toggle("menu")}>
           <Button
             data-active={pathname === "/dashboard"}
             variant="outline"
@@ -47,7 +47,7 @@ export const Sidebar = ({ className }: Props) => {
           </Button>
         </Link>
 
-        <Link href="/dashboard/products">
+        <Link href="/dashboard/products" onClick={() => toggle("menu")}>
           <Button
             data-active={pathname.includes("/products")}
             variant="outline"
@@ -58,7 +58,7 @@ export const Sidebar = ({ className }: Props) => {
           </Button>
         </Link>
 
-        <Link href="/dashboard/categories">
+        <Link href="/dashboard/categories" onClick={() => toggle("menu")}>
           <Button
             data-active={pathname.includes("/categories")}
             variant="outline"
@@ -69,7 +69,7 @@ export const Sidebar = ({ className }: Props) => {
           </Button>
         </Link>
 
-        <Link href="/dashboard/orders">
+        <Link href="/dashboard/orders" onClick={() => toggle("menu")}>
           <Button
             data-active={pathname.includes("/orders")}
             variant="outline"
@@ -79,7 +79,7 @@ export const Sidebar = ({ className }: Props) => {
             Pedidos
           </Button>
         </Link>
-      </div>
+      </nav>
 
       <form className="w-full">
         <Button

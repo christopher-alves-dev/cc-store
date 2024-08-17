@@ -31,13 +31,13 @@ export default async function ProductsDashboardPage() {
     }));
 
   return (
-    <div className="flex w-full flex-col gap-10 p-10">
-      <div className="flex w-full items-center justify-between">
-        <p className="text-lg font-bold">
+    <div className="flex w-full flex-col gap-4 p-10 sm:gap-10">
+      <div className="flex w-full flex-col gap-10 sm:flex-row sm:items-center sm:justify-between">
+        <p className="order-2 text-lg font-bold sm:order-1">
           Produtos encontrados: {products.length}
         </p>
 
-        <ProductSheet categories={categories} />
+        <ProductSheet categories={categories} className="order-1 sm:order-2" />
       </div>
 
       <ProductsTable products={productsWithTotalPrice} />

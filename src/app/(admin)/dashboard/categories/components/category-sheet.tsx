@@ -13,8 +13,13 @@ import { useCategoryManager } from "@/stores/category-manager";
 import { useSheetControl } from "@/stores/sheet-control";
 import { LayoutList, PlusIcon, X } from "lucide-react";
 import { CategoryForm } from "./category-form";
+import { twMerge } from "tailwind-merge";
 
-export const CategorySheet = () => {
+type Props = {
+  className?: string;
+};
+
+export const CategorySheet = ({ className }: Props) => {
   const { isOpen, toggle } = useSheetControl((state) => ({
     isOpen: state.categories,
     toggle: state.toggle,
@@ -33,7 +38,10 @@ export const CategorySheet = () => {
   return (
     <Sheet open={isOpen}>
       <SheetTrigger asChild>
-        <Button className="flex gap-2" onClick={handleOpenSheetWithoutData}>
+        <Button
+          className={twMerge("flex gap-2", className)}
+          onClick={handleOpenSheetWithoutData}
+        >
           <PlusIcon size={20} />
           Adicionar Categoria
         </Button>

@@ -39,7 +39,7 @@ export default function RootLayout({
             <Sheet open={menu}>
               <Sidebar className="hidden w-full lg:flex lg:w-fit lg:min-w-[300px]" />
               <div className="h-full w-full">
-                <div className="flex w-full items-center gap-4 p-4 lg:gap-10 lg:px-10">
+                <header className="flex w-full items-center gap-4 p-4 lg:gap-10 lg:px-10 lg:py-6">
                   <SheetTrigger asChild>
                     <Button
                       variant="ghost"
@@ -53,7 +53,7 @@ export default function RootLayout({
                     </Button>
                   </SheetTrigger>
                   <PageTitle />
-                </div>
+                </header>
                 <Separator />
                 {children}
               </div>

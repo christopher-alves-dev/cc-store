@@ -15,12 +15,14 @@ import { useSheetControl } from "@/stores/sheet-control";
 import { Category } from "@prisma/client";
 import { PackageIcon, PlusIcon, X } from "lucide-react";
 import { ProductsForm } from "./products-form";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
+  className?: string;
 };
 
-export const ProductSheet = ({ categories }: Props) => {
+export const ProductSheet = ({ categories, className }: Props) => {
   const { isOpen, toggle } = useSheetControl((state) => ({
     isOpen: state.products,
     toggle: state.toggle,
@@ -39,7 +41,10 @@ export const ProductSheet = ({ categories }: Props) => {
   return (
     <Sheet open={isOpen}>
       <SheetTrigger asChild>
-        <Button className="flex gap-2" onClick={handleOpenSheetWithoutData}>
+        <Button
+          className={twMerge("flex gap-2", className)}
+          onClick={handleOpenSheetWithoutData}
+        >
           <PlusIcon size={20} />
           Adicionar produto
         </Button>
