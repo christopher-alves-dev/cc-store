@@ -17,7 +17,7 @@ export default async function DashboardCategoriesPage() {
   });
 
   return (
-    <div className="flex w-full flex-col gap-4 p-10 sm:gap-10">
+    <div className="flex w-full flex-col gap-4 p-4 sm:gap-10 md:p-10">
       <div className="flex w-full flex-col gap-10 sm:flex-row sm:items-center sm:justify-between">
         <p className="order-2 text-lg font-bold sm:order-1">
           Categorias encontrados: {categories.length}

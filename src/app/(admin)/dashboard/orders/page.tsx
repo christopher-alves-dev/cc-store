@@ -16,7 +16,7 @@ export default async function DashboardOrdersPage() {
   });
 
   return (
-    <div className="flex w-full flex-col gap-10 p-10">
+    <div className="flex w-full flex-col gap-10 p-4 md:p-10">
       <div className="flex w-full items-center justify-between">
         <p className="text-lg font-bold">
           Pedidos encontrados: {orders.length}

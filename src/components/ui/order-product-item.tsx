@@ -63,7 +63,7 @@ export const OrderProductItem = ({ orderProduct }: Props) => {
         </div>
       </div>
 
-      <div className="flex flex-col items-end gap-1">
+      <div className="hidden flex-col items-end gap-1 lg:flex">
         <p className="text-sm font-bold lg:text-xl">{totalPriceFormatted}</p>
 
         {productHaveDiscount && (
