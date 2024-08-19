@@ -3,6 +3,7 @@
 import { logout } from "@/app/(admin)/login/actions";
 import { Button } from "@/components/ui/button";
 import { SheetClose } from "@/components/ui/sheet";
+import { getScreenSize } from "@/helpers/get-screen-size";
 import { useSheetControl } from "@/stores/sheet-control";
 import {
   LayoutDashboardIcon,
@@ -24,6 +25,12 @@ export const Sidebar = ({ className }: Props) => {
   const pathname = usePathname();
   const toggle = useSheetControl((state) => state.toggle);
 
+  const handleCloseSidebar = () => {
+    if (getScreenSize() >= 1024) return;
+
+    toggle("menu");
+  };
+
   return (
     <div
       className={twMerge(
@@ -36,7 +43,7 @@ export const Sidebar = ({ className }: Props) => {
       </h1>
 
       <nav className="flex w-full flex-col gap-3">
-        <Link href="/dashboard" onClick={() => toggle("menu")}>
+        <Link href="/dashboard" onClick={handleCloseSidebar}>
           <Button
             data-active={pathname === "/dashboard"}
             variant="outline"
@@ -47,7 +54,7 @@ export const Sidebar = ({ className }: Props) => {
           </Button>
         </Link>
 
-        <Link href="/dashboard/products" onClick={() => toggle("menu")}>
+        <Link href="/dashboard/products" onClick={handleCloseSidebar}>
           <Button
             data-active={pathname.includes("/products")}
             variant="outline"
@@ -58,7 +65,7 @@ export const Sidebar = ({ className }: Props) => {
           </Button>
         </Link>
 
-        <Link href="/dashboard/categories" onClick={() => toggle("menu")}>
+        <Link href="/dashboard/categories" onClick={handleCloseSidebar}>
           <Button
             data-active={pathname.includes("/categories")}
             variant="outline"
@@ -69,7 +76,7 @@ export const Sidebar = ({ className }: Props) => {
           </Button>
         </Link>
 
-        <Link href="/dashboard/orders" onClick={() => toggle("menu")}>
+        <Link href="/dashboard/orders" onClick={handleCloseSidebar}>
           <Button
             data-active={pathname.includes("/orders")}
             variant="outline"
