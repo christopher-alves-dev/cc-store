@@ -30,6 +30,14 @@ import { normalizeFileName } from "@/helpers/normalize";
 import { FormTextArea } from "../../components/form-text-area";
 import { ImagePreview } from "../../components/image-preview";
 import { updateProduct } from "../actions/update-product";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
@@ -163,6 +171,12 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
     });
   };
 
+  const sortedCategories = categories.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+
   return (
     <Form {...formMethods}>
       <form
@@ -232,35 +246,39 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
           </div>
 
           <div className="flex flex-col gap-3">
-            <Label className="font-bold">Categorias</Label>
-
             <FormField
               control={formMethods.control}
               name="category"
-              render={({ field }) => (
-                <FormControl>
-                  <RadioGroup
-                    {...field}
-                    onValueChange={field.onChange}
-                    className="grid grid-cols-2 space-y-1"
-                  >
-                    {categories.map((category) => (
-                      <FormItem
-                        key={category.id}
-                        className="flex items-center space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <RadioGroupItem value={category.id} />
-                        </FormControl>
-                        <FormLabel className="mt-0 font-normal">
-                          {category.name}
-                        </FormLabel>
-                      </FormItem>
-                    ))}
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-bold">
+                    Categorias
+                  </FormLabel>
 
-                    <FormMessage />
-                  </RadioGroup>
-                </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger
+                        className={twMerge(
+                          "border-gray-800",
+                          fieldState.error && "border-red-600",
+                        )}
+                      >
+                        <SelectValue placeholder="Selecione a categoria" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {sortedCategories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
               )}
             />
           </div>
