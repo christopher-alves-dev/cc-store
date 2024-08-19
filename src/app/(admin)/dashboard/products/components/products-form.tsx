@@ -1,5 +1,6 @@
 "use client";
 
+import { FormInput } from "@/app/(admin)/components/form-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -10,12 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatNumberToCurrency } from "@/helpers/format-number-to-currency";
 import { Category } from "@prisma/client";
 import { ArrowUpFromLine } from "lucide-react";
 import { ChangeEvent, useMemo, useState, useTransition } from "react";
-import { FormInput } from "@/app/(admin)/components/form-input";
 import { FormInputCurrency } from "../../components/form-input-currency";
 import { SubmitButton } from "../../components/submit-button";
 import { calculateTotalPrice } from "../../helpers/calculate-total-price";
@@ -25,11 +24,6 @@ import { ProductsSchemaType } from "../schema";
 
 import { uploadFile } from "@/actions/upload-file";
 import * as InputUpload from "@/app/(admin)/dashboard/components/input-upload";
-import { toast } from "@/components/ui/use-toast";
-import { normalizeFileName } from "@/helpers/normalize";
-import { FormTextArea } from "../../components/form-text-area";
-import { ImagePreview } from "../../components/image-preview";
-import { updateProduct } from "../actions/update-product";
 import {
   Select,
   SelectContent,
@@ -37,7 +31,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+import { normalizeFileName } from "@/helpers/normalize";
 import { twMerge } from "tailwind-merge";
+import { FormTextArea } from "../../components/form-text-area";
+import { ImagePreview } from "../../components/image-preview";
+import { updateProduct } from "../actions/update-product";
 
 type Props = {
   categories: Pick<Category, "id" | "name">[];
@@ -227,7 +226,7 @@ export const ProductsForm = ({ categories, onCreateProduct }: Props) => {
             )}
 
             {!!imagesPreview.length && (
-              <div className="flex items-center gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 {imagesPreview.map((image) => (
                   <ImagePreview
                     key={image}

@@ -51,7 +51,7 @@ export const ProductSheet = ({ categories, className }: Props) => {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="flex min-w-[400px] flex-col gap-8 overflow-y-auto px-8 py-10 lg:min-w-[450px]"
+        className="flex w-full flex-col gap-8 overflow-y-auto px-8 py-10 sm:max-w-[400px] lg:max-w-[500px]"
       >
         <SheetHeader className="text-left text-lg font-semibold">
           <Badge variant="heading">
