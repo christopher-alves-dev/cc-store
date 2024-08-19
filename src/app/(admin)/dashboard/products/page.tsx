@@ -40,7 +40,9 @@ export default async function ProductsDashboardPage() {
         <ProductSheet categories={categories} className="order-1 sm:order-2" />
       </div>
 
-      <ProductsTable products={productsWithTotalPrice} />
+      <ProductsTable
+        products={JSON.parse(JSON.stringify(productsWithTotalPrice))}
+      />
     </div>
   );
 }

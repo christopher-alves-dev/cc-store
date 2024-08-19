@@ -38,14 +38,19 @@ export default async function ProductPage({ params }: Props) {
     return null;
   }
 
+  const productStringify = JSON.parse(JSON.stringify(product));
+
   return (
     <div className="mt-10 flex flex-col gap-8 pb-8 lg:gap-0 lg:pb-10">
       <div className="flex flex-col gap-8 lg:flex-row lg:pb-10">
-        <ProductImages imageUrls={product.imageUrls} name={product.name} />
+        <ProductImages
+          imageUrls={productStringify.imageUrls}
+          name={productStringify.name}
+        />
         <ProductInfo
           product={{
-            ...product,
-            totalPrice: computeProductTotalPrice(product),
+            ...productStringify,
+            totalPrice: computeProductTotalPrice(productStringify),
           }}
         />
       </div>
@@ -54,7 +59,7 @@ export default async function ProductPage({ params }: Props) {
         <SectionTitle className="lg:text-lg">
           produtos recomendados
         </SectionTitle>
-        <ProductsCarousel products={product.category.products} />
+        <ProductsCarousel products={productStringify.category.products} />
       </div>
     </div>
   );
